@@ -51,6 +51,8 @@ var/
 
 # IntelliJ Idea family of suites
 .idea
+.idea/
+.idea/*
 *.iml
 ## File-based project format:
 *.ipr
