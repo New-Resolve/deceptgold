@@ -19,6 +19,6 @@ def secret_command():
 
 
 @users_app.command(name="--register", help="Create registration of the user.")
-def register(apikey: Annotated[str, Parameter(help="Chave de API necessária para autenticação.")]):
+def register(apikey: Annotated[str, Parameter(help="key the API register to signin to user")]):
     print(f"Registrate of: {apikey}")
 
