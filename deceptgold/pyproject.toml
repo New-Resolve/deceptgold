@@ -1,0 +1,114 @@
+# This project was generated with 0.3.22 using template: https://github.com/beeware/briefcase-template@v0.3.22
+[tool.briefcase]
+project_name = "deceptgold"
+bundle = "com.deceptgold"
+version = "0.2.0"
+url = "https://deceptgold.com/deceptgold"
+license.file = "LICENSE"
+author = "Jonathan Scheibel"
+author_email = "jonathan@deceptgold.com"
+
+[tool.briefcase.app.deceptgold]
+formal_name = "deceptgold"
+description = "Descricao aqui"
+long_description = """More details about the app should go here."""
+sources = [
+    "src/deceptgold",
+]
+test_sources = [
+    "tests",
+]
+console_app = true
+
+requires = [
+    "cyclopts"
+]
+test_requires = [
+    "pytest",
+]
+
+
+[tool.briefcase.app.deceptgold.macOS]
+universal_build = true
+requires = [
+    # Add your macOS-specific app requirements here
+]
+
+[tool.briefcase.app.deceptgold.linux]
+requires = [
+    # Add your Linux-specific app requirements here
+]
+
+[tool.briefcase.app.deceptgold.linux.system.debian]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Add any system packages needed at runtime here
+]
+
+[tool.briefcase.app.deceptgold.linux.system.rhel]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Add any system packages needed at runtime here
+]
+
+[tool.briefcase.app.deceptgold.linux.system.suse]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Add any system packages needed at runtime here
+]
+
+[tool.briefcase.app.deceptgold.linux.system.arch]
+system_requires = [
+    # Add any system packages needed at build the app here
+]
+
+system_runtime_requires = [
+    # Add any system packages needed at runtime here
+]
+
+[tool.briefcase.app.deceptgold.linux.flatpak]
+flatpak_runtime = "org.freedesktop.Platform"
+flatpak_runtime_version = "24.08"
+flatpak_sdk = "org.freedesktop.Sdk"
+
+[tool.briefcase.app.deceptgold.windows]
+requires = [
+    # Add your Windows-specific app requirements here
+]
+
+# Mobile deployments
+[tool.briefcase.app.deceptgold.iOS]
+supported = false
+
+[tool.briefcase.app.deceptgold.android]
+supported = false
+
+# Web deployments
+[tool.briefcase.app.deceptgold.web]
+supported = false
+
+
+[tool.poetry]
+name = "deceptgold"
+version = "0.2.0"
+description = ""
+authors = ["jonathan.morais <jonathan.morais@cyberlabs.com.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+cyclopts = "^3.11.1"
+briefcase = "^0.3.22"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
