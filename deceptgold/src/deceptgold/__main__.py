@@ -1,6 +1,6 @@
 from cyclopts import App
 
-from deceptgold.comandos.user import users_app
+from deceptgold.commands.user import users_app
 
 app = App()
 

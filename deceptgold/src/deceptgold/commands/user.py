@@ -1,7 +1,7 @@
 from cyclopts import App, Parameter, Group
 from typing import Annotated
 
-users_app = App(name="user", help="User manager")
+users_app = App(name="user", help="User management")
 
 hidden_group = Group(name="Comandos Ocultos", show=False)
 
@@ -10,10 +10,10 @@ def secret_command():
     """
     Comando secreto que não aparece na ajuda padrão.
     """
-    print(f"Este comando secreto da aplicacao")
+    print(f"Este é um comando secreto da aplicacao! ")
 
 
-@users_app.command(name="--register", help="Registra o usuário no sistema.")
+@users_app.command(name="--register", help="Create registration of the user.")
 def register(apikey: Annotated[str, Parameter(help="Chave de API necessária para autenticação.")]):
-    print(f"Registrado para: {apikey}")
+    print(f"Registrate of: {apikey}")
 
