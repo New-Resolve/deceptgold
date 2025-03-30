@@ -13,7 +13,7 @@ formal_name = "deceptgold"
 description = "Descricao aqui"
 long_description = """More details about the app should go here."""
 sources = [
-    "src/deceptgold",
+    "src_obf/deceptgold",
 ]
 test_sources = [
     "tests",
@@ -108,6 +108,7 @@ readme = "README.md"
 python = "^3.11"
 cyclopts = "^3.11.1"
 briefcase = "^0.3.22"
+pyarmor = "^9.1.2"
 
 [build-system]
 requires = ["poetry-core"]
