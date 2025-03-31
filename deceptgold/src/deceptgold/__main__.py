@@ -22,6 +22,7 @@ app = App(name="DeceptGold", help="DDP category CLI application for cyber attack
 app.command(users_app)
 
 
+
 if __name__ == "__main__":
     app()
     logger.info("Finally application!")
