@@ -1,4 +1,4 @@
-# instalação e geração distribuição do sistema:
+# Instalação e geração distribuição do sistema:
 
 - `cd deceptgold`
 - `poetry config virtualenvs.in-project true`

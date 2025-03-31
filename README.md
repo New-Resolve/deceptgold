@@ -7,11 +7,3 @@
 ( ) - Fazer o dist para todas as ditribuições no github 
 ( ) - Criar um arquivo para apagar arquivos desnecessarios
 ```
-
-
-
-### Alguns comandos necessários:
-- `briefcase dev --`
-- `pyarmor gen -O src_obf -r -i src/deceptgold`
-- `briefcase build -u`
-- `briefcase package`
