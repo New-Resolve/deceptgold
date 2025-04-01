@@ -13,7 +13,7 @@ formal_name = "deceptgold"
 description = "Descricao aqui"
 long_description = """More details about the app should go here."""
 sources = [
-    "src_obf/deceptgold",
+    "src/deceptgold",
 ]
 test_sources = [
     "tests",
@@ -21,7 +21,8 @@ test_sources = [
 console_app = true
 
 requires = [
-    "cyclopts"
+    "cyclopts",
+    "opencanary"
 ]
 test_requires = [
     "pytest",
@@ -109,6 +110,7 @@ python = "^3.11"
 cyclopts = "^3.11.1"
 briefcase = "^0.3.22"
 pyarmor = "^9.1.2"
+opencanary = "^0.9.5"
 
 [build-system]
 requires = ["poetry-core"]
