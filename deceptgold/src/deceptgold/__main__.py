@@ -1,4 +1,6 @@
 import logging
+import warnings
+import multiprocessing
 
 from cyclopts import App
 
@@ -27,5 +29,7 @@ app.command(services_app)
 
 
 if __name__ == "__main__":
+    warnings.filterwarnings("ignore", category=ResourceWarning)
+    multiprocessing.set_start_method("spawn")
     app()
     logger.info("Finally application!")
