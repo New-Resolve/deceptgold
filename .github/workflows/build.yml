@@ -1,18 +1,38 @@
-name: Build Deceptgold
+name: Build and Release Deceptgold
 
 on:
   push:
     branches:
-      - main
-  pull_request:
+      - master
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Fetch tags
+        run: git fetch --tags
+
+      - name: Get latest semver tag
+        id: get_latest_tag
+        run: |
+          latest=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
+          echo "LATEST_TAG=$latest" >> $GITHUB_ENV
+
+      - name: Bump patch version
+        id: bump_version
+        run: |
+          latest="${{ env.LATEST_TAG }}"
+          if [[ "$latest" == "" ]]; then
+            echo "NEW_TAG=v0.1.0" >> $GITHUB_ENV
+          else
+            IFS='.' read -r major minor patch <<< "${latest#v}"
+            patch=$((patch + 1))
+            echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
+          fi
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
@@ -37,15 +57,20 @@ jobs:
           poetry run ./utils/compile.sh
         working-directory: deceptgold
 
-      - name: Sanitize tag name
-        id: sanitize
-        run: echo "TAG_NAME=${GITHUB_REF_NAME//\//-}" >> $GITHUB_ENV
+      - name: Create and push new tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ env.NEW_TAG }}
+          git push origin ${{ env.NEW_TAG }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Release ${{ env.TAG_NAME }}
-          tag_name: ${{ env.TAG_NAME }}
+          name: Release ${{ env.NEW_TAG }}
+          tag_name: ${{ env.NEW_TAG }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
