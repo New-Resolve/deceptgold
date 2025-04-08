@@ -10,8 +10,8 @@ author_email = "jonathan@deceptgold.com"
 
 [tool.briefcase.app.deceptgold]
 formal_name = "deceptgold"
-description = "Descricao aqui"
-long_description = """More details about the app should go here."""
+description = "Deceptgold is a next-gen deception platform that transforms the computational effort of cyber attacks into valuable digital assets — turning threats into opportunities."
+long_description = """Deceptgold is a next-generation platform designed to manage deception strategies and reclaim value from cyber attacks. While most organizations focus only on detection, logging, and mitigation, Deceptgold takes a radically different approach: it transforms the computational effort of intrusion attempts into valuable digital assets."""
 sources = [
     "src_obf/deceptgold",
 ]
@@ -102,7 +102,7 @@ supported = false
 name = "deceptgold"
 version = "0.2.0"
 description = ""
-authors = ["jonathan.morais <jonathan.morais@cyberlabs.com.br>"]
+authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
