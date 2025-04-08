@@ -66,11 +66,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Ver estrutura de arquivos com tree
+      - name: Ver estrutura de arquivos pós-compilação
         run: |
           sudo apt-get update && sudo apt-get install tree -y
-          echo "📁 Estrutura completa do diretório deceptgold:"
-          tree -ah deceptgold
+          echo "🧱 Estrutura do projeto após build (sem .venv):"
+          tree -ah -I '.venv|__pycache__|*.pyc|*.pyo|*.egg-info|*.dist-info|build|.git' --prune
+      
 
       - name: Verificar arquivos gerados (debug)
         run: |
@@ -89,6 +90,6 @@ jobs:
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-          files: deceptgold/dist/*.deb
+          files: dist/**/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
