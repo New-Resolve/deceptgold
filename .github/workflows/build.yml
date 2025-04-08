@@ -71,7 +71,11 @@ jobs:
           sudo apt-get update && sudo apt-get install tree -y
           echo "🧱 Estrutura do projeto após build (sem .venv):"
           tree -ah -I '.venv|__pycache__|*.pyc|*.pyo|*.egg-info|*.dist-info|build|.git' --prune
-      
+
+      - name: Verificar onde está o dist
+        run: |
+          echo "🔍 Procurando pasta dist..."
+          find . -type d -name dist
 
       - name: Verificar arquivos gerados (debug)
         run: |
@@ -79,11 +83,8 @@ jobs:
           ls -lah deceptgold
           echo "Verificando dentro de deceptgold/dist/"
           ls -lah deceptgold/dist || echo "Pasta dist não encontrada"
-
-      - name: List .deb files (debug)
-        run: |
-          echo "Arquivos .deb encontrados:"
-          find deceptgold/dist -name "*.deb"
+        
+            
 
       - name: Create GitHub Release and Upload .deb
         uses: softprops/action-gh-release@v1
