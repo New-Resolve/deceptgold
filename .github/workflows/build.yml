@@ -36,3 +36,18 @@ jobs:
           chmod +x utils/compile.sh
           poetry run ./utils/compile.sh
         working-directory: deceptgold
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload .deb to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: deceptgold/linux/**/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
