@@ -1,0 +1,46 @@
+name: Build Deceptgold on Push to Master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build .deb Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libgirepository1.0-dev libcairo2-dev libffi-dev libssl-dev python3-gi gir1.2-gtk-3.0 build-essential
+          sudo apt install -y upx-ucl
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Set up Poetry
+        run: |
+          poetry config virtualenvs.in-project true
+          export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+          poetry install
+
+      - name: Activate virtualenv and compile
+        run: |
+          source $(poetry env info --path)/bin/activate
+          chmod +x utils/compile.sh
+          ./utils/compile.sh
+
+      - name: Upload .deb package
+        uses: actions/upload-artifact@v3
+        with:
+          name: deceptgold-deb-package
+          path: dist/*.deb
