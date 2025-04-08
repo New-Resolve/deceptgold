@@ -4,6 +4,8 @@ import multiprocessing
 
 from cyclopts import App
 
+from deceptgold.help.descripton import get_description
+
 try:
     from deceptgold.commands.user import users_app
     from deceptgold.commands.service import services_app
@@ -21,7 +23,7 @@ except ImportError as e:
 logger = logging.getLogger(__name__)
 logger.info("Initialization complete the application.")
 
-app = App(name="DeceptGold", help="DDP category CLI application for cyber attack monitoring.")
+app = App(name="DeceptGold", help=get_description())
 
 app.command(users_app)
 app.command(services_app)
