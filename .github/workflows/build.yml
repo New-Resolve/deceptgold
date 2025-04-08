@@ -66,11 +66,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List .deb files (debug)
+        run: |
+          echo "Arquivos .deb encontrados:"
+          find deceptgold/dist -name "*.deb"
+
       - name: Create GitHub Release and Upload .deb
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-          files: deceptgold/dist/**/*.deb
+          files: deceptgold/dist/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
