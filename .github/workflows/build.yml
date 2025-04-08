@@ -66,17 +66,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create GitHub Release
+      - name: Create GitHub Release and Upload .deb
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload .deb to Release
-        uses: softprops/action-gh-release@v1
-        with:
           files: deceptgold/linux/**/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
