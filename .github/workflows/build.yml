@@ -66,6 +66,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Ver estrutura de arquivos com tree
+        run: |
+          sudo apt-get update && sudo apt-get install tree -y
+          echo "📁 Estrutura completa do diretório deceptgold:"
+          tree -ah deceptgold
+
+      - name: Verificar arquivos gerados (debug)
+        run: |
+          echo "Verificando arquivos dentro de deceptgold/"
+          ls -lah deceptgold
+          echo "Verificando dentro de deceptgold/dist/"
+          ls -lah deceptgold/dist || echo "Pasta dist não encontrada"
+
       - name: List .deb files (debug)
         run: |
           echo "Arquivos .deb encontrados:"
