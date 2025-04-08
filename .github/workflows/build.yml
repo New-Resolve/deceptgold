@@ -3,25 +3,18 @@ name: Build Deceptgold
 on:
   push:
     branches:
-      - master
-
-defaults:
-  run:
-    shell: bash
+      - main
+  pull_request:
 
 jobs:
-  build-and-package:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set working directory to project folder
-        run: echo "Switched into project folder"
-        working-directory: ./deceptgold
-
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -31,28 +24,15 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
-
-      - name: Configure Poetry
+      - name: Install dependencies
         run: |
           poetry config virtualenvs.in-project true
           export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
           poetry install
+        working-directory: deceptgold
 
-      - name: Install PyArmor and Briefcase
-        run: |
-          poetry run pip install pyarmor briefcase
-
-      - name: Run compile.sh to build and package
+      - name: Run compile script
         run: |
           chmod +x utils/compile.sh
-          sh utils/compile.sh
-
-      - name: Upload .deb package
-        uses: actions/upload-artifact@v4
-        with:
-          name: deceptgold-deb-package
-          path: dist/*.deb
+          poetry run ./utils/compile.sh
+        working-directory: deceptgold
