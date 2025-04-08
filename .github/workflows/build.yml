@@ -37,11 +37,15 @@ jobs:
           poetry run ./utils/compile.sh
         working-directory: deceptgold
 
+      - name: Sanitize tag name
+        id: sanitize
+        run: echo "TAG_NAME=${GITHUB_REF_NAME//\//-}" >> $GITHUB_ENV
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Release ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          name: Release ${{ env.TAG_NAME }}
+          tag_name: ${{ env.TAG_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
