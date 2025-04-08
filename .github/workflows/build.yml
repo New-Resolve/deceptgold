@@ -71,6 +71,6 @@ jobs:
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-          files: deceptgold/linux/**/*.deb
+          files: deceptgold/dist/**/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
