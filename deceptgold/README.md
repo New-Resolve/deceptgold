@@ -8,6 +8,7 @@
 - `sh utils/compile.sh`
 
 
+
 ###  TODO:
 ```
 ( ) - Encontrar problema dos imports (Deixar funcionando tanto por CLI quanto por debug da IDE)
