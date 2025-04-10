@@ -44,20 +44,34 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies
+      - name: Install system deps
+        run: sudo apt-get update && sudo apt-get install -y patchelf tree
+
+      - name: Install dependencies with Poetry
         run: |
           poetry config virtualenvs.in-project true
           export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
           poetry install
         working-directory: deceptgold
 
-      - name: Run compile script
+      - name: Ofuscar código com PyArmor
         run: |
-          chmod +x utils/compile.sh
-          poetry run ./utils/compile.sh
-        working-directory: deceptgold
+          cd deceptgold
+          rm -rf src_obf/ src/deceptgold.dist-info
+          mkdir -p src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
 
-      - name: Create and push new tag
+      - name: Build com Briefcase
+        run: |
+          cd deceptgold
+          poetry run briefcase build --target ubuntu --update
+
+      - name: Package com Briefcase
+        run: |
+          cd deceptgold
+          poetry run briefcase package --target ubuntu --verbosity 2
+
+      - name: Criar e enviar novo tag
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -66,31 +80,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Ver estrutura de arquivos pós-compilação
+      - name: Mostrar estrutura do projeto
         run: |
-          sudo apt-get update && sudo apt-get install tree -y
-          echo "🧱 Estrutura do projeto após build (sem .venv):"
-          tree -ah -I '.venv|__pycache__|*.pyc|*.pyo|*.egg-info|*.dist-info|build|.git' --prune
+          echo "🧱 Estrutura do projeto após build:"
+          tree -ah -I '.venv|__pycache__|*.pyc|*.pyo|*.egg-info|*.dist-info|build|.git' --prune deceptgold
 
-      - name: Verificar onde está o dist
-        run: |
-          echo "🔍 Procurando pasta dist..."
-          find . -type d -name dist
-
-      - name: Verificar arquivos gerados (debug)
+      - name: Verificar arquivos gerados
         run: |
           echo "Verificando arquivos dentro de deceptgold/"
           ls -lah deceptgold
-          echo "Verificando dentro de deceptgold/dist/"
-          ls -lah deceptgold/dist || echo "Pasta dist não encontrada"
-        
-            
+          echo "Verificando .deb dentro de deceptgold/linux/ubuntu/"
+          ls -lah deceptgold/linux/ubuntu || echo "Nenhum .deb encontrado"
 
-      - name: Create GitHub Release and Upload .deb
+      - name: Copiar .deb para dist/
+        run: |
+          mkdir -p dist
+          cp deceptgold/linux/ubuntu/*.deb dist/ || echo "Nenhum .deb encontrado"
+
+      - name: Criar release e enviar .deb
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-          files: dist/**/*.deb
+          files: dist/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
