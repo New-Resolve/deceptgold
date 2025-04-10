@@ -70,7 +70,7 @@ jobs:
       - name: Build and package generate to fedora
         working-directory: deceptgold
         run: |          
-          poetry run briefcase build --target fedora:40 --update
+          poetry run briefcase build --target fedora --update
           poetry run briefcase package --target fedora:40
 
       - name: Build and package generate to debian
@@ -78,12 +78,6 @@ jobs:
         run: |          
           poetry run briefcase build --target debian --update
           poetry run briefcase package --target debian
-
-      - name: Build and package generate to centos:7
-        working-directory: deceptgold
-        run: |        
-          poetry run briefcase build --target centos:7 --update
-          poetry run briefcase package --target centos:7
 
       - name: Create new tag
         run: |
