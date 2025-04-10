@@ -7,7 +7,7 @@
 - `poetry install`
 - `sh utils/compile.sh`
 
-
+or run `sh utils/compile.sh` in bash linux environment
 
 ###  TODO:
 ```
