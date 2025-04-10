@@ -85,23 +85,11 @@ jobs:
           echo "🧱 Estrutura do projeto após build:"
           tree -ah -I '.venv|__pycache__|*.pyc|*.pyo|*.egg-info|*.dist-info|build|.git' --prune deceptgold
 
-      - name: Verificar arquivos gerados
-        run: |
-          echo "Verificando arquivos dentro de deceptgold/"
-          ls -lah deceptgold
-          echo "Verificando .deb dentro de deceptgold/linux/ubuntu/"
-          ls -lah deceptgold/linux/ubuntu || echo "Nenhum .deb encontrado"
-
-      - name: Copiar .deb para dist/
-        run: |
-          mkdir -p dist
-          cp deceptgold/linux/ubuntu/*.deb dist/ || echo "Nenhum .deb encontrado"
-
-      - name: Criar release e enviar .deb
+      - name: Create GitHub Release and Upload .deb
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-          files: dist/*.deb
+          files: deceptgold/dist/**/*.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
