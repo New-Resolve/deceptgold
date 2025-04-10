@@ -64,12 +64,12 @@ jobs:
       - name: Build com Briefcase
         run: |
           cd deceptgold
-          poetry run briefcase build --target ubuntu --update
+          poetry run briefcase build --target ubuntu --update -vv
 
       - name: Package com Briefcase
         run: |
           cd deceptgold
-          poetry run briefcase package --target ubuntu --verbosity 2
+          poetry run briefcase package --target ubuntu -vv
 
       - name: Criar e enviar novo tag
         run: |
