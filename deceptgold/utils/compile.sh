@@ -1,12 +1,26 @@
 #!/bin/bash
 
+echo "[+] Ativando ambiente virtual do Poetry"
 . $(poetry env info --path)/bin/activate
-poetry run pyarmor gen -O src_obf -r -i src/deceptgold
-poetry run briefcase build -u
-pwd
-poetry run briefcase package -v
+
+echo "[+] Limpando diretórios anteriores"
+rm -rf src_obf/
+rm -rf src/deceptgold.dist-info
+mkdir -p src_obf
+
+echo "[+] Ofuscando código com PyArmor"
+poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
+
+echo "[+] Iniciando build com Briefcase"
+poetry run briefcase build --target ubuntu --update
+
+echo "[+] Empacotando aplicação"
+poetry run briefcase package --target ubuntu
+
+echo "[+] Limpando temporários"
 rm -rf src_obf
 rm -rf src/deceptgold.dist-info
+
 echo "================================================================================="
-echo "Use the files in the dist directory as a packaged system, ready for distribution."
+echo "✔️  Use os arquivos no diretório 'dist/' como versões empacotadas para distribuição."
 echo "================================================================================="

@@ -54,24 +54,38 @@ jobs:
           poetry install
         working-directory: deceptgold
 
-      - name: Ofuscar código com PyArmor
+      - name: Generate obfuscated source code
+        working-directory: deceptgold
         run: |
-          cd deceptgold
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
 
-      - name: Build com Briefcase
-        run: |
-          cd deceptgold
-          poetry run briefcase build --target ubuntu --update -vv
+      - name: Build and package generate to ubuntu
+        working-directory: deceptgold
+        run: |        
+          poetry run briefcase build --target ubuntu --update
+          poetry run briefcase package --target ubuntu
 
-      - name: Package com Briefcase
-        run: |
-          cd deceptgold
-          poetry run briefcase package --target ubuntu -vv
+      - name: Build and package generate to fedora
+        working-directory: deceptgold
+        run: |          
+          poetry run briefcase build --target fedora:40 --update
+          poetry run briefcase package --target fedora:40
 
-      - name: Criar e enviar novo tag
+      - name: Build and package generate to debian
+        working-directory: deceptgold
+        run: |          
+          poetry run briefcase build --target debian --update
+          poetry run briefcase package --target debian
+
+      - name: Build and package generate to centos:7
+        working-directory: deceptgold
+        run: |        
+          poetry run briefcase build --target centos:7 --update
+          poetry run briefcase package --target centos:7
+
+      - name: Create new tag
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -80,16 +94,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Mostrar estrutura do projeto
-        run: |
-          echo "🧱 Estrutura do projeto após build:"
-          tree -ah -I '.venv|__pycache__|*.pyc|*.pyo|*.egg-info|*.dist-info|build|.git' --prune deceptgold
-
       - name: Create GitHub Release and Upload .deb
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-          files: deceptgold/dist/**/*.deb
+          files: deceptgold/dist/**/*.*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
