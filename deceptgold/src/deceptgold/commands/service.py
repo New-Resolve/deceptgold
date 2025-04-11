@@ -3,7 +3,7 @@ import subprocess
 import os
 import signal
 import sys
-from time import sleep
+
 
 from cyclopts import App, Parameter
 from typing import Annotated
@@ -30,36 +30,34 @@ def pre_execution_decorator(func):
 
 
 @services_app.command(name="start", help="Start service(s) in operational system")
+@pre_execution_decorator
 def start(
-    daemon: Annotated[
-        bool,
-        Parameter(name=["--daemon", "-d"], help="Run as daemon (background)")
-    ] = False
 ):
-    """
-    - To run in foreground use the --daemon flag.
-    """
-    if not daemon:
-        if os.path.exists(PID_FILE):
-            logger.warning("Service is already running.")
-            return
-        start_opencanary_internal()
-    else:
-        if os.path.exists(PID_FILE):
-            logger.warning("Service is already running.")
-            return
-        python_exec = sys.executable
-        with open(LOG_FILE, "w") as out:
-            process = subprocess.Popen(
-                [python_exec, "-m", "deceptgold.entrypoints.opencanary_runner"],
-                stdout=out,
-                stderr=out,
-                start_new_session=True,
-            )
-        with open(PID_FILE, "w") as f:
-            f.write(str(process.pid))
+    if os.path.exists(PID_FILE):
+        logger.warning("Service is already running.")
+        return
+    start_opencanary_internal()
 
-        logger.info(f"Service started in background with PID {process.pid}. File: {LOG_FILE}")
+    # if not daemon:
+    #     if os.path.exists(PID_FILE):
+    #         logger.warning("Service is already running.")
+    #         return
+    #     start_opencanary_internal()
+    # else:
+    #     if os.path.exists(PID_FILE):
+    #         logger.warning("Service is already running.")
+    #         return
+    #     python_exec = sys.executable
+    #     with open(LOG_FILE, "w") as out:
+    #         process = subprocess.Popen(
+    #             [python_exec, "-m", "deceptgold.entrypoints.opencanary_runner"],
+    #             stdout=out,
+    #             stderr=out,
+    #             start_new_session=True,
+    #         )
+    #     with open(PID_FILE, "w") as f:
+    #         f.write(str(process.pid))
+    #     logger.info(f"Service started in background with PID {process.pid}. File: {LOG_FILE}")
 
 @services_app.command(name="stop", help="Stop service(s) in operational system")
 @pre_execution_decorator

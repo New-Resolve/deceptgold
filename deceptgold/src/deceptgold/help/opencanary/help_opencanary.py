@@ -5,7 +5,17 @@ def start_opencanary_internal():
     import traceback
     import warnings
 
-    from opencanary.config import config, is_docker
+    import builtins
+
+    original_print = builtins.print
+
+    def fake_print(*args, **kwargs):
+        ...
+        # original_print(*args, **kwargs)
+
+    builtins.print = fake_print
+
+    from opencanary.config import config
     from opencanary.logger import getLogger
     from opencanary.modules.http import CanaryHTTP
     from opencanary.modules.https import CanaryHTTPS
@@ -61,6 +71,8 @@ def start_opencanary_internal():
         # CanaryExample0,
         # CanaryExample1,
     ]
+
+    builtins.print = original_print
 
     if config.moduleEnabled("snmp"):
         try:
