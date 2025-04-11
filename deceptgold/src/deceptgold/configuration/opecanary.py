@@ -6,11 +6,10 @@ config_data = {
     "device.node_id": "opencanary-1",
     "ip.ignorelist": [  ],
     "logtype.ignorelist": [  ],
-    "git.banner": "Version2.0 GitCorp",
-    "git.enabled": True,
+    "git.enabled": False,
     "git.port" : 9418,
-    "ftp.enabled": False,
-    "ftp.port": 21,
+    "ftp.enabled": True,
+    "ftp.port": 2121,
     "ftp.banner": "FTP server ready",
     "ftp.log_auth_attempt_initiated": False,
     "http.banner": "Apache/2.2.22 (Ubuntu)",
@@ -41,16 +40,21 @@ config_data = {
                 },
                 "syslog_rfc": {
                     "format": "opencanaryd[%(process)-5s:%(thread)d]: %(name)s %(levelname)-5s %(message)s"
+                },
+                "default": {
+                    "format": "%(asctime)s %(levelname)s: %(message)s"
                 }
             },
             "handlers": {
                 "console": {
                     "class": "logging.StreamHandler",
-                    "stream": "ext://sys.stdout"
+                    "stream": "ext://sys.stdout",
+                    "formatter": "plain"
                 },
                 "file": {
                     "class": "logging.FileHandler",
-                    "filename": "/var/tmp/opencanary.log"
+                    "filename": "/home/jonathan/opencanary.log",
+                    "formatter": "default"
                 }
             }
         }
@@ -68,7 +72,7 @@ config_data = {
     "mysql.port": 3306,
     "mysql.banner": "5.5.43-0ubuntu0.14.04.1",
     "mysql.log_connection_made": False,
-    "ssh.enabled": False,
+    "ssh.enabled": True,
     "ssh.port": 22,
     "ssh.version": "SSH-2.0-OpenSSH_5.1p1 Debian-4",
     "redis.enabled": False,
@@ -79,7 +83,7 @@ config_data = {
     "sip.port": 5060,
     "snmp.enabled": False,
     "snmp.port": 161,
-    "ntp.enabled": True,
+    "ntp.enabled": False,
     "ntp.port": 123,
     "tftp.enabled": False,
     "tftp.port": 69,
@@ -117,10 +121,16 @@ config_data = {
     "vnc.port":5000
 }
 
+
 logger = logging.getLogger(__name__)
 
 def generate_config():
     config_file = os.path.join(os.path.expanduser("~"), ".opencanary.conf")
+
+    if os.path.exists(config_file):
+        logger.info(f"File config is exists: {config_file}. Not created now.")
+        return
+
     with open(config_file, "w", encoding="utf-8") as file_config:
         json.dump(config_data, file_config, ensure_ascii=False, indent=4)
-    logger.info(f"Arquivo de configuração salvo em: {config_file}")
+    logger.info(f"File configuration salved in: {config_file}")

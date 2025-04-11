@@ -1,8 +1,9 @@
 import logging
-import warnings
 import multiprocessing
+import warnings
 
 from cyclopts import App
+from cryptography.utils import CryptographyDeprecationWarning
 
 from deceptgold.help.descripton import get_description
 
@@ -21,17 +22,17 @@ except ImportError as e:
     ...
 
 logger = logging.getLogger(__name__)
-logger.info("Initialization complete the application.")
 
 app = App(name="DeceptGold", help=get_description())
-
 app.command(users_app)
 app.command(services_app)
 
-
+warnings.filterwarnings("ignore", category=ResourceWarning)
+warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+multiprocessing.set_start_method("spawn")
 
 if __name__ == "__main__":
-    warnings.filterwarnings("ignore", category=ResourceWarning)
-    multiprocessing.set_start_method("spawn")
+    logger.info("Initialization complete the application.")
     app()
     logger.info("Finally application!")

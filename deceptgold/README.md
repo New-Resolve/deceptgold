@@ -7,10 +7,11 @@
 - `poetry install`
 - `sh utils/compile.sh`
 
-
+or run `sh utils/compile.sh` in bash linux environment
 
 ###  TODO:
 ```
+( ) - Permitir start com tipo daemon
 ( ) - Encontrar problema dos imports (Deixar funcionando tanto por CLI quanto por debug da IDE)
 ( ) - criar automatização para buildar o codigo já ofuscado com o pyarmor (Atualmente precisa mudar o pyproject + compile.sh)
 ( ) - Fazer o dist para todas as ditribuições no github (action)

@@ -2,11 +2,18 @@
 [tool.briefcase]
 project_name = "deceptgold"
 bundle = "com.deceptgold"
-version = "0.1.10"
+version = "0.1.11"
 url = "https://deceptgold.com/deceptgold"
 license.file = "LICENSE"
 author = "Jonathan Scheibel"
 author_email = "jonathan@deceptgold.com"
+
+[tool.poetry]
+name = "deceptgold"
+version = "0.1.11"
+description = ""
+authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
+readme = "README.md"
 
 [tool.briefcase.app.deceptgold]
 formal_name = "deceptgold"
@@ -96,14 +103,6 @@ supported = false
 # Web deployments
 [tool.briefcase.app.deceptgold.web]
 supported = false
-
-
-[tool.poetry]
-name = "deceptgold"
-version = "0.1.10"
-description = ""
-authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
