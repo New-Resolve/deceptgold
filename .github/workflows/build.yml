@@ -6,8 +6,133 @@ on:
       - master
 
 jobs:
-  build-and-release:
+  build-linux:
+    name: 🐧 Build for Linux
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y patchelf tree
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install project dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+        working-directory: deceptgold
+
+      - name: 🔐 Obfuscate source for Linux
+        working-directory: deceptgold
+        run: |
+          rm -rf src_obf/ src/deceptgold.dist-info
+          mkdir -p src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
+
+      - name: Build and package for Ubuntu
+        working-directory: deceptgold
+        run: |
+          poetry run briefcase build --target ubuntu --update
+          poetry run briefcase package --target ubuntu
+
+      - name: Build and package for Fedora
+        working-directory: deceptgold
+        run: |
+          poetry run briefcase build --target fedora --update
+          poetry run briefcase package --target fedora:40
+
+      - name: Build and package for Debian
+        working-directory: deceptgold
+        run: |
+          poetry run briefcase build --target debian --update
+          poetry run briefcase package --target debian
+
+  build-windows:
+    name: 🪟 Build for Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        run: |
+          (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+
+      - name: Install project dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+        working-directory: deceptgold
+
+      - name: 🔐 Obfuscate source for Windows
+        working-directory: deceptgold
+        run: |
+          Remove-Item -Recurse -Force src_obf
+          mkdir src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
+
+      - name: Build and package for Windows
+        working-directory: deceptgold
+        run: |
+          poetry run briefcase build --target windows --update
+          poetry run briefcase package --target windows
+
+  build-macos:
+    name: 🍏 Build for macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install project dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+        working-directory: deceptgold
+
+      - name: 🔐 Obfuscate source for macOS
+        working-directory: deceptgold
+        run: |
+          rm -rf src_obf/ src/deceptgold.dist-info
+          mkdir -p src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform macos.x86_64
+
+      - name: Build and package for macOS
+        working-directory: deceptgold
+        run: |
+          poetry run briefcase build --target macOS --update
+          poetry run briefcase package --target macOS
+
+  release:
+    name: 🚀 Release
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-windows, build-macos]
 
     steps:
       - name: Checkout repository
@@ -34,91 +159,6 @@ jobs:
             echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
           fi
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y patchelf tree
-
-      - name: Install project dependencies
-        run: |
-          poetry config virtualenvs.in-project true
-          export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
-          poetry install
-        working-directory: deceptgold
-
-      ########################
-      # Linux Builds
-      ########################
-      - name: 🔐 Obfuscate source for Linux
-        working-directory: deceptgold
-        run: |
-          rm -rf src_obf/ src/deceptgold.dist-info
-          mkdir -p src_obf
-          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
-
-      - name: 🐧 Build and package for Ubuntu
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build --target ubuntu --update
-          poetry run briefcase package --target ubuntu
-
-      - name: 🐧 Build and package for Fedora
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build --target fedora --update
-          poetry run briefcase package --target fedora:40
-
-      - name: 🐧 Build and package for Debian
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build --target debian --update
-          poetry run briefcase package --target debian
-
-      ########################
-      # Windows Build
-      ########################
-      - name: 🔐 Obfuscate source for Windows
-        working-directory: deceptgold
-        run: |
-          rm -rf src_obf/ src/deceptgold.dist-info
-          mkdir -p src_obf
-          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
-
-      - name: 🪟 Build and package for Windows
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build --target windows --update
-          poetry run briefcase package --target windows
-
-      ########################
-      # macOS Build
-      ########################
-      - name: 🔐 Obfuscate source for macOS
-        if: runner.os == 'macOS'
-        working-directory: deceptgold
-        run: |
-          rm -rf src_obf/ src/deceptgold.dist-info
-          mkdir -p src_obf
-          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform macos.x86_64
-
-      - name: 🍏 Build and package for macOS
-        if: runner.os == 'macOS'
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build --target macOS --update
-          poetry run briefcase package --target macOS
-
-      ########################
-      # Release
-      ########################
       - name: 📌 Create new tag
         run: |
           git config user.name "github-actions"
@@ -128,11 +168,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🚀 Create GitHub Release
+      - name: 📦 Upload Release Assets
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
-          files: deceptgold/dist/**/*.*
+          files: deceptgold/dist/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
