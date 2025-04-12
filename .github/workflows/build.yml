@@ -44,74 +44,64 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install system deps
+      - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y patchelf tree
 
-      - name: Install dependencies with Poetry
+      - name: Install project dependencies
         run: |
           poetry config virtualenvs.in-project true
           export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
           poetry install
         working-directory: deceptgold
 
-      # Linux - Ubuntu
-      - name: Obfuscate source for Ubuntu
+      ########################
+      # Linux Builds
+      ########################
+      - name: 🔐 Obfuscate source for Linux
         working-directory: deceptgold
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
 
-      - name: Build and package for Ubuntu
+      - name: 🐧 Build and package for Ubuntu
         working-directory: deceptgold
-        run: |        
+        run: |
           poetry run briefcase build --target ubuntu --update
           poetry run briefcase package --target ubuntu
 
-      # Linux - Fedora
-      - name: Obfuscate source for Fedora
+      - name: 🐧 Build and package for Fedora
         working-directory: deceptgold
         run: |
-          rm -rf src_obf/ src/deceptgold.dist-info
-          mkdir -p src_obf
-          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
-
-      - name: Build and package for Fedora
-        working-directory: deceptgold
-        run: |          
           poetry run briefcase build --target fedora --update
           poetry run briefcase package --target fedora:40
 
-      # Linux - Debian
-      - name: Obfuscate source for Debian
+      - name: 🐧 Build and package for Debian
         working-directory: deceptgold
         run: |
-          rm -rf src_obf/ src/deceptgold.dist-info
-          mkdir -p src_obf
-          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
-
-      - name: Build and package for Debian
-        working-directory: deceptgold
-        run: |          
           poetry run briefcase build --target debian --update
           poetry run briefcase package --target debian
 
-      # Windows
-      - name: Obfuscate source for Windows
+      ########################
+      # Windows Build
+      ########################
+      - name: 🔐 Obfuscate source for Windows
         working-directory: deceptgold
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
 
-      - name: Build and package for Windows
+      - name: 🪟 Build and package for Windows
         working-directory: deceptgold
         run: |
           poetry run briefcase build --target windows --update
           poetry run briefcase package --target windows
 
-      # macOS
-      - name: Obfuscate source for macOS
+      ########################
+      # macOS Build
+      ########################
+      - name: 🔐 Obfuscate source for macOS
         if: runner.os == 'macOS'
         working-directory: deceptgold
         run: |
@@ -119,14 +109,17 @@ jobs:
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform macos.x86_64
 
-      - name: Build and package for macOS
+      - name: 🍏 Build and package for macOS
         if: runner.os == 'macOS'
         working-directory: deceptgold
         run: |
           poetry run briefcase build --target macOS --update
           poetry run briefcase package --target macOS
 
-      - name: Create new tag
+      ########################
+      # Release
+      ########################
+      - name: 📌 Create new tag
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -135,7 +128,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create GitHub Release and Upload Artifacts
+      - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
