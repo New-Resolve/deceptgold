@@ -20,7 +20,7 @@ formal_name = "deceptgold"
 description = "Deceptgold is a next-gen deception platform that transforms the computational effort of cyber attacks into valuable digital assets — turning threats into opportunities."
 long_description = """Deceptgold is a next-generation platform designed to manage deception strategies and reclaim value from cyber attacks. While most organizations focus only on detection, logging, and mitigation, Deceptgold takes a radically different approach: it transforms the computational effort of intrusion attempts into valuable digital assets."""
 sources = [
-    "src_obf/deceptgold",
+    "src/deceptgold",
 ]
 test_sources = [
     "tests",

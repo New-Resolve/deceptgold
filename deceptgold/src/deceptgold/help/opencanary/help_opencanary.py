@@ -36,7 +36,7 @@ def start_opencanary_internal():
 
     from twisted.internet import reactor
     from twisted.application.app import startApplication
-
+    from twisted.internet.error import CannotListenError
     from twisted.application import service
     from pkg_resources import iter_entry_points
 
@@ -166,6 +166,7 @@ def start_opencanary_internal():
 
 
     def logMsg(msg):
+        msg = str(msg).lower().replace('canary', 'deceptgold')
         data = {}
         data["logdata"] = {"msg": msg}
         logger.log(data, retry=False)
@@ -196,6 +197,18 @@ def start_opencanary_internal():
         start_mod(application, klass)
 
 
+    try:
+        startApplication(application, False)
+        reactor.run()
+    except CannotListenError as e:
+        try:
+            port_except = str(e).split(':')[1]
+        except Exception as e2:
+            port_except = 0
 
-    startApplication(application, False)
-    reactor.run()
+        if hasattr(e, "socketError") and hasattr(e.socketError, "errno") and e.socketError.errno == 13:
+            logMsg(f"Permission denied: Could not create service on specific port: {port_except}. Try running with administrator permissions, example: `sudo deceptgold <command>`. or changed port number.")
+    else:
+        raise Exception('')
+
+
