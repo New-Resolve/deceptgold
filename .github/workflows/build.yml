@@ -89,8 +89,8 @@ jobs:
       - name: Build and package for Windows
         working-directory: deceptgold
         run: |
-          poetry run briefcase build --target windows --update
-          poetry run briefcase package --target windows
+          poetry run briefcase build windows --update
+          poetry run briefcase package windows
 
   build-macos:
     name: 🍏 Build for macOS
@@ -121,13 +121,13 @@ jobs:
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
-          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform macos.x86_64
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform macos
 
       - name: Build and package for macOS
         working-directory: deceptgold
         run: |
-          poetry run briefcase build --target macOS --update
-          poetry run briefcase package --target macOS
+          poetry run briefcase build macOS --update
+          poetry run briefcase package macOS
 
   release:
     name: 🚀 Release
