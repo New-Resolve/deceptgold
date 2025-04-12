@@ -69,9 +69,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Poetry
+      - name: Install Poetry on Windows
+        if: runner.os == 'Windows'
         run: |
-          (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+          Invoke-WebRequest -Uri https://install.python-poetry.org | python -
+          $env:PATH += ";$env:USERPROFILE\.local\bin"
+
+          - name: Install dependencies with Poetry
+            run: |
+              poetry config virtualenvs.in-project true
+              poetry install
+            working-directory: deceptgold
 
       - name: Install project dependencies
         run: |
@@ -121,6 +129,8 @@ jobs:
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
+          # Instalar o PyArmor sem a dependência macos
+          poetry run pip install --no-cache-dir pyarmor
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform macos
 
       - name: Build and package for macOS
