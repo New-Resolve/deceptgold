@@ -136,8 +136,8 @@ jobs:
       - name: Build and package for macOS
         working-directory: deceptgold
         run: |
-          poetry run briefcase build --target macOS
-          poetry run briefcase package --target macOS
+          poetry run briefcase build macOS
+          poetry run briefcase package macOS
 
   release:
     needs: [build-linux, build-windows, build-macos]
