@@ -107,8 +107,8 @@ jobs:
       - name: Build and package for Windows
         working-directory: deceptgold
         run: |
-          poetry run briefcase build --target windows
-          poetry run briefcase package --target windows
+          poetry run briefcase build windows
+          poetry run briefcase package windows
 
   build-macos:
     needs: setup
