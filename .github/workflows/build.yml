@@ -6,10 +6,9 @@ on:
       - master
 
 jobs:
-  setup:
+  build-and-release:
     runs-on: ubuntu-latest
-    outputs:
-      new_tag: ${{ steps.bump_version.outputs.new_tag }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -22,28 +21,23 @@ jobs:
         run: |
           latest=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
           echo "LATEST_TAG=$latest" >> $GITHUB_ENV
-          echo "latest=$latest" >> $GITHUB_OUTPUT
 
       - name: Bump patch version
         id: bump_version
         run: |
-          latest="${{ steps.get_latest_tag.outputs.latest }}"
+          latest="${{ env.LATEST_TAG }}"
           if [[ "$latest" == "" ]]; then
             echo "NEW_TAG=v0.1.0" >> $GITHUB_ENV
-            echo "new_tag=v0.1.0" >> $GITHUB_OUTPUT
           else
             IFS='.' read -r major minor patch <<< "${latest#v}"
             patch=$((patch + 1))
             echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
-            echo "new_tag=v${major}.${minor}.${patch}" >> $GITHUB_OUTPUT
           fi
 
-  build-linux:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
       - name: Install Poetry
         run: |
@@ -53,117 +47,99 @@ jobs:
       - name: Install system deps
         run: sudo apt-get update && sudo apt-get install -y patchelf tree
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+      - name: Install dependencies with Poetry
         run: |
           poetry config virtualenvs.in-project true
           export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
           poetry install
         working-directory: deceptgold
 
-      - name: Obfuscate source code
+      # Linux - Ubuntu
+      - name: Obfuscate source for Ubuntu
         working-directory: deceptgold
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
 
-      - name: Build and package for Linux
+      - name: Build and package for Ubuntu
         working-directory: deceptgold
-        run: |
+        run: |        
           poetry run briefcase build --target ubuntu --update
           poetry run briefcase package --target ubuntu
+
+      # Linux - Fedora
+      - name: Obfuscate source for Fedora
+        working-directory: deceptgold
+        run: |
+          rm -rf src_obf/ src/deceptgold.dist-info
+          mkdir -p src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
+
+      - name: Build and package for Fedora
+        working-directory: deceptgold
+        run: |          
           poetry run briefcase build --target fedora --update
           poetry run briefcase package --target fedora:40
+
+      # Linux - Debian
+      - name: Obfuscate source for Debian
+        working-directory: deceptgold
+        run: |
+          rm -rf src_obf/ src/deceptgold.dist-info
+          mkdir -p src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
+
+      - name: Build and package for Debian
+        working-directory: deceptgold
+        run: |          
           poetry run briefcase build --target debian --update
           poetry run briefcase package --target debian
 
-  build-windows:
-    needs: setup
-    runs-on: windows-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install Poetry
-        run: |
-          pip install poetry
-
-      - name: Install dependencies
-        run: |
-          poetry config virtualenvs.in-project true
-          poetry install
+      # Windows
+      - name: Obfuscate source for Windows
         working-directory: deceptgold
+        run: |
+          rm -rf src_obf/ src/deceptgold.dist-info
+          mkdir -p src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
 
       - name: Build and package for Windows
         working-directory: deceptgold
         run: |
-          poetry run briefcase build windows
-          poetry run briefcase package windows
+          poetry run briefcase build --target windows --update
+          poetry run briefcase package --target windows
 
-  build-macos:
-    needs: setup
-    runs-on: macos-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies
-        run: |
-          poetry config virtualenvs.in-project true
-          poetry install
+      # macOS
+      - name: Obfuscate source for macOS
+        if: runner.os == 'macOS'
         working-directory: deceptgold
+        run: |
+          rm -rf src_obf/ src/deceptgold.dist-info
+          mkdir -p src_obf
+          poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform macos.x86_64
 
       - name: Build and package for macOS
+        if: runner.os == 'macOS'
         working-directory: deceptgold
         run: |
-          poetry run briefcase build macOS
-          poetry run briefcase package macOS
-
-  release:
-    needs: [build-linux, build-windows, build-macos]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Fetch tags
-        run: git fetch --tags
+          poetry run briefcase build --target macOS --update
+          poetry run briefcase package --target macOS
 
       - name: Create new tag
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git tag ${{ needs.setup.outputs.new_tag }}
-          git push origin ${{ needs.setup.outputs.new_tag }}
+          git tag ${{ env.NEW_TAG }}
+          git push origin ${{ env.NEW_TAG }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Release Artifacts
+      - name: Create GitHub Release and Upload Artifacts
         uses: softprops/action-gh-release@v1
         with:
-          name: Release ${{ needs.setup.outputs.new_tag }}
-          tag_name: ${{ needs.setup.outputs.new_tag }}
-          files: |
-            deceptgold/dist/**/*.*
+          name: Release ${{ env.NEW_TAG }}
+          tag_name: ${{ env.NEW_TAG }}
+          files: deceptgold/dist/**/*.*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
