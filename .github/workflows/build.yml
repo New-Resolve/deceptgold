@@ -69,43 +69,34 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Poetry on Windows
+      - name: Install Poetry
         run: |
-          Invoke-WebRequest -Uri https://install.python-poetry.org -OutFile install-poetry.py
-          python install-poetry.py
-        shell: pwsh
-
-      - name: Add Poetry to PATH
-        run: echo "$env:USERPROFILE\.local\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
-        shell: pwsh
-
-      - name: Add Poetry to PATH
-        run: |
-          $poetryPath = "$env:USERPROFILE\.local\bin"
-          echo "POETRY_HOME=$poetryPath" >> $env:GITHUB_ENV
+          (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+          $poetryPath = "$env:APPDATA\Python\Scripts"
           echo "$poetryPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
         shell: pwsh
 
-      - name: Install dependencies with Poetry
-        run: |
-          $poetry = "$env:USERPROFILE\.local\bin\poetry.exe"
-          & $poetry config virtualenvs.in-project true
-          & $poetry install
+      - name: Install project dependencies
         working-directory: deceptgold
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
         shell: pwsh
 
       - name: 🔐 Obfuscate source for Windows
         working-directory: deceptgold
         run: |
-          Remove-Item -Recurse -Force src_obf
+          Remove-Item -Recurse -Force src_obf, src\deceptgold.dist-info -ErrorAction SilentlyContinue
           mkdir src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
+        shell: pwsh
 
       - name: Build and package for Windows
         working-directory: deceptgold
         run: |
           poetry run briefcase build windows --update
           poetry run briefcase package windows
+        shell: pwsh
 
   build-macos:
     name: 🍏 Build for macOS
