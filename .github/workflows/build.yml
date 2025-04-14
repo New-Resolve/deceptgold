@@ -122,9 +122,14 @@ jobs:
           poetry install
         working-directory: deceptgold
 
-      - name: Install Xcode Command Line Tools
+      - name: Check if Xcode Command Line Tools are installed
         run: |
-          xcode-select --install
+          if ! xcode-select -p &>/dev/null; then
+            echo "Xcode Command Line Tools are not installed. Installing now..."
+            xcode-select --install
+          else
+            echo "Xcode Command Line Tools are already installed."
+          fi
 
       - name: Install pyarmor
         run: |
