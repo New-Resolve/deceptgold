@@ -109,7 +109,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # Considerando uma versão estável do Python
+          python-version: '3.10'
 
       - name: Install Poetry
         run: |
@@ -118,9 +118,9 @@ jobs:
 
       - name: Install project dependencies
         run: |
+          cd deceptgold
           poetry config virtualenvs.in-project true
           poetry install
-        working-directory: deceptgold
 
       - name: Check if Xcode Command Line Tools are installed
         run: |
@@ -133,6 +133,7 @@ jobs:
 
       - name: Install pyarmor
         run: |
+          cd deceptgold
           poetry run pip install --no-cache-dir pyarmor
 
       - name: 🔐 Obfuscate source for macOS
@@ -145,6 +146,7 @@ jobs:
 
       - name: Update Briefcase
         run: |
+          cd deceptgold
           poetry run pip install --upgrade briefcase
 
       - name: Build and package for macOS
