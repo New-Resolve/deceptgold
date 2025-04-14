@@ -109,7 +109,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.10'  # Considerando uma versão estável do Python
 
       - name: Install Poetry
         run: |
@@ -122,14 +122,25 @@ jobs:
           poetry install
         working-directory: deceptgold
 
+      - name: Install Xcode Command Line Tools
+        run: |
+          xcode-select --install
+
+      - name: Install pyarmor
+        run: |
+          poetry run pip install --no-cache-dir pyarmor
+
       - name: 🔐 Obfuscate source for macOS
         working-directory: deceptgold
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
-          poetry run pip install --no-cache-dir pyarmor          
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold
         shell: bash
+
+      - name: Update Briefcase
+        run: |
+          poetry run pip install --upgrade briefcase
 
       - name: Build and package for macOS
         working-directory: deceptgold
