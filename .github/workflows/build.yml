@@ -79,6 +79,13 @@ jobs:
         run: echo "$env:USERPROFILE\.local\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
         shell: pwsh
 
+      - name: Add Poetry to PATH
+        run: |
+          $poetryPath = "$env:USERPROFILE\.local\bin"
+          echo "POETRY_HOME=$poetryPath" >> $env:GITHUB_ENV
+          echo "$poetryPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+        shell: pwsh
+
       - name: Install dependencies with Poetry
         run: |
           poetry config virtualenvs.in-project true
