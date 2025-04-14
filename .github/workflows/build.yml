@@ -152,8 +152,8 @@ jobs:
       - name: Build and package for macOS
         working-directory: deceptgold
         run: |
-          poetry run briefcase build macOS --update
-          poetry run briefcase package macOS
+          poetry run briefcase build macOS --update --adhoc-sign
+          poetry run briefcase package macOS --adhoc-sign
 
   release:
     name: 🚀 Release
