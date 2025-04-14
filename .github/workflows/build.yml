@@ -2,6 +2,7 @@ name: Build and Release Deceptgold
 
 on:
   push:
+  push:
     branches:
       - master
 
@@ -31,7 +32,7 @@ jobs:
           poetry install
         working-directory: deceptgold
 
-      - name: 🔐 Obfuscate source for Linux
+      - name: Obfuscate source for Linux
         working-directory: deceptgold
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
@@ -83,7 +84,7 @@ jobs:
           poetry install
         shell: pwsh
 
-      - name: 🔐 Obfuscate source for Windows
+      - name: Obfuscate source for Windows
         working-directory: deceptgold
         run: |
           Remove-Item -Recurse -Force src_obf, src\deceptgold.dist-info -ErrorAction SilentlyContinue
@@ -136,7 +137,7 @@ jobs:
           cd deceptgold
           poetry run pip install --no-cache-dir pyarmor
 
-      - name: 🔐 Obfuscate source for macOS
+      - name: Obfuscate source for macOS
         working-directory: deceptgold
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
@@ -152,8 +153,8 @@ jobs:
       - name: Build and package for macOS
         working-directory: deceptgold
         run: |
-          poetry run briefcase build macOS --update
-          poetry run briefcase package macOS --no-sign
+          poetry run briefcase build macOS --test
+          poetry run briefcase package macOS --adhoc-sign
 
   release:
     name: 🚀 Release
