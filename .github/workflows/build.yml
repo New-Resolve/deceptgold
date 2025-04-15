@@ -56,6 +56,12 @@ jobs:
           poetry run briefcase build --target debian --update
           poetry run briefcase package --target debian
 
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifacts
+          path: deceptgold/dist/*
+
   build-windows:
     name: 🪟 Build for Windows
     runs-on: windows-latest
@@ -97,6 +103,12 @@ jobs:
           poetry run briefcase build windows --update
           poetry run briefcase package windows
         shell: pwsh
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: deceptgold/dist/*
 
   build-macos:
     name: 🍏 Build for macOS
@@ -154,15 +166,54 @@ jobs:
         run: |
           poetry run briefcase build macOS --test
           poetry run briefcase package macOS --adhoc-sign
+          if [ ! -f dist/deceptgold-*.pkg ]; then
+            echo "Erro: Pacote .pkg não encontrado em dist/"
+            exit 1
+          fi
+
+      - name: Verify macOS build output locally
+        working-directory: deceptgold
+        run: |
+          ls -alh dist
+          ls -alh build/macos
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-artifacts
+          path: deceptgold/dist/*
 
   release:
     name: 🚀 Release
     runs-on: ubuntu-latest
-    needs: [ build-linux, build-windows, build-macos ]
+    needs: [build-linux, build-windows, build-macos]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-artifacts
+          path: deceptgold/dist
+
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-artifacts
+          path: deceptgold/dist
+
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-artifacts
+          path: deceptgold/dist
+
+      - name: Verify downloaded artifacts
+        run: |
+          ls -alh deceptgold/dist
+          ls -alh deceptgold/build/macos || echo "macOS build directory not available"
 
       - name: Fetch tags
         run: git fetch --tags
@@ -194,19 +245,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Verifica os artefatos de build do macOS antes do upload
-      - name: Verify macOS build output
-        run: |
-          ls -alh deceptgold/dist
-          ls -alh deceptgold/build/macos
-
       - name: 📦 Upload Release Assets
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
           files: |
-            deceptgold/dist/**/*          # Para artefatos como `.deb`, `.rpm`, `.tar.gz`, etc.
-            deceptgold/build/macos/**/*   # Para artefatos do macOS como `.app`, `.dmg`, ou outros
+            deceptgold/dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
