@@ -204,10 +204,22 @@ jobs:
           name: windows-artifacts
           path: deceptgold/dist
 
-      - name: Verify downloaded artifacts [verified]
+      - name: VirusTotal check for artifacts [verified]
         run: |
-          ls -alh deceptgold/dist
-          ls -alh deceptgold/build/macos || echo "macOS build directory not available"
+          API_KEY=${{ secrets.VIRUSTOTAL_API_KEY }}
+          ARTIFACTS=$(find deceptgold/dist -type f)
+          for ARTIFACT in $ARTIFACTS; do
+            echo "Checking $ARTIFACT with VirusTotal"
+            SHA256_HASH=$(sha256sum $ARTIFACT | cut -d ' ' -f1)
+            RESPONSE=$(curl -s --request GET "https://www.virustotal.com/api/v3/files/$SHA256_HASH" --header "x-apikey: $API_KEY")
+            DETECTIONS=$(echo $RESPONSE | jq '.data.attributes.last_analysis_stats.malicious')
+            if [ "$DETECTIONS" -gt 0 ]; then
+              echo "WARNING: Malicious activity detected in $ARTIFACT"
+              exit 1
+            fi
+          done
+        env:
+          VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
 
       - name: Fetch tags [verified]
         run: git fetch --tags
@@ -239,7 +251,7 @@ jobs:
             NOTES=$(git log --pretty="- %s" ${{ env.LATEST_TAG }}..HEAD)
           fi
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
-          echo "## Release ${{ env.NEW_TAG }}" >> $GITHUB_ENV
+          echo "## List of tag modifications: ${{ env.NEW_TAG }}" >> $GITHUB_ENV
           echo "" >> $GITHUB_ENV
           echo "$NOTES" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
