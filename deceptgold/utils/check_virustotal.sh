@@ -14,6 +14,15 @@ ARTIFACTS=$(find deceptgold/dist -type f)
 for ARTIFACT in $ARTIFACTS; do
   echo "🔎 Checking $ARTIFACT with VirusTotal"
 
+  #  For files larger than 32MB you need to purchase a Virustotal plan
+  MAX_SIZE=$((32 * 1024 * 1024))  # 32MB em bytes
+  FILE_SIZE=$(stat -c%s "$ARTIFACT")
+
+  if [ "$FILE_SIZE" -gt "$MAX_SIZE" ]; then
+    echo "⚠️ Skipping $ARTIFACT — file is larger than 32MB (size: $FILE_SIZE bytes)."
+    continue
+  fi
+
   SHA256_HASH=$(sha256sum "$ARTIFACT" | cut -d ' ' -f1)
   RESPONSE=$(curl -s --request GET "https://www.virustotal.com/api/v3/files/$SHA256_HASH" \
     --header "x-apikey: $API_KEY")
@@ -21,7 +30,7 @@ for ARTIFACT in $ARTIFACTS; do
   if echo "$RESPONSE" | jq -e '.data' >/dev/null 2>&1; then
     echo "📦 Hash found. Checking status..."
   else
-    echo "📤 Hash not found. Sending $ARTIFACT pfor scanning..."
+    echo "📤 Hash not found. Sending $ARTIFACT for scanning..."
     UPLOAD_RESPONSE=$(curl -s --request POST "https://www.virustotal.com/api/v3/files" \
       --header "x-apikey: $API_KEY" \
       --form "file=@$ARTIFACT")
