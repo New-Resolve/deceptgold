@@ -230,21 +230,13 @@ jobs:
             echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
           fi
 
-      - name: 📌 Create new tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git tag ${{ env.NEW_TAG }}
-          git push origin ${{ env.NEW_TAG }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 📦 Upload Release Assets
+      - name: 📦 Create Release and Tag [verified]
         uses: softprops/action-gh-release@v1
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
           files: |
             deceptgold/dist/*
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
