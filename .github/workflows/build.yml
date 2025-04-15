@@ -171,12 +171,6 @@ jobs:
             exit 1
           fi
 
-      - name: Verify macOS build output locally
-        working-directory: deceptgold
-        run: |
-          ls -alh dist
-          ls -alh build/macos
-
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
