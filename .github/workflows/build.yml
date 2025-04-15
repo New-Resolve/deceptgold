@@ -191,7 +191,7 @@ jobs:
           path: deceptgold/dist
 
       - name: VirusTotal Scan
-        run: bash scripts/virustotal_check.sh
+        run: bash deceptgold/utils/check_virustotal.sh
         env:
           VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
 
