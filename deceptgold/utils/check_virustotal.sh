@@ -26,7 +26,14 @@ for ARTIFACT in $ARTIFACTS; do
       --header "x-apikey: $API_KEY" \
       --form "file=@$ARTIFACT")
 
-    ANALYSIS_ID=$(echo "$UPLOAD_RESPONSE" | jq -r '.data.id')
+    if echo "$UPLOAD_RESPONSE" | jq . >/dev/null 2>&1; then
+      ANALYSIS_ID=$(echo "$UPLOAD_RESPONSE" | jq -r '.data.id')
+    else
+      echo "❌ Invalid JSON response from VirusTotal:"
+      echo "$UPLOAD_RESPONSE"
+      exit 1
+    fi
+
     if [ "$ANALYSIS_ID" = "null" ]; then
       echo "❌ Error uploading file to VirusTotal."
       echo "$UPLOAD_RESPONSE"
