@@ -230,13 +230,39 @@ jobs:
             echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
           fi
 
-      - name: 📦 Create Release and Tag [verified]
-        uses: softprops/action-gh-release@v1
+      - name: Generate custom release notes [verified]
+        id: generate_notes
+        run: |
+          if [[ -z "${{ env.LATEST_TAG }}" ]]; then
+            NOTES=$(git log --pretty="- %s" HEAD)
+          else
+            NOTES=$(git log --pretty="- %s" ${{ env.LATEST_TAG }}..HEAD)
+          fi
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          echo "## Release ${{ env.NEW_TAG }}" >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "$NOTES" >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.LATEST_TAG }}...${{ env.NEW_TAG }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create new tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ env.NEW_TAG }}
+          git push origin ${{ env.NEW_TAG }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release and Upload Artifacts [verified]
+        uses: softprops/action-gh-release@v2
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
+          body: ${{ env.RELEASE_NOTES }}
           files: |
-            deceptgold/dist/*
+            deceptgold/dist/**/*
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
