@@ -40,6 +40,62 @@ def start_opencanary_internal():
     from twisted.application import service
     from pkg_resources import iter_entry_points
 
+    import time
+    from twisted.internet import reactor
+    from twisted.conch.ssh import factory as ssh_factory
+
+    # Define rate-limiting parameters
+    RATE_LIMIT = 50  # Máximo de conexões permitidas por IP
+    RATE_WINDOW = 10  # Janela de tempo (em segundos)
+
+    # Dicionário para armazenar as timestamps de cada IP
+    connections = {}
+
+    def is_rate_limited(ip):
+        """Verifica se o IP está limitado com base na quantidade de tentativas no intervalo de tempo."""
+        now = time.time()
+        timestamps = connections.get(ip, [])
+
+        # Remove timestamps que caíram fora da janela de RATE_WINDOW
+        timestamps = [t for t in timestamps if now - t < RATE_WINDOW]
+
+        # Se o número de tentativas for maior ou igual ao limite, o IP está bloqueado
+        if len(timestamps) >= RATE_LIMIT:
+            return True
+
+        # Adiciona a nova tentativa
+        timestamps.append(now)
+        connections[ip] = timestamps
+        return False
+
+    class RateLimitedFactory:
+        """Fábrica para aplicar o rate-limiting antes de criar protocolos de rede."""
+
+        def __init__(self, original_factory):
+            self.original_factory = original_factory
+
+        def buildProtocol(self, addr):
+            ip = addr.host
+            if is_rate_limited(ip):
+                print(f"[!] Rate limit exceeded for {ip}")
+                return None  # Rejeita a conexão
+
+            # Se o IP não estiver limitado, cria o protocolo normalmente
+            return self.original_factory.buildProtocol(addr)
+
+        def __getattr__(self, name):
+            return getattr(self.original_factory, name)
+
+    # Patcheando o método original listenTCP do reactor
+    original_listenTCP = reactor.listenTCP
+
+    def patched_listenTCP(port, factory, *args, **kwargs):
+        return original_listenTCP(port, RateLimitedFactory(factory), *args, **kwargs)
+
+    # Substituindo a função original pela versão modificada
+    reactor.listenTCP = patched_listenTCP
+
+
     def warn(*args, **kwargs):
         pass
 
@@ -207,8 +263,10 @@ def start_opencanary_internal():
             port_except = 0
 
         if hasattr(e, "socketError") and hasattr(e.socketError, "errno") and e.socketError.errno == 13:
-            logMsg(f"Permission denied: Could not create service on specific port: {port_except}. Try running with administrator permissions, example: `sudo deceptgold <command>`. or changed port number.")
+            msg_log = f"Permission denied: Could not create service on specific port: {port_except}. Try running with administrator permissions, example: `sudo deceptgold <command>`. or changed port number."
+            logMsg(msg_log)
+            print(f"\nERROR: {msg_log}")
     else:
-        raise Exception('')
+        raise Exception('Generic Error')
 
 
