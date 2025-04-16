@@ -14,6 +14,9 @@ version = "0.1.18"
 description = ""
 authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+
 
 [tool.briefcase.app.deceptgold]
 formal_name = "deceptgold"
@@ -29,7 +32,8 @@ console_app = true
 
 requires = [
     "cyclopts",
-    "opencanary"
+    "opencanary",
+    "ecdsa"
 ]
 test_requires = [
     "pytest",
@@ -110,6 +114,7 @@ cyclopts = "^3.11.1"
 briefcase = "^0.3.22"
 pyarmor = "^9.1.2"
 opencanary = "^0.9.5"
+ecdsa = "^0.19.1"
 
 [build-system]
 requires = ["poetry-core"]
