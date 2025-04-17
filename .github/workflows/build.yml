@@ -32,7 +32,7 @@ jobs:
       - name: Run tests
         working-directory: deceptgold
         run: |
-          poetry run pytest
+          poetry run pytest -vvv
 
   build-linux:
     name: 🐧 Build for Linux
