@@ -1,10 +1,25 @@
+def global_twisted_error_handler(eventDict):
+    if eventDict.get('isError'):
+        failure = eventDict.get('failure')
+        if failure:
+            if isinstance(failure.value, RuntimeError) and "KEXINIT" in str(failure.value):
+                # print("[!] Erro amigável: Falha na negociação SSH. Conexão encerrada.")
+                return
+        print("[!] Unexpected error caught by global handler.")
+        return
+    # print(eventDict.get('message'))
+
 
 
 def start_opencanary_internal():
+    from twisted.python import log
+
+    log.startLoggingWithObserver(global_twisted_error_handler, setStdout=False)
+
     import sys
     import traceback
     import warnings
-
+    import time
     import builtins
 
     original_print = builtins.print
@@ -40,59 +55,47 @@ def start_opencanary_internal():
     from twisted.application import service
     from pkg_resources import iter_entry_points
 
-    import time
-    from twisted.internet import reactor
-    from twisted.conch.ssh import factory as ssh_factory
+    # 864000 requests per day
+    RATE_LIMIT = 10
+    RATE_WINDOW = 1
 
-    # Define rate-limiting parameters
-    RATE_LIMIT = 50  # Máximo de conexões permitidas por IP
-    RATE_WINDOW = 10  # Janela de tempo (em segundos)
-
-    # Dicionário para armazenar as timestamps de cada IP
     connections = {}
 
     def is_rate_limited(ip):
-        """Verifica se o IP está limitado com base na quantidade de tentativas no intervalo de tempo."""
         now = time.time()
         timestamps = connections.get(ip, [])
-
-        # Remove timestamps que caíram fora da janela de RATE_WINDOW
         timestamps = [t for t in timestamps if now - t < RATE_WINDOW]
 
-        # Se o número de tentativas for maior ou igual ao limite, o IP está bloqueado
         if len(timestamps) >= RATE_LIMIT:
             return True
 
-        # Adiciona a nova tentativa
         timestamps.append(now)
         connections[ip] = timestamps
         return False
 
     class RateLimitedFactory:
-        """Fábrica para aplicar o rate-limiting antes de criar protocolos de rede."""
-
         def __init__(self, original_factory):
             self.original_factory = original_factory
 
         def buildProtocol(self, addr):
             ip = addr.host
             if is_rate_limited(ip):
-                print(f"[!] Rate limit exceeded for {ip}")
-                return None  # Rejeita a conexão
-
-            # Se o IP não estiver limitado, cria o protocolo normalmente
-            return self.original_factory.buildProtocol(addr)
+                # print(f"[!] Rate limit exceeded for {ip}")
+                return None
+            try:
+                return self.original_factory.buildProtocol(addr)
+            except:
+                logMsg(f"[!] Erro ao construir protocolo para {ip}: {str(e)}")
+                return None
 
         def __getattr__(self, name):
             return getattr(self.original_factory, name)
 
-    # Patcheando o método original listenTCP do reactor
     original_listenTCP = reactor.listenTCP
 
     def patched_listenTCP(port, factory, *args, **kwargs):
         return original_listenTCP(port, RateLimitedFactory(factory), *args, **kwargs)
 
-    # Substituindo a função original pela versão modificada
     reactor.listenTCP = patched_listenTCP
 
 
@@ -256,17 +259,23 @@ def start_opencanary_internal():
     try:
         startApplication(application, False)
         reactor.run()
+    except OSError as oserror:
+        msg_log = oserror
+        logMsg(msg_log)
+        print(f"\nERROR: {msg_log}")
     except CannotListenError as e:
         try:
             port_except = str(e).split(':')[1]
         except Exception as e2:
             port_except = 0
-
-        if hasattr(e, "socketError") and hasattr(e.socketError, "errno") and e.socketError.errno == 13:
-            msg_log = f"Permission denied: Could not create service on specific port: {port_except}. Try running with administrator permissions, example: `sudo deceptgold <command>`. or changed port number."
+        if hasattr(e, "socketError") and hasattr(e.socketError, "errno"):
+            if e.socketError.errno == 13:
+                msg_log = f"Permission denied: Could not create service on specific port: {port_except}. Try running with administrator permissions, example: `sudo deceptgold <command>`. or changed port number."
+            if e.socketError.errno == 98:
+                msg_log = f"Address already in use: {e.port}"
             logMsg(msg_log)
             print(f"\nERROR: {msg_log}")
-    else:
-        raise Exception('Generic Error')
-
-
+    except Exception as e:
+        msg_log = f"Generic Error: {str(e)}"
+        logMsg(msg_log)
+        print(f"\nERROR: {msg_log}")
