@@ -3,8 +3,8 @@
 HOST="localhost"
 USER="root"
 PASS="admin"
-TRIES=52
-PORT=2222
+TRIES=100000
+PORT=2223
 DELAY=0
 
 echo "Testando rate limit contra SSH em $HOST com $TRIES tentativas..."
