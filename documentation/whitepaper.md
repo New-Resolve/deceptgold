@@ -1,6 +1,6 @@
 # Whitepaper
 
-## Deceptgold – Converting Risks, Vulnerabilities, and Real Attacks into Budget and Self-Investment
+## Converting Risks, Vulnerabilities, and Real Attacks into Budget and Self-Investment
 
 **Author:** Jonathan Scheibel de Morais  
 **Version:** 0.0.1  
