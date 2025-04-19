@@ -10,6 +10,7 @@ By deploying deceptive environments that interact with attackers in a controlled
 
 Deceptgold is ideal for cybersecurity teams, researchers, and critical infrastructure defenders who want more than just alerts. It is built for those who believe that every intrusion attempt is an opportunity — not just a threat.
 
+[Read the Whitepaper](documentation/whitepaper.md)
 
 ![attacks_revenue.png](documentation/assets/attacks_revenue.png)
     
