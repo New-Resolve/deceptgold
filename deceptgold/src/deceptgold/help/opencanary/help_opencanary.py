@@ -54,6 +54,7 @@ def start_opencanary_internal():
     from twisted.internet.error import CannotListenError
     from twisted.application import service
     from pkg_resources import iter_entry_points
+    # from deceptgold.help.signature import generate_signature_and_hash, verify_signature
 
     # 864000 requests per day
     RATE_LIMIT = 10
@@ -229,6 +230,7 @@ def start_opencanary_internal():
         data = {}
         data["logdata"] = {"msg": msg}
         logger.log(data, retry=False)
+        # sig, hash_msg, _ = generate_signature_and_hash(data)
 
 
     application = service.Application("opencanaryd")

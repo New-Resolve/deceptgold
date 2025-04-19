@@ -10,8 +10,15 @@ def generate_new_keys():
     print("New Private Key:", private_key)
     print("New Public Key:", public_address)
 
+"""
+WARNING: INTENTIONAL USE OF HARDCODED PRIVATE KEY
+This private key is purposefully embedded to ensure that
+the honeypot generates consistent and verifiable signatures by a smart contract.
+The security of the key is guaranteed by other means such as via pyarmor
+ATTENTION: Change private key when repository goes to new private version control.
+"""
+PRIVATE_KEY = "519216cdca0785ea8f01906bb177a987ad8b0181c7dec347f5c0663e8170fb43" # nose: B105 - Intentional use of hardcoded key for cryptographic signature
 
-PRIVATE_KEY = "519216cdca0785ea8f01906bb177a987ad8b0181c7dec347f5c0663e8170fb43"
 EXPECTED_ADDRESS = "0xfA6a145a7e1eF7367888A39CBf68269625C489D2"
 
 def generate_signature_and_hash(json_data):
