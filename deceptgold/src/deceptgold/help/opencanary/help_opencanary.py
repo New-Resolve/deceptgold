@@ -265,7 +265,7 @@ def start_opencanary_internal(force_no_wallet=False):
         if not address_user:
             logMsg(f"The current user has not configured their public address to receive their rewards. The system no will continue. It is recommended to configure it before starting the fake services. Use the force-no-wallet parameter to continue without system interruption. But be careful, you will not be able to redeem your rewards now and retroactively.")
             if not force_no_wallet:
-                exit(1)
+                sys.exit(1)
         startApplication(application, False)
         reactor.run()
     except OSError as oserror:
