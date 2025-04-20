@@ -3,7 +3,7 @@
 ## Converting Risks, Vulnerabilities, and Real Attacks into Budget and Self-Investment
 
 **Author:** Jonathan Scheibel de Morais  
-**Version:** 0.0.1  
+**Version:** 0.0.2  
 **Date of Publication:** April 19, 2025  
 **Contact:** [jsmorais@protonmail.com] | [https://deceptgold.io]  
 **Project Name:** Deceptgold  
@@ -12,7 +12,7 @@
 
 **Abstract:**  
 
-Deceptgold introduces a paradigm shift in cybersecurity: instead of treating attacks as mere threats, it turns them into measurable digital assets. By monetizing intrusion attempts through an innovative token-based model, Deceptgold creates a new revenue stream in a sector traditionally defined by cost. This breakthrough enables companies to generate value from vulnerability while gaining strategic intelligence. For investors, Deceptgold represents a high-impact opportunity at the intersection of security, blockchain, and data monetization — with scalable potential across industries that are under constant cyber pressure.
+Deceptgold is introducing a paradigm shift in cybersecurity: instead of treating attacks as mere threats, it transforms them into measurable digital assets. By monetizing intrusion attempts through an innovative token-based model, Deceptgold is creating a new revenue stream in an industry traditionally defined by cost. This breakthrough enables companies to generate value from vulnerabilities while simultaneously gaining strategic intelligence. For all, Deceptgold represents a high-impact opportunity at the intersection of security, blockchain, and data monetization—with scalable potential in industries that are under constant cyber pressure.
 
 ---
 
@@ -23,7 +23,7 @@ Companies suffer cyberattacks every day. These attacks consume CPU power, bandwi
 Deceptgold transforms each attack attempt into digital tokens. These tokens are rewards automatically generated from requests made by attackers. The more attacks, the more tokens are generated — and the more resources the company has to invest in security, intelligence, and prevention. This new model not only makes attacks less damaging but also turns them into opportunities to finance better protection and analytics.
 
 ### 3. How Deceptgold Works
-Distributed for Linux, Windows, and Apple, the honeypot captures attack data and converts it into tokens through smart contracts and code obfuscation. These tokens can be used to access Thread Intel, providing insights into malicious IPs, attacked services, and other threats. This makes the company smarter, anticipating risks and optimizing its defense actions. The deployment is modular and designed for easy integration into existing infrastructure. Deceptgold runs as a command-line binary, installable via system package managers (APT, DNF, Homebrew, etc.), making it lightweight, fast, and ideal for both cloud and on-premise environments.
+Deployed on all major operating systems, the Deceptgold captures attack data and converts it into tokens through smart contracts and code obfuscation. These tokens can be used to access Thread Intel, providing insights into malicious IPs, attacked services, and other threats. This makes the enterprise smarter by anticipating risks and optimizing its defense actions. The deployment is modular and designed for easy integration into existing infrastructure. Deceptgold runs as a command-line binary, installable through system package managers, making it lightweight, fast, and ideal for on-premises or cloud environments. Some use cases could be retail e-commerce platforms converting DDoS attack attempts into tokens, funding enhanced firewall protections, or a financial services provider using Thread Intel to map malicious IPs, reducing fraud and improving threat response.
 
 ### 4. Smart Contract Architecture
 Deceptgold is built on the ERC-20 token standard and relies on a dual smart contract infrastructure. The first contract manages token issuance, while the second is responsible for validating digital signatures attached to each attack log. This structure ensures that each token is minted only after a cryptographically verifiable interaction, thus eliminating the possibility of self-farming or token inflation through spoofing.
@@ -44,14 +44,18 @@ To ensure that legitimate companies cannot farm their own tokens, intelligent ra
 In addition to generating resources, Deceptgold provides Business Intelligence tools for strategic analysis of attacks. Users can use their own tokens to benefit from intelligent data features. With data on attack patterns and malicious behaviors, companies can make more informed decisions and always be ahead of threats.
 
 ### 10. Architecture and Security
-Deceptgold uses a robust architecture with code obfuscation and auditable smart contracts, ensuring security and transparency in the distribution of tokens. The tokenization of attack data is done with cutting-edge encryption, using both symmetric and asymmetric cryptographic methods to protect communications, local data, and user identities.
+Deceptgold employs a dual ERC-20 smart contract system to tokenize cyberattack data securely and efficiently. A lightweight, configurable detection module captures and classifies attack events across Linux, Windows, and macOS, integrating seamlessly via standard package managers. Attack logs are serialized and signed with a private key embedded in the obfuscated source code, using a robust hashing algorithm for cryptographic integrity. Two contracts ensure trust: one mints tokens for verified events, leveraging ERC-20 interoperability and gas efficiency, while the other validates signatures against an on-chain public key, preventing self-farming. Advanced code obfuscation protects proprietary logic, balancing security and performance. This architecture delivers scalable, transparent tokenization, turning threats into actionable assets.
 
 ### 11. The Future with Deceptgold
 Deceptgold redefines digital security, transforming attacks into financial resources and valuable data. With it, security stops being a cost and becomes an ongoing investment, strengthening defense, Business Intelligence and Trade Intelligence, and creating a virtuous cycle of growth and protection.
 
-### 12. Team and Trust
-Deceptgold is being developed by a multidisciplinary team of cybersecurity professionals, blockchain developers, and data scientists, led by Jonathan Scheibel de Morais. The project is undergoing third-party security audits to validate its smart contracts and encryption mechanisms. Strategic partnerships with hosting providers, incident response teams, and academic institutions are underway to ensure broad applicability and resilience.
+### 12. Regulatory Compliance Commitment
+Deceptgold is committed to adhering to global privacy and blockchain regulations. By implementing data anonymization and consulting legal experts, the platform ensures compliance with standards in major jurisdictions, protecting user data and maintaining trust in the tokenization process.
+
 ---
 
 **Legal Disclaimer:**  
 This whitepaper is for informational purposes only and does not constitute an offer or solicitation to sell shares or securities in Deceptgold or any related or associated company. The tokens mentioned are utility tokens designed to grant access to services within the Deceptgold platform. They do not represent ownership or claims in any traditional sense and may be subject to regulatory guidelines in specific jurisdictions. Furthermore, these tokens fall under the category of Real World Assets (RWA), as they are directly backed by verifiable cybersecurity events and data — turning digital threats into tangible value. Use at your own discretion.
+
+**Note on the Name "Deceptgold:"**
+The name "Deceptgold" reflects the platform’s innovative approach to cybersecurity. "Decept" refers to an advanced category of threat capture techniques, extending beyond traditional honeypots, designed to outsmart attackers. "Gold" symbolizes the value generated for users, who "mint" tokens from attack attempts, turning threats into assets. While attackers seek elusive rewards, Deceptgold empowers its users to capture and create tangible value.
