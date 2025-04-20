@@ -31,33 +31,32 @@ def pre_execution_decorator(func):
 @services_app.command(name="start", help="Start service(s) in operational system")
 @pre_execution_decorator
 def start(
-    force_no_wallet: bool = False,
+        daemon: bool = False, force_no_wallet: bool = False,
 ):
-    if os.path.exists(PID_FILE):
-        logger.warning("Service is already running.")
-        return
-    start_opencanary_internal(force_no_wallet)
 
-    # if not daemon:
-    #     if os.path.exists(PID_FILE):
-    #         logger.warning("Service is already running.")
-    #         return
-    #     start_opencanary_internal()
-    # else:
-    #     if os.path.exists(PID_FILE):
-    #         logger.warning("Service is already running.")
-    #         return
-    #     python_exec = sys.executable
-    #     with open(LOG_FILE, "w") as out:
-    #         process = subprocess.Popen(
-    #             [python_exec, "-m", "deceptgold.entrypoints.opencanary_runner"],
-    #             stdout=out,
-    #             stderr=out,
-    #             start_new_session=True,
-    #         )
-    #     with open(PID_FILE, "w") as f:
-    #         f.write(str(process.pid))
-    #     logger.info(f"Service started in background with PID {process.pid}. File: {LOG_FILE}")
+    msg_already_run = "The service is already running. Consider using the 'stop' command to stop it from running if necessary."
+    if not daemon:
+        if os.path.exists(PID_FILE):
+            logger.warning(msg_already_run)
+            print(msg_already_run)
+            return
+        start_opencanary_internal(force_no_wallet)
+    else:
+        if os.path.exists(PID_FILE):
+            logger.warning(msg_already_run)
+            print(msg_already_run)
+            return
+        python_exec = sys.executable
+        with open(LOG_FILE, "w") as out:
+            process = subprocess.Popen(
+                [python_exec, "-m", "deceptgold.entrypoints.opencanary_runner"],
+                stdout=out,
+                stderr=out,
+                start_new_session=True,
+            )
+        with open(PID_FILE, "w") as f:
+            f.write(str(process.pid))
+        logger.info(f"Service started in background with PID {process.pid}. File: {LOG_FILE}")
 
 @services_app.command(name="stop", help="Stop service(s) in operational system")
 @pre_execution_decorator
