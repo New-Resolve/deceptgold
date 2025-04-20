@@ -3,6 +3,8 @@ import logging
 from cyclopts import App, Parameter, Group
 from typing import Annotated
 
+from deceptgold.configuration.config_manager import update_config
+
 logger = logging.getLogger(__name__)
 
 users_app = App(name="user", help="User management")
@@ -18,7 +20,6 @@ def secret_command():
     print(f"Este é um comando secreto da aplicacao! ")
 
 
-@users_app.command(name="--register", help="Create registration of the user.")
-def register(apikey: Annotated[str, Parameter(help="key the API register to signin to user")]):
-    print(f"Registrate of: {apikey}")
-
+@users_app.command(name="--my-address", help="Create registration of the user. Insert to address wallet.")
+def register(my_address: Annotated[str, Parameter(help="User's wallet address. User's public address.")]):
+    update_config("address", my_address)
