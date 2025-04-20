@@ -128,9 +128,7 @@ def generate_config():
     config_file = os.path.join(os.path.expanduser("~"), ".opencanary.conf")
 
     if os.path.exists(config_file):
-        logger.info(f"File config is exists: {config_file}. Not created now.")
         return
 
     with open(config_file, "w", encoding="utf-8") as file_config:
         json.dump(config_data, file_config, ensure_ascii=False, indent=4)
-    logger.info(f"File configuration salved in: {config_file}")
