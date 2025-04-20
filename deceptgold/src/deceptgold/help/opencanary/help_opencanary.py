@@ -1,3 +1,5 @@
+from deceptgold.configuration.config_manager import get_config
+
 def global_twisted_error_handler(eventDict):
     if eventDict.get('isError'):
         failure = eventDict.get('failure')
@@ -11,7 +13,7 @@ def global_twisted_error_handler(eventDict):
 
 
 
-def start_opencanary_internal():
+def start_opencanary_internal(force_no_wallet=False):
     from twisted.python import log
 
     log.startLoggingWithObserver(global_twisted_error_handler, setStdout=False)
@@ -259,6 +261,11 @@ def start_opencanary_internal():
 
 
     try:
+        address_user = get_config("user", "address")
+        if not address_user:
+            logMsg(f"The current user has not configured their public address to receive their rewards. The system no will continue. It is recommended to configure it before starting the fake services. Use the force-no-wallet parameter to continue without system interruption. But be careful, you will not be able to redeem your rewards now and retroactively.")
+            if not force_no_wallet:
+                exit(1)
         startApplication(application, False)
         reactor.run()
     except OSError as oserror:
