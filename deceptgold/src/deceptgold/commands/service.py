@@ -4,8 +4,8 @@ import os
 import signal
 import sys
 
-
-from cyclopts import App
+from typing import Annotated
+from cyclopts import App, Parameter
 from deceptgold.configuration.opecanary import generate_config
 from deceptgold.help.opencanary.help_opencanary import start_opencanary_internal
 
@@ -31,11 +31,12 @@ def pre_execution_decorator(func):
 @services_app.command(name="start", help="Start service(s) in operational system")
 @pre_execution_decorator
 def start(
+    force_no_wallet: bool = False,
 ):
     if os.path.exists(PID_FILE):
         logger.warning("Service is already running.")
         return
-    start_opencanary_internal()
+    start_opencanary_internal(force_no_wallet)
 
     # if not daemon:
     #     if os.path.exists(PID_FILE):
