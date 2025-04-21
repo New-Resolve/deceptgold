@@ -1,5 +1,5 @@
 import logging
-
+import sys
 
 def setup_logging():
     logging.basicConfig(
@@ -11,4 +11,8 @@ def setup_logging():
         datefmt="%Y-%m-%d %H:%M:%S"
     )
 
-setup_logging()
+try:
+    setup_logging()
+except PermissionError as e:
+    print("Permission failure occurred while executing the resource. Check if privileges are required or consider using Deceptgold with proper permissions.")
+    sys.exit(13)

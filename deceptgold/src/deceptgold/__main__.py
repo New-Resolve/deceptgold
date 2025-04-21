@@ -32,6 +32,7 @@ warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 multiprocessing.set_start_method("spawn")
 
+
 if __name__ == "__main__":
     logger.info("Initialization complete the application.")
     app()
