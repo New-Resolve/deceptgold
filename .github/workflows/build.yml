@@ -41,10 +41,19 @@ jobs:
           sudo mv git-cliff-2.8.0/git-cliff /usr/local/bin/
           git-cliff --version
 
+      - name: Debug git-cliff configuration and commits
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la deceptgold/utils/config/
+          cat deceptgold/utils/config/cliff.toml || echo "cliff.toml not found"
+          git log --oneline -n 10
+          git tag --list
+
       - name: Generate CHANGELOG
         working-directory: deceptgold
         run: |
           poetry run generate-changelog
+          cat src/deceptgold/CHANGELOG  # Mostra o conteúdo do CHANGELOG gerado para depuração
 
       - name: Commit and push CHANGELOG
         run: |
