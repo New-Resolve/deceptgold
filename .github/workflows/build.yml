@@ -51,7 +51,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add deceptgold/src/deceptgold/CHANGELOG
-          git commit -m "Update CHANGELOG [skip ci]" || echo "No changes to commit"
+          git commit -m "Changelog generation automation [skip ci]" || echo "No changes to commit"
           git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
