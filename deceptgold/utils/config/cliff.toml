@@ -1,0 +1,41 @@
+[changelog]
+header = "# Changelog\nAll notable changes to this project are documented in this file.\n"
+body = """
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group }}
+{% for commit in commits %}
+- {{ commit.message | trim }}
+{% endfor %}
+{% endfor %}
+"""
+footer = """
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+"""
+
+[git]
+tag_pattern = "v[0-9]+\\.[0-9]+\\.[0-9]+"
+commit_preprocessors = [
+  { pattern = "\\(#[0-9]+\\)", replace = "" },
+]
+commit_parsers = [
+  { message = "^feat", group = "Novidades:" },
+  { message = "^fix", group = "Correções:" },
+  { message = "^doc", group = "Documentação:" },
+  { message = "^style", group = "Estilização:" },
+  { message = "^refactor", group = "Refatoração:" },
+  { message = "^perf", group = "Otimização:" },
+  { message = "^test", group = "Testes:" },
+  { message = "^ci", group = "Integração Contínua:" },
+  { message = "^chore", group = "Outros:" },
+  { message = ".*", group = "Outros:" }  # fallback para qualquer coisa não reconhecida
+]
+
+[template]
+tag_name = "{{ version }}"
+tag_line = "## {{ version }}\n"
+
+[output]
+file = "src/deceptgold/LICENSE"
+format = "markdown"
+group_by = "date"

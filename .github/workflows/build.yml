@@ -34,6 +34,28 @@ jobs:
         run: |
           poetry run pytest -vvv
 
+      - name: Install git-cliff
+        run: |
+          curl -L https://github.com/orhun/git-cliff/releases/latest/download/git-cliff-linux-x86_64.tar.gz -o git-cliff.tar.gz
+          tar -xzf git-cliff.tar.gz
+          sudo mv git-cliff /usr/local/bin/
+          git-cliff --version
+
+      - name: Generate CHANGELOG
+        working-directory: deceptgold
+        run: |
+          poetry run generate-changelog
+
+      - name: Commit and push CHANGELOG
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add deceptgold/src/deceptgold/CHANGELOG
+          git commit -m "Update CHANGELOG [skip ci]" || echo "No changes to commit"
+          git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-linux:
     name: 🐧 Build for Linux
     runs-on: ubuntu-latest
