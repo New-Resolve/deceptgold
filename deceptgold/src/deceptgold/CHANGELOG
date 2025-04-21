@@ -1,0 +1,157 @@
+# Changelog
+All notable changes to this project are documented in this file.
+
+### Correções:
+
+- added check and print permission to no show erro trace
+
+
+### Documentação:
+
+- added license and notice to project complaince
+
+
+### Documentação:
+
+- remove prints
+
+
+### Novidades:
+
+- create daemon option in start command
+
+
+### Testes:
+
+- new tests the module configuration
+
+
+### Correções:
+
+- changed names parameters in app user
+
+
+### Novidades:
+
+- added parameter force-no-wallet
+
+- added parameter force-no-wallet
+
+- new implementation configuration system
+
+
+### Documentação:
+
+- added whitepaper and docstring into temp private key.
+
+
+### Correções:
+
+- chanched cripto signature to ERC20
+
+
+### Novidades:
+
+- new file test ratelimit;
+
+
+### Correções:
+
+- remove imports
+
+- remove print in exceptions
+
+
+### Novidades:
+
+- added rate-limit to all requests
+
+
+### Outros:
+
+- added util file
+
+
+### Testes:
+
+- added test signature key
+
+
+### Correções:
+
+- added pytest in project to workflow github action.
+
+- added pytest in project to workflow github action.
+
+
+### Correções:
+
+- skip artefacts size large
+
+
+### Integração Contínua:
+
+- new check virustotal in pipeline
+
+
+### Integração Contínua:
+
+- new version
+
+- new version
+
+- new version briefcase
+
+
+### Correções:
+
+- correção de linguas
+
+- filename .deb distribuition
+
+- filename .deb distribuition
+
+
+### Documentação:
+
+- new itens and explicit
+
+- refact the description and more.
+
+- refact the description and more.
+
+- new docs
+
+- added image and more documentation
+
+
+### Integração Contínua:
+
+- added gitignore files idea
+
+- new workflow test
+
+- changed pipeline
+
+
+### Novidades:
+
+- added logging
+
+- new organizations
+
+- added pyarmor obfuscate
+
+- added utils to compile project
+
+- added opencanary
+
+- added opencanary in process (and daemon params)
+
+
+### Outros:
+
+- new description in module
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
