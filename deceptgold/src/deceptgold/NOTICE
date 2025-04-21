@@ -1,0 +1,4 @@
+DeceptGold includes the following third-party open source components:
+- OpenCanary: BSD 3-Clause License (https://github.com/thinkst/opencanary/blob/master/LICENSE)
+- Briefcase: BSD 3-Clause License (https://github.com/beeware/briefcase/blob/main/LICENSE)
+- Python: Python Software Foundation License (https://www.python.org/psf/license/)
