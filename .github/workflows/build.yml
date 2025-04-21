@@ -38,7 +38,7 @@ jobs:
         run: |
           curl -L https://github.com/orhun/git-cliff/releases/download/v2.8.0/git-cliff-2.8.0-x86_64-unknown-linux-musl.tar.gz -o git-cliff-2.8.0-x86_64-unknown-linux-musl.tar.gz
           tar -xzf git-cliff-2.8.0-x86_64-unknown-linux-musl.tar.gz
-          sudo mv git-cliff-2.8.0/git-clif /usr/local/bin/
+          sudo mv git-cliff-2.8.0/git-cliff /usr/local/bin/
           git-cliff --version
 
       - name: Generate CHANGELOG
