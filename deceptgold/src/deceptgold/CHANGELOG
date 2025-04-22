@@ -13,6 +13,10 @@ All notable changes to this project will be documented in this file.
 - Added license and notice to project complaince
 - Create symbolic link the license and notice into core directory.
 
+### 🧪 Testing
+
+- New ci changelog
+
 ### ⚙️ Miscellaneous Tasks
 
 - Create changelog automation.
