@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [Last Version]
 
 ### 🐛 Bug Fixes
 
@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - Create changelog automation.
 - Test add changelog
 - Test add changelog
+- Changed default title changelog.
 
 ## [0.1.32] - 2025-04-20
 
