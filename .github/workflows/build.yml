@@ -53,10 +53,31 @@ jobs:
           sudo mv git-cliff-2.8.0/git-cliff /usr/local/bin/
           git-cliff --version
 
+      - name: Debug git-cliff configuration and commits
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la deceptgold/utils/config/
+          cat deceptgold/utils/config/cliff.toml || echo "cliff.toml not found"
+          echo "Recent commits:"
+          git log --oneline -n 10
+          echo "Total commits in history:"
+          git rev-list --count HEAD
+          echo "Available tags:"
+          git tag --list
+          echo "Checking for initial tag..."
+          if [ -z "$(git tag --list 'v*')" ]; then
+            echo "No tags found. Creating initial tag v0.0.0."
+            git tag v0.0.0 $(git rev-list --max-parents=0 HEAD)  # Tag no commit inicial
+            git push origin v0.0.0
+          else
+            echo "Tags found: $(git tag --list 'v*')"
+          fi
+
       - name: Generate CHANGELOG
         working-directory: deceptgold
         run: |
           poetry run generate-changelog
+          cat src/deceptgold/CHANGELOG  # Mostra o conteúdo do CHANGELOG gerado para depuração
 
       - name: Commit and push CHANGELOG
         run: |
