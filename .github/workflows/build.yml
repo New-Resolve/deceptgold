@@ -53,64 +53,6 @@ jobs:
           sudo mv git-cliff-2.8.0/git-cliff /usr/local/bin/
           git-cliff --version
 
-      - name: Debug git-cliff configuration and commits
-        run: |
-          echo "Current directory: $(pwd)"
-          ls -la deceptgold/utils/config/
-          cat deceptgold/utils/config/cliff.toml || echo "cliff.toml not found"
-          echo "Latest commit message:"
-          git log -1 --pretty=%B
-          echo "Recent commits:"
-          git log --oneline -n 10
-          echo "Total commits in history:"
-          git rev-list --count HEAD
-          echo "Available tags:"
-          git tag --list
-          echo "Commits since last tag (or all if no tags):"
-          if [ -n "$(git tag --list 'v*')" ]; then
-            latest_tag=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
-            git log --oneline $latest_tag..HEAD
-          else
-            git log --oneline
-          fi
-          echo "Checking for initial tag..."
-          if [ -z "$(git tag --list 'v*')" ]; then
-            echo "No tags found. Creating initial tag v0.0.0."
-            git tag v0.0.0 $(git rev-list --max-parents=0 HEAD)  # Tag no commit inicial
-            git push origin v0.0.0
-          else
-            echo "Tags found: $(git tag --list 'v*')"
-          fi
-
-      - name: Generate CHANGELOG
-        working-directory: deceptgold
-        run: |
-          echo "Current CHANGELOG before generation:"
-          cat src/deceptgold/CHANGELOG || echo "CHANGELOG not found"
-          poetry run git-cliff --config utils/config/cliff.toml -o src/deceptgold/CHANGELOG --unreleased
-          echo "Generated CHANGELOG content:"
-          cat src/deceptgold/CHANGELOG
-          if ! grep -q "## " src/deceptgold/CHANGELOG; then
-            echo "Error: CHANGELOG is empty or missing version sections."
-            exit 1
-          fi
-          echo "Git status after generating CHANGELOG:"
-          git status
-
-      - name: Commit and push CHANGELOG
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add deceptgold/src/deceptgold/CHANGELOG
-          if git diff --staged --quiet; then
-            echo "No changes to commit in CHANGELOG"
-          else
-            git commit -m "Update CHANGELOG [skip ci]"
-            git push origin master
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   build-linux:
     name: 🐧 Build for Linux
     runs-on: ubuntu-latest
