@@ -53,6 +53,33 @@ jobs:
           sudo mv git-cliff-2.8.0/git-cliff /usr/local/bin/
           git-cliff --version
 
+      - name: Generate CHANGELOG
+        working-directory: deceptgold
+        run: |
+          poetry run generate-changelog
+          echo "Generated CHANGELOG content:"
+          cat src/deceptgold/CHANGELOG
+          if ! grep -q "## " src/deceptgold/CHANGELOG; then
+            echo "Error: CHANGELOG is empty or missing version sections."
+            exit 1
+          fi
+          echo "Git status after generating CHANGELOG:"
+          git status
+
+      - name: Commit and push CHANGELOG
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add deceptgold/src/deceptgold/CHANGELOG
+          if git diff --staged --quiet; then
+            echo "No changes to commit in CHANGELOG"
+          else
+            git commit -m "Update CHANGELOG [skip ci]"
+            git push origin master
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-linux:
     name: 🐧 Build for Linux
     runs-on: ubuntu-latest
