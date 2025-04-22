@@ -3,7 +3,7 @@ import subprocess
 
 def main():
     result = subprocess.run("git-cliff", shell=True, check=True, capture_output=True, text=True)
-    output = result.stdout.replace("unreleased", "Last Version")
+    output = result.stdout.replace("unreleased", "In This Version")
     with open("src/deceptgold/CHANGELOG", "w") as f:
         f.write(output)
 
