@@ -8,10 +8,18 @@ All notable changes to this project will be documented in this file.
 
 - Added check and print permission to no show erro trace
 
+### 💼 Other
+
+- Changed steps in pipeline create changelogs
+
 ### 📚 Documentation
 
 - Added license and notice to project complaince
 - Create symbolic link the license and notice into core directory.
+
+### 🧪 Testing
+
+- New ci changelog
 
 ### ⚙️ Miscellaneous Tasks
 
