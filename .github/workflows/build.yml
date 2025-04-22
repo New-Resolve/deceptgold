@@ -17,11 +17,13 @@ jobs:
 
       - name: Fetch all history and tags
         run: |
-          git fetch --prune --unshallow --tags
+          git fetch --prune --tags origin +refs/heads/master:refs/remotes/origin/master
           git checkout master
-          git pull origin master
+          git pull origin master || echo "No updates to pull"
           echo "Current branch: $(git branch --show-current)"
           echo "Commit at HEAD: $(git log -1 --oneline)"
+          echo "Repository status:"
+          git status
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -56,8 +58,20 @@ jobs:
           echo "Current directory: $(pwd)"
           ls -la deceptgold/utils/config/
           cat deceptgold/utils/config/cliff.toml || echo "cliff.toml not found"
+          echo "Recent commits:"
           git log --oneline -n 10
+          echo "Total commits in history:"
+          git rev-list --count HEAD
+          echo "Available tags:"
           git tag --list
+          echo "Checking for initial tag..."
+          if [ -z "$(git tag --list 'v*')" ]; then
+            echo "No tags found. Creating initial tag v0.0.0."
+            git tag v0.0.0 $(git rev-list --max-parents=0 HEAD)  # Tag no commit inicial
+            git push origin v0.0.0
+          else
+            echo "Tags found: $(git tag --list 'v*')"
+          fi
 
       - name: Generate CHANGELOG
         working-directory: deceptgold
