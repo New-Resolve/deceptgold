@@ -71,8 +71,7 @@ jobs:
             git push origin v0.0.0
           else
             echo "Tags found: $(git tag --list 'v*')"
-          fi
-          
+          fi          
 
       - name: Generate CHANGELOG
         working-directory: deceptgold
