@@ -36,6 +36,6 @@ tag_name = "{{ version }}"
 tag_line = "## {{ version }}\n"
 
 [output]
-file = "src/deceptgold/LICENSE"
+file = "src/deceptgold/CHANGELOG"
 format = "markdown"
 group_by = "date"
