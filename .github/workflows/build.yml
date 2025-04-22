@@ -90,8 +90,6 @@ jobs:
         working-directory: deceptgold
         run: |
           poetry run generate-changelog
-          echo "Generated CHANGELOG content:"
-          cat src/deceptgold/CHANGELOG
           if ! grep -q "## " src/deceptgold/CHANGELOG; then
             echo "Error: CHANGELOG is empty or missing version sections."
             exit 1
@@ -107,7 +105,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit in CHANGELOG"
           else
-            git commit -m "Update CHANGELOG [skip ci]"
+            git commit -m "Automatic update of CHANGELOG [skip ci]"
             git push origin master
           fi
         env:
