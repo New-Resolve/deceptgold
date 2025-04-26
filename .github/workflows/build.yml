@@ -6,9 +6,44 @@ on:
       - master
 
 jobs:
+  codeql-analysis:
+    name: 🔍 CodeQL Security Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write  # Para fazer upload dos resultados SARIF
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+          queries: security-and-quality  # Usa consultas padrão de segurança e qualidade
+
+      - name: Autobuild (for compiled languages, not needed for Python)
+        uses: github/codeql-action/autobuild@v3
+        # Para Python, este passo é geralmente um no-op, mas mantido para compatibilidade
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          output: codeql-results
+          fail-on-error: true  # Faz o job falhar se vulnerabilidades forem encontradas
+
+      - name: Upload SARIF results
+        if: always()  # Faz upload mesmo se o job falhar, para inspeção
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: codeql-results
+
   run-tests:
     name: ✅ Run tests
     runs-on: ubuntu-latest
+    needs: [codeql-analysis]  # Depende do sucesso da análise CodeQL
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -47,6 +82,7 @@ jobs:
   generate-changelog:
     name: ✅ Generate Changelog
     runs-on: ubuntu-latest
+    needs: [codeql-analysis]  # Também depende do CodeQL para maior segurança
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -114,7 +150,7 @@ jobs:
   build-linux:
     name: 🐧 Build for Linux
     runs-on: ubuntu-latest
-    needs: [ run-tests, generate-changelog ]
+    needs: [codeql-analysis, run-tests, generate-changelog]  # Inclui codeql-analysis
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -170,7 +206,7 @@ jobs:
   build-windows:
     name: 🪟 Build for Windows
     runs-on: windows-latest
-    needs: [ run-tests, generate-changelog ]
+    needs: [codeql-analysis, run-tests, generate-changelog]  # Inclui codeql-analysis
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -218,7 +254,7 @@ jobs:
   build-macos:
     name: 🍏 Build for macOS
     runs-on: macos-latest
-    needs: [ run-tests, generate-changelog ]
+    needs: [codeql-analysis, run-tests, generate-changelog]  # Inclui codeql-analysis
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -285,7 +321,7 @@ jobs:
   scan-virustotal:
     name: 🔍 VirusTotal Scan
     runs-on: ubuntu-latest
-    needs: [ build-linux, build-windows, build-macos, generate-changelog]
+    needs: [build-linux, build-windows, build-macos, generate-changelog]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -303,8 +339,7 @@ jobs:
   release:
     name: 🚀 Release
     runs-on: ubuntu-latest
-    needs: [ build-linux, build-windows, build-macos, scan-virustotal, generate-changelog]
-
+    needs: [build-linux, build-windows, build-macos, scan-virustotal, generate-changelog]
     steps:
       - name: Checkout repository [verified]
         uses: actions/checkout@v3
