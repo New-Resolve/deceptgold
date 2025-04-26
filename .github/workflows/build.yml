@@ -10,7 +10,7 @@ jobs:
     name: 🔍 CodeQL Security Analysis
     runs-on: ubuntu-latest
     permissions:
-      security-events: write  # Para fazer upload dos resultados SARIF
+      security-events: write
       actions: read
       contents: read
 
@@ -22,23 +22,23 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: python
-          queries: security-and-quality  # Usa consultas padrão de segurança e qualidade
+          queries: security-and-quality
 
       - name: Autobuild (for compiled languages, not needed for Python)
         uses: github/codeql-action/autobuild@v3
-        # Para Python, este passo é geralmente um no-op, mas mantido para compatibilidade
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           output: codeql-results
-          fail-on-error: true  # Faz o job falhar se vulnerabilidades forem encontradas
+          fail-on-error: true
 
       - name: Upload SARIF results
-        if: always()  # Faz upload mesmo se o job falhar, para inspeção
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: codeql-results
+          category: codeql-python-security  # Adiciona uma categoria única
 
   run-tests:
     name: ✅ Run tests
