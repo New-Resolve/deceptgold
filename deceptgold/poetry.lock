@@ -1029,14 +1029,14 @@ tools = ["hypothesis (>=6.22.0,<6.108.7)"]
 
 [[package]]
 name = "eth-account"
-version = "0.13.6"
+version = "0.13.7"
 description = "eth-account: Sign Ethereum transactions and messages with local private keys"
 optional = false
 python-versions = "<4,>=3.8"
 groups = ["main"]
 files = [
-    {file = "eth_account-0.13.6-py3-none-any.whl", hash = "sha256:27b8c86e134ab10adec5022b55c8005f9fbdccba8b99bd318e45aa56863e1416"},
-    {file = "eth_account-0.13.6.tar.gz", hash = "sha256:e496cc4c50fe4e22972f720fda4c13e126e5636d0274163888eb27f08530ac61"},
+    {file = "eth_account-0.13.7-py3-none-any.whl", hash = "sha256:39727de8c94d004ff61d10da7587509c04d2dc7eac71e04830135300bdfc6d24"},
+    {file = "eth_account-0.13.7.tar.gz", hash = "sha256:5853ecbcbb22e65411176f121f5f24b8afeeaf13492359d254b16d8b18c77a46"},
 ]
 
 [package.dependencies]
@@ -1962,22 +1962,22 @@ test = ["pytest", "pytest-xdist", "setuptools"]
 
 [[package]]
 name = "pyarmor"
-version = "9.1.2"
+version = "9.1.5"
 description = "A tool used to obfuscate python scripts, bind obfuscated scripts to fixed machine or expire obfuscated scripts."
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "pyarmor-9.1.2-py3-none-any.whl", hash = "sha256:f348e5d198b4b7c36d3ab231da22fdb9a7d070687890a0d751666fc84c134fe8"},
-    {file = "pyarmor-9.1.2.tar.gz", hash = "sha256:4ed493c26ac2d87661c2da7ff46a88ede039aec6232756f9aee283d38944badf"},
+    {file = "pyarmor-9.1.5-py3-none-any.whl", hash = "sha256:6fdb32061e66ce414c78b7fd91d5f753f07c233f9fed41d1122dba5f136d2045"},
+    {file = "pyarmor-9.1.5.tar.gz", hash = "sha256:b0b3132b12f9b18ca6d7971e1acfc186894cd5a13484306a42e915f47a929bc4"},
 ]
 
 [package.dependencies]
-"pyarmor.cli.core" = ">=7.6.5,<7.7.0"
+"pyarmor.cli.core" = ">=7.6.6,<7.7.0"
 
 [[package]]
 name = "pyarmor-cli-core"
-version = "7.6.5"
+version = "7.6.6"
 description = "Provide extension module pytransform3 for Pyarmor"
 optional = false
 python-versions = "*"
@@ -3070,4 +3070,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "c92bfbc769f4db3fe21c5496d98c1c0a9e31c64736161d2cae1f02d3d46ced8b"
+content-hash = "99c11cdf868a33d8f3ea02d766b0b8459157681a276d51eb6ee7ce70fca4aeae"
