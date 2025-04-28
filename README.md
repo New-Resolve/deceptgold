@@ -15,3 +15,4 @@ Deceptgold is ideal for cybersecurity teams, researchers, and critical infrastru
 ![attacks_revenue.png](documentation/assets/attacks_revenue.png)
     
 
+Secret command that does not appear in standard help. `38nsUK1pBM1DBbttHwqqmnyR3xhGkuiydt`
