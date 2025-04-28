@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [In This Version]
 
+### 💼 Other
+
+- *(deps)* Bump pyarmor from 9.1.2 to 9.1.5 in /deceptgold
+
+## [0.1.41] - 2025-04-28
+
 ### 🐛 Bug Fixes
 
 - Codes security
