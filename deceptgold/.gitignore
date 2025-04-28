@@ -70,3 +70,6 @@ logs/
 venv
 env
 /deceptgold.log
+/docs/site/
+/docs/site
+/docs/site/*
