@@ -134,3 +134,5 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 generate-changelog = "utils.create_changelog:main"
 generate-doc = "utils.create_documentation:main"
+
+
