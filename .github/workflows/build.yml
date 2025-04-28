@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   codeql-analysis:
@@ -79,9 +82,40 @@ jobs:
         run: |
           poetry run pytest -vvv
 
+  dependabot-check:
+    name: 🛠️ Dependabot Dependency Check
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        working-directory: deceptgold
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+      - name: Check for vulnerabilities with Safety
+        working-directory: deceptgold
+        run: |
+          poetry run pip install safety
+          poetry run safety check --full-report
+      - name: Run tests
+        working-directory: deceptgold
+        run: |
+          poetry run pytest -vvv
+
   generate-changelog:
     name: ✅ Generate Changelog
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs: [codeql-analysis]
     steps:
       - name: Checkout repository
@@ -150,6 +184,7 @@ jobs:
   generate-docs:
     name: 📚 Generate Documentation
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs: [codeql-analysis, run-tests]
     steps:
       - name: Checkout repository
@@ -180,6 +215,7 @@ jobs:
   build-linux:
     name: 🐧 Build for Linux
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs: [codeql-analysis, run-tests, generate-changelog]
     steps:
       - name: Checkout repository
@@ -236,6 +272,7 @@ jobs:
   build-windows:
     name: 🪟 Build for Windows
     runs-on: windows-latest
+    if: github.event_name == 'push'
     needs: [codeql-analysis, run-tests, generate-changelog]
     steps:
       - name: Checkout repository
@@ -284,6 +321,7 @@ jobs:
   build-macos:
     name: 🍏 Build for macOS
     runs-on: macos-latest
+    if: github.event_name == 'push'
     needs: [codeql-analysis, run-tests, generate-changelog]
     steps:
       - name: Checkout repository
@@ -351,6 +389,7 @@ jobs:
   scan-virustotal:
     name: 🔍 VirusTotal Scan
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs: [build-linux, build-windows, build-macos, generate-changelog]
     steps:
       - name: Checkout repository
@@ -369,6 +408,7 @@ jobs:
   release:
     name: 🚀 Release
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs: [build-linux, build-windows, build-macos, scan-virustotal, generate-changelog]
     steps:
       - name: Checkout repository [verified]
