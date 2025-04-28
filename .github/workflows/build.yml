@@ -9,81 +9,34 @@ on:
       - master
 
 jobs:
-  codeql-analysis:
-    name: 🔍 Security Analysis
+  check-vulnerabilities:
+    name: 🔍 Check Vulnerabilities
     runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-
+    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: python
-          queries: security-and-quality
-
-      - name: Autobuild (for compiled languages, not needed for Python)
-        uses: github/codeql-action/autobuild@v3
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          output: codeql-results
-          fail-on-error: true
-
-      - name: Upload SARIF results
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: codeql-results
-          category: codeql-python-security
-
-  run-tests:
-    name: ✅ Run tests
-    runs-on: ubuntu-latest
-    needs: [codeql-analysis]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Fetch all history and tags
-        run: |
-          git fetch --prune --tags origin +refs/heads/master:refs/remotes/origin/master
-          git checkout master
-          git pull origin master || echo "No updates to pull"
-          echo "Current branch: $(git branch --show-current)"
-          echo "Commit at HEAD: $(git log -1 --oneline)"
-          echo "Repository status:"
-          git status
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-
       - name: Install dependencies
         working-directory: deceptgold
         run: |
           poetry config virtualenvs.in-project true
           poetry install
-
-      - name: Run tests
+      - name: Check for vulnerabilities with Safety
         working-directory: deceptgold
         run: |
-          poetry run pytest -vvv
+          poetry run pip install safety
+          poetry run safety check --full-report
 
   dependabot-check:
-    name: 🛠️ Dependabot Dependency Check
+    name: 🛠️ Dependency Check
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
@@ -112,6 +65,69 @@ jobs:
         run: |
           poetry run pytest -vvv
 
+  codeql-analysis:
+    name: 🔍 Security Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+          queries: security-and-quality
+      - name: Autobuild (for compiled languages, not needed for Python)
+        uses: github/codeql-action/autobuild@v3
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          output: codeql-results
+          fail-on-error: true
+      - name: Upload SARIF results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: codeql-results
+          category: codeql-python-security
+
+  run-tests:
+    name: ✅ Run tests
+    runs-on: ubuntu-latest
+    needs: [codeql-analysis]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Fetch all history and tags
+        run: |
+          git fetch --prune --tags origin +refs/heads/master:refs/remotes/origin/master
+          git checkout master
+          git pull origin master || echo "No updates to pull"
+          echo "Current branch: $(git branch --show-current)"
+          echo "Commit at HEAD: $(git log -1 --oneline)"
+          echo "Repository status:"
+          git status
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        working-directory: deceptgold
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+      - name: Run tests
+        working-directory: deceptgold
+        run: |
+          poetry run pytest -vvv
+
   generate-changelog:
     name: ✅ Generate Changelog
     runs-on: ubuntu-latest
@@ -122,7 +138,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Fetch all history and tags
         run: |
           git fetch --prune --tags origin +refs/heads/master:refs/remotes/origin/master
@@ -132,30 +147,25 @@ jobs:
           echo "Commit at HEAD: $(git log -1 --oneline)"
           echo "Repository status:"
           git status
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-
       - name: Install dependencies
         working-directory: deceptgold
         run: |
           poetry config virtualenvs.in-project true
           poetry install
-
       - name: Install git-cliff
         run: |
           curl -L https://github.com/orhun/git-cliff/releases/download/v2.8.0/git-cliff-2.8.0-x86_64-unknown-linux-musl.tar.gz -o git-cliff-2.8.0-x86_64-unknown-linux-musl.tar.gz
           tar -xzf git-cliff-2.8.0-x86_64-unknown-linux-musl.tar.gz
           sudo mv git-cliff-2.8.0/git-cliff /usr/local/bin/
           git-cliff --version
-
       - name: Generate CHANGELOG
         working-directory: deceptgold
         run: |
@@ -166,7 +176,6 @@ jobs:
           fi
           echo "Git status after generating CHANGELOG:"
           git status
-
       - name: Commit and push CHANGELOG
         run: |
           git config user.name "github-actions"
@@ -189,23 +198,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-
       - name: Install documentation dependencies
         working-directory: deceptgold
         run: |
           poetry config virtualenvs.in-project true
           poetry install --only docs
-
       - name: Build documentation
         working-directory: deceptgold
         run: |
@@ -220,49 +225,41 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y patchelf tree
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-
       - name: Install project dependencies
         run: |
           poetry config virtualenvs.in-project true
           poetry install
         working-directory: deceptgold
-
       - name: Obfuscate source for Linux
         working-directory: deceptgold
         run: |
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
-
       - name: Build and package for Ubuntu
         working-directory: deceptgold
         run: |
           poetry run briefcase build --target ubuntu --update
           poetry run briefcase package --target ubuntu
-
       - name: Build and package for Fedora
         working-directory: deceptgold
         run: |
           poetry run briefcase build --target fedora --update
           poetry run briefcase package --target fedora:40
-
       - name: Build and package for Debian
         working-directory: deceptgold
         run: |
           poetry run briefcase build --target debian --update
           poetry run briefcase package --target debian
-
       - name: Upload Linux artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -277,26 +274,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-
       - name: Install Poetry
         run: |
           (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
           $poetryPath = "$env:APPDATA\Python\Scripts"
           echo "$poetryPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
         shell: pwsh
-
       - name: Install project dependencies
         working-directory: deceptgold
         run: |
           poetry config virtualenvs.in-project true
           poetry install
         shell: pwsh
-
       - name: Obfuscate source for Windows
         working-directory: deceptgold
         run: |
@@ -304,14 +297,12 @@ jobs:
           mkdir src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
         shell: pwsh
-
       - name: Build and package for Windows
         working-directory: deceptgold
         run: |
           poetry run briefcase build windows --update
           poetry run briefcase package windows
         shell: pwsh
-
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -326,23 +317,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-
       - name: Install project dependencies
         run: |
           cd deceptgold
           poetry config virtualenvs.in-project true
           poetry install
-
       - name: Check if Xcode Command Line Tools are installed
         run: |
           if ! xcode-select -p &>/dev/null; then
@@ -351,12 +338,10 @@ jobs:
           else
             echo "Xcode Command Line Tools are already installed."
           fi
-
       - name: Install pyarmor
         run: |
           cd deceptgold
           poetry run pip install --no-cache-dir pyarmor
-
       - name: Obfuscate source for macOS
         working-directory: deceptgold
         run: |
@@ -364,12 +349,10 @@ jobs:
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold
         shell: bash
-
       - name: Update Briefcase
         run: |
           cd deceptgold
           poetry run pip install --upgrade briefcase
-
       - name: Build and package for macOS
         working-directory: deceptgold
         run: |
@@ -379,7 +362,6 @@ jobs:
             echo "Erro: Pacote .pkg não encontrado em dist/"
             exit 1
           fi
-
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -394,12 +376,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: deceptgold/dist
-
       - name: VirusTotal Scan
         run: bash deceptgold/utils/check_virustotal.sh
         env:
@@ -413,34 +393,28 @@ jobs:
     steps:
       - name: Checkout repository [verified]
         uses: actions/checkout@v3
-
       - name: Download macOS artifacts [verified]
         uses: actions/download-artifact@v4
         with:
           name: macos-artifacts
           path: deceptgold/dist
-
       - name: Download Linux artifacts [verified]
         uses: actions/download-artifact@v4
         with:
           name: linux-artifacts
           path: deceptgold/dist
-
       - name: Download Windows artifacts [verified]
         uses: actions/download-artifact@v4
         with:
           name: windows-artifacts
           path: deceptgold/dist
-
       - name: Fetch tags [verified]
         run: git fetch --tags
-
       - name: Get latest semver tag [verified]
         id: get_latest_tag
         run: |
           latest=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
           echo "LATEST_TAG=$latest" >> $GITHUB_ENV
-
       - name: Bump patch version [verified]
         id: bump_version
         run: |
@@ -452,7 +426,6 @@ jobs:
             patch=$((patch + 1))
             echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
           fi
-
       - name: Generate custom release notes [verified]
         id: generate_notes
         run: |
@@ -466,7 +439,6 @@ jobs:
           echo "" >> $GITHUB_ENV
           echo "$NOTES" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-
       - name: Create new tag [verified]
         run: |
           git config user.name "github-actions"
@@ -476,7 +448,6 @@ jobs:
           git push origin ${{ env.NEW_TAG }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create GitHub Release and Upload Artifacts [verified]
         uses: softprops/action-gh-release@v2
         with:
