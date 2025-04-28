@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file.
 
 - *(deps)* Bump pyarmor from 9.1.2 to 9.1.5 in /deceptgold
 - *(deps)* Bump eth-account from 0.13.6 to 0.13.7 in /deceptgold
+- *(deps)* Bump h11 from 0.14.0 to 0.16.0 in /deceptgold
+
+### ⚙️ Miscellaneous Tasks
+
+- New step check dependecies.
 
 ## [0.1.41] - 2025-04-28
 
