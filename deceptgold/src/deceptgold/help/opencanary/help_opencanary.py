@@ -87,8 +87,8 @@ def start_opencanary_internal(force_no_wallet=False):
                 return None
             try:
                 return self.original_factory.buildProtocol(addr)
-            except:
-                logMsg(f"[!] Erro ao construir protocolo para {ip}: {str(e)}")
+            except Exception as error:
+                logMsg(f"[!] Erro ao construir protocolo para {ip}: {str(error)}")
                 return None
 
         def __getattr__(self, name):
@@ -144,7 +144,6 @@ def start_opencanary_internal(force_no_wallet=False):
             MODULES.append(CanarySNMP)
         except ImportError:
             print("Can't import SNMP. Please ensure you have Scapy installed.")
-            pass
 
     if config.moduleEnabled("llmnr"):
         try:
@@ -154,7 +153,6 @@ def start_opencanary_internal(force_no_wallet=False):
             MODULES.append(CanaryLLMNR)
         except ImportError:
             print("Can't import LLMNR. Please ensure you have Scapy installed.")
-            pass
 
     # NB: imports below depend on inotify, only available on linux
     if sys.platform.startswith("linux"):
@@ -273,6 +271,7 @@ def start_opencanary_internal(force_no_wallet=False):
         logMsg(msg_log)
         print(f"\nERROR: {msg_log}")
     except CannotListenError as e:
+        msg_log = str(e)
         try:
             port_except = str(e).split(':')[1]
         except Exception as e2:

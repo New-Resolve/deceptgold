@@ -4,8 +4,7 @@ import os
 import signal
 import sys
 
-from typing import Annotated
-from cyclopts import App, Parameter
+from cyclopts import App
 from deceptgold.configuration.opecanary import generate_config
 from deceptgold.help.opencanary.help_opencanary import start_opencanary_internal
 
