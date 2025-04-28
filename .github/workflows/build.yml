@@ -9,36 +9,9 @@ on:
       - master
 
 jobs:
-  check-vulnerabilities:
-    name: 🔍 Check Vulnerabilities
-    runs-on: ubuntu-latest
-    if: github.actor != 'dependabot[bot]'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Install dependencies
-        working-directory: deceptgold
-        run: |
-          poetry config virtualenvs.in-project true
-          poetry install
-      - name: Check for vulnerabilities with Safety
-        working-directory: deceptgold
-        run: |
-          poetry run pip install safety
-          poetry run safety check --full-report
-
   dependabot-check:
     name: 🛠️ Dependency Check
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
