@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - *(deps)* Bump cyclopts from 3.13.1 to 3.14.0 in /deceptgold
 - *(deps)* Bump pyarmor from 9.1.2 to 9.1.5 in /deceptgold
+- *(deps)* Bump eth-account from 0.13.6 to 0.13.7 in /deceptgold
 
 ## [0.1.45] - 2025-04-28
 
