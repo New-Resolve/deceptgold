@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [In This Version]
+
+### 💼 Other
+
+- *(deps)* Bump cyclopts from 3.13.1 to 3.14.0 in /deceptgold
+
 ## [0.1.45] - 2025-04-28
 
 ### ⚙️ Miscellaneous Tasks
