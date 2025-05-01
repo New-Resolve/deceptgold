@@ -24,7 +24,7 @@ mkdocs = "^1.6.1"
 mkdocs-material = "9.5.36"
 mkdocstrings = {extras = ["python"], version = "^0.29.1"}
 markdown-exec = "^1.10.3"
-cyclopts = {extras = ["docstring"], version = "^3.14.0"}
+cyclopts = {extras = ["docstring"], version = "^3.14.1"}
 pydocstyle = "^6.3.0"
 
 [tool.briefcase.app.deceptgold]
