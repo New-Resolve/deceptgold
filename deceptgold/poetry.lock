@@ -782,14 +782,14 @@ test = ["hypothesis (>=1.11.4,!=3.79.2)", "iso8601", "pretend", "pytest (>=6.2.0
 
 [[package]]
 name = "cyclopts"
-version = "3.14.0"
+version = "3.14.2"
 description = ""
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "docs"]
 files = [
-    {file = "cyclopts-3.14.0-py3-none-any.whl", hash = "sha256:2ffcd7742158f42e177f13dfbcb06aa9a3fd196366ec6f0a95cd2aa80325f1bb"},
-    {file = "cyclopts-3.14.0.tar.gz", hash = "sha256:6a5f4fe140c43180f37d0e6f6f9340581767358bb2f61e8e7ec72e01ee59db5d"},
+    {file = "cyclopts-3.14.2-py3-none-any.whl", hash = "sha256:6ae88e093ffa96e589454226d95ffe383f5d4cecf55e72b6d44b5bfb66bdecb7"},
+    {file = "cyclopts-3.14.2.tar.gz", hash = "sha256:f2eadde9cc22246f11b226eccb0ddccc722eae5137c9dd5700ab9a19aa696a6e"},
 ]
 
 [package.dependencies]
@@ -3070,4 +3070,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "9f59a361d063fbf505747dbc70070a5ced62e417f25e51631e99b7ac80ca66ac"
+content-hash = "a9ac855125cc548deb6fe0c4486682a92c38afc8318b3db8e1e59d25591b00af"
