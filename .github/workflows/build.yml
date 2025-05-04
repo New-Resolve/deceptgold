@@ -12,6 +12,7 @@ jobs:
   dependabot-check:
     name: 🛠️ Dependency Check
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -41,6 +42,7 @@ jobs:
   codeql-analysis:
     name: 🔍 Security Analysis
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     permissions:
       security-events: write
       actions: read
@@ -70,6 +72,7 @@ jobs:
   run-tests:
     name: ✅ Run tests
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     needs: [codeql-analysis]
     steps:
       - name: Checkout repository
@@ -104,11 +107,11 @@ jobs:
   generate-changelog:
     name: ✅ Generate Changelog
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
-    needs: [ codeql-analysis ]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [codeql-analysis]
     permissions:
       contents: write
-      pull-requests: write  # Permissão para criar PRs
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -153,7 +156,6 @@ jobs:
           echo "Git status after generating CHANGELOG:"
           git status
       - name: Commit and create Pull Request for CHANGELOG
-        if: github.event_name == 'push'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -168,7 +170,6 @@ jobs:
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
       - name: Auto-merge CHANGELOG PR
-        if: github.event_name == 'push'
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -178,7 +179,7 @@ jobs:
   generate-docs:
     name: 📚 Generate Documentation
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [codeql-analysis, run-tests]
     steps:
       - name: Checkout repository
@@ -205,7 +206,7 @@ jobs:
   build-linux:
     name: 🐧 Build for Linux
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [codeql-analysis, run-tests, generate-changelog]
     steps:
       - name: Checkout repository
@@ -254,7 +255,7 @@ jobs:
   build-windows:
     name: 🪟 Build for Windows
     runs-on: windows-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [codeql-analysis, run-tests, generate-changelog]
     steps:
       - name: Checkout repository
@@ -297,7 +298,7 @@ jobs:
   build-macos:
     name: 🍏 Build for macOS
     runs-on: macos-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [codeql-analysis, run-tests, generate-changelog]
     steps:
       - name: Checkout repository
@@ -356,7 +357,7 @@ jobs:
   scan-virustotal:
     name: 🔍 VirusTotal Scan
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [build-linux, build-windows, build-macos, generate-changelog]
     steps:
       - name: Checkout repository
@@ -373,7 +374,7 @@ jobs:
   release:
     name: 🚀 Release
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: [build-linux, build-windows, build-macos, scan-virustotal, generate-changelog]
     steps:
       - name: Checkout repository [verified]
