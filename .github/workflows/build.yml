@@ -105,7 +105,7 @@ jobs:
     name: ✅ Generate Changelog
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event_name == 'pull_request'
-    needs: [codeql-analysis]
+    needs: [ codeql-analysis ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -150,6 +150,7 @@ jobs:
           echo "Git status after generating CHANGELOG:"
           git status
       - name: Commit and push CHANGELOG
+        if: github.event_name == 'push'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
