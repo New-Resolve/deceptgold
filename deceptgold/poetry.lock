@@ -1962,14 +1962,14 @@ test = ["pytest", "pytest-xdist", "setuptools"]
 
 [[package]]
 name = "pyarmor"
-version = "9.1.5"
+version = "9.1.6"
 description = "A tool used to obfuscate python scripts, bind obfuscated scripts to fixed machine or expire obfuscated scripts."
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "pyarmor-9.1.5-py3-none-any.whl", hash = "sha256:6fdb32061e66ce414c78b7fd91d5f753f07c233f9fed41d1122dba5f136d2045"},
-    {file = "pyarmor-9.1.5.tar.gz", hash = "sha256:b0b3132b12f9b18ca6d7971e1acfc186894cd5a13484306a42e915f47a929bc4"},
+    {file = "pyarmor-9.1.6-py3-none-any.whl", hash = "sha256:8da40e9ad7d8b8e342d8a3a2d7eb6f53c714e61d080eb6f488fdbca91d1690a9"},
+    {file = "pyarmor-9.1.6.tar.gz", hash = "sha256:60e4d66045afcd3ceef723a7a0f94dd815e31c312387d57df9ed00ed04696134"},
 ]
 
 [package.dependencies]
