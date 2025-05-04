@@ -167,6 +167,13 @@ jobs:
           labels: changelog, automated
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
+      - name: Auto-merge CHANGELOG PR
+        if: github.event_name == 'push'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
+          merge-method: merge
 
   generate-docs:
     name: 📚 Generate Documentation
