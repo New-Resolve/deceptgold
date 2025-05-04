@@ -6,9 +6,31 @@ All notable changes to this project will be documented in this file.
 
 ### 💼 Other
 
-- *(deps)* Bump cyclopts from 3.13.1 to 3.14.0 in /deceptgold
-- *(deps)* Bump pyarmor from 9.1.2 to 9.1.5 in /deceptgold
+- *(deps)* Bump cyclopts from 3.14.0 to 3.14.2 in /deceptgold
+- *(deps)* Bump pyarmor from 9.1.5 to 9.1.6 in /deceptgold
+
+### ⚙️ Miscellaneous Tasks
+
+- Test team
+- Fix flux
+
+## [0.1.52] - 2025-04-29
+
+### 💼 Other
+
 - *(deps)* Bump eth-account from 0.13.6 to 0.13.7 in /deceptgold
+
+## [0.1.50] - 2025-04-29
+
+### 💼 Other
+
+- *(deps)* Bump pyarmor from 9.1.2 to 9.1.5 in /deceptgold
+
+## [0.1.51] - 2025-04-29
+
+### 💼 Other
+
+- *(deps)* Bump cyclopts from 3.13.1 to 3.14.0 in /deceptgold
 
 ## [0.1.45] - 2025-04-28
 
