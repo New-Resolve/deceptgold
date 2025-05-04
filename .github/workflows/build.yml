@@ -154,13 +154,14 @@ jobs:
       - name: Commit and push CHANGELOG
         if: github.event_name == 'push'
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add deceptgold/src/deceptgold/CHANGELOG
           if git diff --staged --quiet; then
             echo "No changes to commit in CHANGELOG"
           else
             git commit -m "Automatic update of CHANGELOG [skip ci]"
+            git remote set-url origin https://x-access-token:${{ secrets.BOT_TOKEN }}@github.com/New-Resolve/deceptgold
             git push origin master
           fi
         env:
