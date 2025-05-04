@@ -8,6 +8,11 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
 jobs:
   dependabot-check:
     name: 🛠️ Dependency Check
