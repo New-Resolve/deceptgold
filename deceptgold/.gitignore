@@ -49,6 +49,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+poetry.lock
+*git-cliff*
 
 # IntelliJ Idea family of suites
 .idea
@@ -73,4 +75,3 @@ env
 /docs/site/
 /docs/site
 /docs/site/*
-poetry.lock
