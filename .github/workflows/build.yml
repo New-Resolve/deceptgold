@@ -115,7 +115,7 @@ jobs:
     name: ✅ Generate Changelog
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: [codeql-analysis]
+    needs: [ codeql-analysis ]
     permissions:
       contents: write
       pull-requests: write
@@ -163,6 +163,7 @@ jobs:
           echo "Git status after generating CHANGELOG:"
           git status
       - name: Commit and create Pull Request for CHANGELOG
+        id: create-pull-request
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -177,11 +178,7 @@ jobs:
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
       - name: Enable auto-merge for PR
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: merge
-      - name: Auto-merge CHANGELOG PR
+        if: steps.create-pull-request.outputs.pull-request-number != ''
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
