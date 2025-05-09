@@ -42,8 +42,7 @@ console_app = true
 requires = [
     "cyclopts",
     "opencanary",
-    "ecdsa",
-    "twisted"
+    "ecdsa"
 ]
 test_requires = [
     "pytest",
@@ -126,7 +125,6 @@ pyarmor = "^9.1.6"
 opencanary = "^0.9.5"
 ecdsa = "^0.19.1"
 eth-account = "^0.13.7"
-twisted = "22.8.0"
 
 [build-system]
 requires = ["poetry-core"]
