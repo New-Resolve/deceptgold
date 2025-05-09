@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Remove lock
 - Remove lock
 - Added dep.
+- Remove diff clif and add gitignore
 
 ## [0.1.52] - 2025-04-29
 
