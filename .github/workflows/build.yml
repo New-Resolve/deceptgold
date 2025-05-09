@@ -304,68 +304,68 @@ jobs:
           name: windows-artifacts
           path: deceptgold/dist/*
 
-  build-macos:
-    name: 🍏 Build for macOS
-    runs-on: macos-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: [codeql-analysis, run-tests, generate-changelog]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Install project dependencies
-        run: |
-          cd deceptgold
-          poetry config virtualenvs.in-project true
-          poetry install
-      - name: Check if Xcode Command Line Tools are installed
-        run: |
-          if ! xcode-select -p &>/dev/null; then
-            echo "Xcode Command Line Tools are not installed. Installing now..."
-            xcode-select --install
-          else
-            echo "Xcode Command Line Tools are already installed."
-          fi
-      - name: Install pyarmor
-        run: |
-          cd deceptgold
-          poetry run pip install --no-cache-dir pyarmor
-      - name: Obfuscate source for macOS
-        working-directory: deceptgold
-        run: |
-          rm -rf src_obf/ src/deceptgold.dist-info
-          mkdir -p src_obf
-          poetry run pyarmor gen -O src_obf -r -i src/deceptgold
-        shell: bash
-      - name: Update Briefcase
-        run: |
-          cd deceptgold
-          poetry run pip install --upgrade briefcase
-      - name: Verify dependencies
-        working-directory: deceptgold
-        run: |
-          poetry run pip check
-      - name: Build and package for macOS
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build macOS --test
-          poetry run briefcase package macOS --adhoc-sign
-          if [ ! -f dist/deceptgold-*.pkg ]; then
-            echo "Erro: Pacote .pkg não encontrado em dist/"
-            exit 1
-          fi
-      - name: Upload macOS artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-artifacts
-          path: deceptgold/dist/*
+#  build-macos:
+#    name: 🍏 Build for macOS
+#    runs-on: macos-latest
+#    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+#    needs: [codeql-analysis, run-tests, generate-changelog]
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v3
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.11'
+#      - name: Install Poetry
+#        run: |
+#          curl -sSL https://install.python-poetry.org | python3 -
+#          echo "$HOME/.local/bin" >> $GITHUB_PATH
+#      - name: Install project dependencies
+#        run: |
+#          cd deceptgold
+#          poetry config virtualenvs.in-project true
+#          poetry install
+#      - name: Check if Xcode Command Line Tools are installed
+#        run: |
+#          if ! xcode-select -p &>/dev/null; then
+#            echo "Xcode Command Line Tools are not installed. Installing now..."
+#            xcode-select --install
+#          else
+#            echo "Xcode Command Line Tools are already installed."
+#          fi
+#      - name: Install pyarmor
+#        run: |
+#          cd deceptgold
+#          poetry run pip install --no-cache-dir pyarmor
+#      - name: Obfuscate source for macOS
+#        working-directory: deceptgold
+#        run: |
+#          rm -rf src_obf/ src/deceptgold.dist-info
+#          mkdir -p src_obf
+#          poetry run pyarmor gen -O src_obf -r -i src/deceptgold
+#        shell: bash
+#      - name: Update Briefcase
+#        run: |
+#          cd deceptgold
+#          poetry run pip install --upgrade briefcase
+#      - name: Verify dependencies
+#        working-directory: deceptgold
+#        run: |
+#          poetry run pip check
+#      - name: Build and package for macOS
+#        working-directory: deceptgold
+#        run: |
+#          poetry run briefcase build macOS --test
+#          poetry run briefcase package macOS --adhoc-sign
+#          if [ ! -f dist/deceptgold-*.pkg ]; then
+#            echo "Erro: Pacote .pkg não encontrado em dist/"
+#            exit 1
+#          fi
+#      - name: Upload macOS artifacts
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: macos-artifacts
+#          path: deceptgold/dist/*
 
   scan-virustotal:
     name: 🔍 VirusTotal Scan
