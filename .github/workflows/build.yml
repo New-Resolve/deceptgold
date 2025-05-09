@@ -176,6 +176,11 @@ jobs:
           labels: changelog, automated
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
+      - name: Enable auto-merge for PR
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: merge
       - name: Auto-merge CHANGELOG PR
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
