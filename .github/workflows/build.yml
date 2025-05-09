@@ -329,11 +329,6 @@ jobs:
     steps:
       - name: Checkout repository [verified]
         uses: actions/checkout@v3
-      - name: Download macOS artifacts [verified]
-        uses: actions/download-artifact@v4
-        with:
-          name: macos-artifacts
-          path: deceptgold/dist
       - name: Download Linux artifacts [verified]
         uses: actions/download-artifact@v4
         with:
