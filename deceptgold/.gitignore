@@ -51,6 +51,8 @@ var/
 *.egg
 poetry.lock
 *git-cliff*
+git-cliff-*.tar.gz
+git-cliff-*/
 
 # IntelliJ Idea family of suites
 .idea

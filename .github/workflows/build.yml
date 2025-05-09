@@ -177,6 +177,7 @@ jobs:
           labels: changelog, automated
           assignees: ${{ github.actor }}
           reviewers: ${{ github.actor }}
+          add-paths: src/deceptgold/CHANGELOG
       - name: Enable auto-merge for PR
         if: steps.create-pull-request.outputs.pull-request-number != ''
         uses: peter-evans/enable-pull-request-automerge@v3
