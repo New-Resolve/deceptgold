@@ -241,6 +241,7 @@ jobs:
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
+          cp -r src/deceptgold/resources src_obf/deceptgold/
       - name: Build and package for Ubuntu
         working-directory: deceptgold
         run: |
@@ -292,6 +293,7 @@ jobs:
           Remove-Item -Recurse -Force src_obf, src\deceptgold.dist-info -ErrorAction SilentlyContinue
           mkdir src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
+          cp -r src/deceptgold/resources src_obf/deceptgold/
         shell: pwsh
       - name: Build and package for Windows
         working-directory: deceptgold
