@@ -230,7 +230,6 @@ def start_opencanary_internal(force_no_wallet=False):
         data = {}
         data["logdata"] = {"msg": msg}
         logger.log(data, retry=False)
-        # sig, hash_msg, _ = generate_signature_and_hash(data)
 
 
     application = service.Application("opencanaryd")
