@@ -27,7 +27,7 @@ def start_opencanary_internal(force_no_wallet=False):
     original_print = builtins.print
 
     def fake_print(*args, **kwargs):
-        ...
+        pass
         # original_print(*args, **kwargs)
 
     builtins.print = fake_print

@@ -57,5 +57,5 @@ def show_balance():
         print(f"Balance: {balance_formatted} DGLD")
         print(f"Balance (base units): {balance}")
         print(f"Explorer: https://testnet.bscscan.com/address/{user_address}")
-    finally:
-        del w3
+    except Exception as e:
+        print(f"[handle_balance] Erro: {e}")

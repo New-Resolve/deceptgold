@@ -53,7 +53,7 @@ try:
         raise Exception('Invalid contract validator address.')
 
 except Exception as e:
-    ...
+    pass
 
 
 def call_first_upload_contract():
