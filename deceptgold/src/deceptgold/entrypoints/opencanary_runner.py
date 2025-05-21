@@ -1,7 +1,10 @@
-from deceptgold.help.opencanary.help_opencanary import start_opencanary_internal
+import sys
 
-def main():
-    start_opencanary_internal()
+from deceptgold.helper.opencanary.help_opencanary import start_opencanary_internal
+
+def main(parametro=None):
+    start_opencanary_internal(parametro)
 
 if __name__ == "__main__":
-    main()
+    parametro = sys.argv[1] if len(sys.argv) > 1 else None
+    main(parametro)
