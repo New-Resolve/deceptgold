@@ -17,14 +17,14 @@ try:
     from deceptgold.commands.service import services_app
     from deceptgold.configuration import log
 except ImportError as e:
-    ...# print(e)
+    pass # print(e)
 
 try:
     from deceptgold.src.deceptgold.commands.user import users_app
     from deceptgold.src.deceptgold.commands.service import services_app
     from deceptgold.src.deceptgold.configuration.log import *
 except ImportError as e:
-    ...# print(e)
+    pass # print(e)
 
 logger = logging.getLogger(__name__)
 logging.FileHandler = CustomFileHandler

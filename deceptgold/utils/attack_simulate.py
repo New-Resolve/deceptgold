@@ -23,6 +23,6 @@ if __name__ == '__main__':
         try:
             print(f"{i} = {requests.post(url, data=data).text[:14]} [...]")
         except Exception as e:
-            ...
+            pass
         sleep(0.05)
 
