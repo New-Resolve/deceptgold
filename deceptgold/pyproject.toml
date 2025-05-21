@@ -14,10 +14,9 @@ version = "0.1.36"
 description = ""
 authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
-
-
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6.1"
@@ -38,16 +37,16 @@ test_sources = [
     "tests",
 ]
 console_app = true
-
 requires = [
     "cyclopts",
     "opencanary",
-    "ecdsa"
+    "ecdsa",
+    "web3"
 ]
 test_requires = [
     "pytest",
 ]
-
+resources = ["deceptgold/resources"]
 
 [tool.briefcase.app.deceptgold.macOS]
 universal_build = true
@@ -125,6 +124,7 @@ pyarmor = "^9.1.6"
 opencanary = "^0.9.5"
 ecdsa = "^0.19.1"
 eth-account = "^0.13.7"
+web3 = "^7.11.1"
 
 [build-system]
 requires = ["poetry-core"]

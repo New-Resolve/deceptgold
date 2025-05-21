@@ -11,6 +11,9 @@ mkdir -p src_obf
 echo "[+] Ofuscando código com PyArmor"
 poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
 
+echo "[+] Copiando arquivos de recursos necessarios para empacotamento"
+cp -r src/deceptgold/resources src_obf/deceptgold/
+
 echo "[+] Iniciando build com Briefcase. Actual options: ['fedora:40', 'debian', 'ubuntu']"
 poetry run briefcase build --target debian --update
 

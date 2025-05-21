@@ -1,11 +1,16 @@
+import warnings
 import logging
 import multiprocessing
-import warnings
 
 from cyclopts import App
 from cryptography.utils import CryptographyDeprecationWarning
+warnings.filterwarnings("ignore", category=ResourceWarning)
+warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=UserWarning, module="eth_utils.functional")
 
 from deceptgold.help.descripton import get_description
+from deceptgold.help.opencanary.proxy_logger import CustomFileHandler
 
 try:
     from deceptgold.commands.user import users_app
@@ -22,14 +27,12 @@ except ImportError as e:
     ...# print(e)
 
 logger = logging.getLogger(__name__)
+logging.FileHandler = CustomFileHandler
 
 app = App(name="DeceptGold", help=get_description())
 app.command(users_app)
 app.command(services_app)
 
-warnings.filterwarnings("ignore", category=ResourceWarning)
-warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 multiprocessing.set_start_method("spawn")
 
 
