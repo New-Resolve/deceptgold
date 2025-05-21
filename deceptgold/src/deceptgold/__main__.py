@@ -9,8 +9,8 @@ warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning, module="eth_utils.functional")
 
-from deceptgold.help.descripton import get_description
-from deceptgold.help.opencanary.proxy_logger import CustomFileHandler
+from deceptgold.helper.descripton import get_description
+from deceptgold.helper.opencanary.proxy_logger import CustomFileHandler
 
 try:
     from deceptgold.commands.user import users_app

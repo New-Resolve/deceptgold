@@ -9,10 +9,10 @@ from web3 import Web3
 from eth_account.messages import encode_defunct
 from opencanary.logger import getLogger
 
-from deceptgold.help.signature import generate_signature_and_hash, verify_signature
-from deceptgold.help.blockchain.sender import Sender
+from deceptgold.helper.signature import generate_signature_and_hash, verify_signature
+from deceptgold.helper.blockchain.sender import Sender
 from deceptgold.configuration.config_manager import update_config, get_config
-from deceptgold.help.fingerprint import get_machine_fingerprint
+from deceptgold.helper.fingerprint import get_machine_fingerprint
 
 warnings.filterwarnings("ignore", category=UserWarning, module="eth_utils.functional")
 

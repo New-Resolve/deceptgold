@@ -1,6 +1,6 @@
 import logging
 
-from deceptgold.help.blockchain.token import get_reward
+from deceptgold.helper.blockchain.token import get_reward
 
 
 class CustomFileHandler(logging.FileHandler):
