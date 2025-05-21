@@ -3,7 +3,7 @@ import time
 from web3 import Web3
 
 from deceptgold.configuration.config_manager import get_config
-from deceptgold.help.blockchain.sender import Sender
+from deceptgold.helper.blockchain.sender import Sender
 
 def clean_mempool():
     BSC_TESTNET_RPC = get_config('blockchain', 'net_rpc')
