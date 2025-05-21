@@ -145,7 +145,7 @@ def farm_deceptgold(wallet_address_target, request_honeypot):
         print(g_error)
 
 def get_count_reward_first():
-    return 1
+    return 20000
 
 def get_count_reward_second():
     return 5
