@@ -6,11 +6,9 @@ def global_twisted_error_handler(eventDict):
         failure = eventDict.get('failure')
         if failure:
             if isinstance(failure.value, RuntimeError) and "KEXINIT" in str(failure.value):
-                # print("[!] Erro amigável: Falha na negociação SSH. Conexão encerrada.")
                 return
         print("[!] Unexpected error caught by global handler.")
         return
-    # print(eventDict.get('message'))
 
 
 
@@ -72,10 +70,13 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False'):
     from twisted.internet.error import CannotListenError
     from twisted.application import service
     from pkg_resources import iter_entry_points
-    # from deceptgold.help.signature import generate_signature_and_hash, verify_signature
 
-    # 864000 requests per day
-    RATE_LIMIT = 10
+
+    """
+    To earn 1 full DGLD in 1 year, a user needs to make exactly: 1,000,000,000 requests. 
+    This means maintaining an average of: 31.71 requests per second
+    """
+    RATE_LIMIT = 32
     RATE_WINDOW = 1
 
     connections = {}
