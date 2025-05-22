@@ -278,7 +278,7 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False'):
             if force_no_wallet:
                 logMsg("Warning: You are forcing the use of the honeypot without using the reward.")
             else:
-                logMsg(f"The current user has not configured their public address to receive their rewards. The system no will continue. It is recommended to configure it before starting the fake services. Use the force-no-wallet parameter to continue without system interruption. But be careful, you will not be able to redeem your rewards now and retroactively.")
+                logMsg(f"The current user has not configured their public address to receive their rewards. The system will not continue. It is recommended to configure it before starting the fake services. Use the parameters: 'user --my-address 0xYourPublicAddress' or use the parameters 'service force-no-wallet=true' to continue without system interruption. But be careful, you will not be able to redeem your rewards now and/or retroactively.")
                 sys.exit(1)
         startApplication(application, False)
         reactor.run()
