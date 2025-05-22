@@ -3,7 +3,7 @@ import os
 import logging
 
 config_data = {
-    "device.node_id": "opencanary-1",
+    "device.node_id": "deceptgold-server-1",
     "ip.ignorelist": [  ],
     "logtype.ignorelist": [  ],
     "git.enabled": False,
