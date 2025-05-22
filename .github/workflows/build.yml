@@ -242,6 +242,9 @@ jobs:
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
           cp -r src/deceptgold/resources src_obf/deceptgold/
+          cp -r src/deceptgold/CHANGELOG src_obf/deceptgold/
+          cp -r src/deceptgold/LICENSE src_obf/deceptgold/
+          cp -r src/deceptgold/NOTICE src_obf/deceptgold/
       - name: Build and package for Ubuntu
         working-directory: deceptgold
         run: |
@@ -294,6 +297,9 @@ jobs:
           mkdir src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
           cp -r src/deceptgold/resources src_obf/deceptgold/
+          cp -r src/deceptgold/CHANGELOG src_obf/deceptgold/
+          cp -r src/deceptgold/LICENSE src_obf/deceptgold/
+          cp -r src/deceptgold/NOTICE src_obf/deceptgold/
         shell: pwsh
       - name: Build and package for Windows
         working-directory: deceptgold
