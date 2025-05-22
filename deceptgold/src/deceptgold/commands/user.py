@@ -28,7 +28,7 @@ def register(my_address: Annotated[str, Parameter(help="User's wallet address. U
     Mandatory command to collect your rewards
     :param my_address: your address wallet pattern ERC20 example: 0x0105d8Ceab792bfece1b2994B71992Af56930081
     """
-    update_config("address", my_address)
+    update_config("address", my_address, module_name='user')
 
     update_config('net_rpc', 'https://data-seed-prebsc-1-s1.binance.org:8545/', 'blockchain')
     update_config('key_public_expected_signer', '0xfA6a145a7e1eF7367888A39CBf68269625C489D2', 'blockchain')
