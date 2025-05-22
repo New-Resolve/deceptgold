@@ -29,20 +29,27 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False'):
     original_print = builtins.print
 
     def fake_print(*args, **kwargs):
-        if isinstance(args[0], str):
-            if 'We hope you enjoy using' in args[0]:
-                return None
+        try:
+            if isinstance(args[0], str):
+                if 'We hope you enjoy using' in args[0]:
+                    return None
 
-            if '[-] Failed to open' in args[0]:
-                return None
+                if '[-] Failed to open' in args[0]:
+                    return None
 
-            if 'We hope you enjoy using' in args[0]:
-                return None
+                if 'We hope you enjoy using' in args[0]:
+                    return None
 
-            if '[-] Using config file:' in args[0]:
-                return None
+                if '[-] Using config file:' in args[0]:
+                    return None
 
-        original_print(args[0].msg)
+                original_print(args[0].msg)
+            else:
+                original_print(args[0])
+        except Exception:
+            pass
+
+
 
     builtins.print = fake_print
 
