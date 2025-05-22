@@ -16,8 +16,14 @@ logger = logging.getLogger(__name__)
 
 services_app = App(name="service", help="Module service available")
 
-PID_FILE = "/tmp/deceptgold.pid"
-LOG_FILE = "/tmp/deceptgold.log"
+import os
+import tempfile
+
+def get_temp_log_path(filename):
+    return os.path.join(tempfile.gettempdir(), filename)
+
+PID_FILE = get_temp_log_path("deceptgold.pid")
+LOG_FILE = get_temp_log_path("deceptgold.log")
 
 
 def pre_execution():
