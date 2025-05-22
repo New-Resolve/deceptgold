@@ -68,7 +68,7 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           output: codeql-results
-          continue-on-error: true
+        continue-on-error: true
       - name: Upload SARIF results
         if: always()
         uses: github/codeql-action/upload-sarif@v3
