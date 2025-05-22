@@ -1,4 +1,4 @@
-from deceptgold.help.signature import generate_signature_and_hash, verify_signature
+from deceptgold.helper.signature import generate_signature_and_hash, verify_signature
 
 def get_list_hash_honeypot():
     return [

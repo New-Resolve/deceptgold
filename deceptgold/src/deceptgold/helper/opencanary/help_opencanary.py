@@ -1,4 +1,5 @@
 from deceptgold.configuration.config_manager import get_config
+from deceptgold.helper.helper import parse_args
 
 def global_twisted_error_handler(eventDict):
     if eventDict.get('isError'):
@@ -13,7 +14,10 @@ def global_twisted_error_handler(eventDict):
 
 
 
-def start_opencanary_internal(force_no_wallet=False):
+def start_opencanary_internal(force_no_wallet='force_no_wallet=False'):
+    parsed_args = parse_args([force_no_wallet])
+    force_no_wallet = parsed_args.get('force_no_wallet', False)
+
     from twisted.python import log
 
     log.startLoggingWithObserver(global_twisted_error_handler, setStdout=False)
@@ -27,8 +31,20 @@ def start_opencanary_internal(force_no_wallet=False):
     original_print = builtins.print
 
     def fake_print(*args, **kwargs):
-        pass
-        # original_print(*args, **kwargs)
+        if isinstance(args[0], str):
+            if 'We hope you enjoy using' in args[0]:
+                return None
+
+            if '[-] Failed to open' in args[0]:
+                return None
+
+            if 'We hope you enjoy using' in args[0]:
+                return None
+
+            if '[-] Using config file:' in args[0]:
+                return None
+
+        original_print(args[0].msg)
 
     builtins.print = fake_print
 
@@ -256,12 +272,13 @@ def start_opencanary_internal(force_no_wallet=False):
     for klass in start_modules:
         start_mod(application, klass)
 
-
     try:
         address_user = get_config("user", "address")
         if not address_user:
-            logMsg(f"The current user has not configured their public address to receive their rewards. The system no will continue. It is recommended to configure it before starting the fake services. Use the force-no-wallet parameter to continue without system interruption. But be careful, you will not be able to redeem your rewards now and retroactively.")
-            if not force_no_wallet:
+            if force_no_wallet:
+                logMsg("Warning: You are forcing the use of the honeypot without using the reward.")
+            else:
+                logMsg(f"The current user has not configured their public address to receive their rewards. The system will not continue. It is recommended to configure it before starting the fake services. Use the parameters: 'user --my-address 0xYourPublicAddress' or use the parameters 'service force-no-wallet=true' to continue without system interruption. But be careful, you will not be able to redeem your rewards now and/or retroactively.")
                 sys.exit(1)
         startApplication(application, False)
         reactor.run()
