@@ -19,3 +19,7 @@ def parse_args(args):
                     parsed[key] = value
 
     return parsed
+
+def my_self_developer():
+    with open(__file__, 'r', encoding='utf-8') as my_self_dev:
+        return '# Pyarmor' != my_self_dev.read(9).strip()
