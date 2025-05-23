@@ -10,7 +10,7 @@ from deceptgold.configuration.opecanary import generate_config
 from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.opencanary.help_opencanary import start_opencanary_internal
 from deceptgold.helper.helper import parse_args, my_self_developer
-
+from pprint import pprint
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ LOG_FILE = get_temp_log_path("deceptgold.log")
 
 
 def pre_execution():
-    logger.info("Executando operações prévias ao comando.")
+    logger.info("Performing pre-command operations.")
     generate_config()
 
 def pre_execution_decorator(func):
@@ -58,9 +58,15 @@ def pre_execution_decorator(func):
 def start(*args):
     parsed_args = parse_args(args)
 
+    pprint(f"parsed_args: {parsed_args}")
+
     daemon = parsed_args.get('daemon', True)
     force_no_wallet = parsed_args.get('force_no_wallet', False)
     recall = parsed_args.get('recall', False)
+
+    pprint(f"daemon: {daemon}")
+    pprint(f"force_no_wallet: {force_no_wallet}")
+    pprint(f"recall: {recall}")
 
     if my_self_developer():
         daemon = False
@@ -74,15 +80,21 @@ def start(*args):
 
     msg_already_run = "The service is already running. Consider using the 'service stop' command to stop it from running if necessary."
     if not daemon:
+        pprint("Entrei no modo não-daemon!")
         if not recall:
+            pprint("Entrei no modo não recall")
             if os.path.exists(PID_FILE):
                 logger.warning(msg_already_run)
                 print(msg_already_run)
                 return None
+        pprint("Vou chamar o start_open_canary")
         start_opencanary_internal(p_force_no_wallet)
+        pprint("terminei de chamar o start_open_canary")
     else:
+        pprint("Entrei no modo daemon!")
         with open(LOG_FILE, 'a') as log:
             cmd = [sys.executable, "service", "start", "daemon=false", 'recall=true', p_force_no_wallet]
+            pprint("Comando que será executado: " + " ".join(cmd))
             process = subprocess.Popen(cmd, stdout=log, stderr=log)
             with open(PID_FILE, "w") as f:
                 f.write(str(process.pid))
@@ -102,7 +114,7 @@ def stop():
     except ProcessLookupError:
         logger.warning(f"Process {pid} not found.")
     except Exception as e:
-        logger.warning("Error in stop deceptgold: {e}")
+        logger.warning(f"Error in stop deceptgold: {e}")
     finally:
         os.remove(PID_FILE)
 
