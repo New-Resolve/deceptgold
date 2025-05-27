@@ -1,33 +1,29 @@
-import logging
 import subprocess
 import os
-import signal
+import psutil
 import sys
+import logging
 
 from cyclopts import App
 
 from deceptgold.configuration.opecanary import generate_config
 from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.opencanary.help_opencanary import start_opencanary_internal
-from deceptgold.helper.helper import parse_args, my_self_developer
-from pprint import pprint
+from deceptgold.helper.helper import parse_args, my_self_developer, get_temp_log_path
+from deceptgold.helper.helper import NAME_FILE_LOG, NAME_FILE_PID
 
-logger = logging.getLogger(__name__)
+i_dev = my_self_developer()
+# if i_dev:
+#     from memory_profiler import profile
+
 
 services_app = App(name="service", help="Module service available")
 
-import os
-import tempfile
-
-def get_temp_log_path(filename):
-    return os.path.join(tempfile.gettempdir(), filename)
-
-PID_FILE = get_temp_log_path("deceptgold.pid")
-LOG_FILE = get_temp_log_path("deceptgold.log")
+PID_FILE = get_temp_log_path(NAME_FILE_PID)
+LOG_FILE = get_temp_log_path(NAME_FILE_LOG)
 
 
 def pre_execution():
-    logger.info("Performing pre-command operations.")
     generate_config()
 
 def pre_execution_decorator(func):
@@ -42,7 +38,7 @@ def pre_execution_decorator(func):
                 print(f"Error making encapsulated call. Check the documentation as the command is apparently being sent incorrectly. {e}")
     return wrapper
 
-
+# @profile
 @services_app.command(name="start", help=(
         "Start service(s) in operational system\n\n"
         "Warning:\n"
@@ -56,19 +52,15 @@ def pre_execution_decorator(func):
     ))
 @pre_execution_decorator
 def start(*args):
-    parsed_args = parse_args(args)
+    global i_dev
 
-    pprint(f"parsed_args: {parsed_args}")
+    parsed_args = parse_args(args)
 
     daemon = parsed_args.get('daemon', True)
     force_no_wallet = parsed_args.get('force_no_wallet', False)
     recall = parsed_args.get('recall', False)
 
-    pprint(f"daemon: {daemon}")
-    pprint(f"force_no_wallet: {force_no_wallet}")
-    pprint(f"recall: {recall}")
-
-    if my_self_developer():
+    if i_dev:
         daemon = False
 
     p_force_no_wallet = 'force_no_wallet=True' if force_no_wallet else ''
@@ -80,21 +72,15 @@ def start(*args):
 
     msg_already_run = "The service is already running. Consider using the 'service stop' command to stop it from running if necessary."
     if not daemon:
-        pprint("Entrei no modo não-daemon!")
         if not recall:
-            pprint("Entrei no modo não recall")
             if os.path.exists(PID_FILE):
                 logger.warning(msg_already_run)
                 print(msg_already_run)
                 return None
-        pprint("Vou chamar o start_open_canary")
         start_opencanary_internal(p_force_no_wallet)
-        pprint("terminei de chamar o start_open_canary")
     else:
-        pprint("Entrei no modo daemon!")
         with open(LOG_FILE, 'a') as log:
             cmd = [sys.executable, "service", "start", "daemon=false", 'recall=true', p_force_no_wallet]
-            pprint("Comando que será executado: " + " ".join(cmd))
             process = subprocess.Popen(cmd, stdout=log, stderr=log)
             with open(PID_FILE, "w") as f:
                 f.write(str(process.pid))
@@ -104,17 +90,24 @@ def start(*args):
 @pre_execution_decorator
 def stop():
     if not os.path.exists(PID_FILE):
-        logger.warning("Service is not running.")
+        logging.warning("Service is not running.")
         return
     with open(PID_FILE, "r") as f:
         pid = int(f.read())
     try:
-        os.kill(pid, signal.SIGTERM)
-        logger.warning(f"Process {pid} finished executing.")
+        try:
+            p = psutil.Process(pid)
+            p.terminate()
+            p.wait(timeout=5)
+            logging.warning(f"Process {pid} finished executing.")
+        except psutil.NoSuchProcess:
+            logging.warning(f"Process {pid} not found.")
+        except Exception as e:
+            logging.warning(f"Error stopping process: {e}")
     except ProcessLookupError:
-        logger.warning(f"Process {pid} not found.")
+        logging.warning(f"Process {pid} not found.")
     except Exception as e:
-        logger.warning(f"Error in stop deceptgold: {e}")
+        logging.warning(f"Error in stop deceptgold: {e}")
     finally:
         os.remove(PID_FILE)
 

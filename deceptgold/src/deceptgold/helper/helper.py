@@ -1,3 +1,9 @@
+import os
+import tempfile
+
+NAME_FILE_LOG = '.deceptgold.log'
+NAME_FILE_PID = '.deceptgold.pid'
+
 def parse_args(args):
     parsed = {}
     if args:
@@ -23,3 +29,6 @@ def parse_args(args):
 def my_self_developer():
     with open(__file__, 'r', encoding='utf-8') as my_self_dev:
         return '# Pyarmor' != my_self_dev.read(9).strip()
+
+def get_temp_log_path(filename):
+    return os.path.join(tempfile.gettempdir(), filename)

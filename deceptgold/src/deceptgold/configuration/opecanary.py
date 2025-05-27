@@ -1,9 +1,13 @@
 import json
 import os
 import logging
+import socket
+
+
+NODE_ID = socket.gethostname()
 
 config_data = {
-    "device.node_id": "deceptgold-server-1",
+    "device.node_id": NODE_ID,
     "ip.ignorelist": [  ],
     "logtype.ignorelist": [  ],
     "git.enabled": False,
