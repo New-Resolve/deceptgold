@@ -10,7 +10,7 @@ def generate_keys(tamanho=12):
 
 if __name__ == '__main__':
     # TODO also create this function in an async way
-    url = "http://localhost:8090/index.html"
+    url = "http://localhost:8093/index.html"
     for i in range(5000000000):
         data = {
             "username": "admin",

@@ -4,11 +4,15 @@ import logging
 import warnings
 import threading
 import ast
+import random
+import glob
+import tempfile
 
 from web3 import Web3
 from eth_account.messages import encode_defunct
 from opencanary.logger import getLogger
 
+from deceptgold.helper.helper import get_temp_log_path
 from deceptgold.helper.signature import generate_signature_and_hash, verify_signature
 from deceptgold.helper.blockchain.sender import Sender
 from deceptgold.configuration.config_manager import update_config, get_config
@@ -145,16 +149,28 @@ def farm_deceptgold(wallet_address_target, request_honeypot):
         print(g_error)
 
 def get_count_reward_first():
-    return 20000
+    return 1_000
 
 def get_count_reward_second():
-    return 5
+    return 10
 
 def get_count_reward_final():
     return get_count_reward_first() * get_count_reward_second()
 
+
+def search_stack_file():
+    all_files = glob.glob(os.path.join(tempfile.gettempdir(), "*.stack"))
+    return all_files[0] if all_files else None
+
+pre_file_stack = search_stack_file()
+if pre_file_stack:
+    CONFIG_FILE = pre_file_stack
+else:
+    CONFIG_FILE = get_temp_log_path(''.join(random.choices('abcdef0123456789', k=7)) + '.stack')
+
+print(CONFIG_FILE)
 pass_fingerprint = get_machine_fingerprint()
-list_logs = eval(get_config(key='hash', module_name_honeypot='cache', passwd=pass_fingerprint, default='set()'))
+list_logs = eval(get_config(key='hash', module_name_honeypot='cache', passwd=pass_fingerprint, default='set()', file_config=CONFIG_FILE))
 list_count = 0
 list_logs_lock = threading.Lock()
 reward_triggered = False
@@ -162,6 +178,11 @@ reward_triggered = False
 def get_reward(log_honeypot):
     global reward_triggered
     global list_count
+
+    user_wallet = get_config("user", "address", None)
+    if not user_wallet:
+        return None
+
     try:
         # Ignore system boot logs as they are not real attacks.
         log_json = json.loads(log_honeypot)
@@ -170,7 +191,6 @@ def get_reward(log_honeypot):
             if 'added service from class' in msg['logdata']:
                 return None
         log_hash = hash(json.dumps(log_json, sort_keys=True))
-
         with list_logs_lock:
             if reward_triggered:
                 return None
@@ -180,11 +200,11 @@ def get_reward(log_honeypot):
                 list_count = len(list_logs)
 
             if list_count % 5 == 0:
-                update_config(key='hash', value=str(list_logs), module_name='cache', passwd=pass_fingerprint)
+                update_config(key='hash', value=str(list_logs), module_name='cache', passwd=pass_fingerprint, config_file=CONFIG_FILE)
 
             if list_count >= get_count_reward_final():
                 reward_triggered = True
-                update_config(key='hash', value=str(set()), module_name='cache', passwd=pass_fingerprint)
+                update_config(key='hash', value=str(set()), module_name='cache', passwd=pass_fingerprint, config_file=CONFIG_FILE)
                 threading.Thread(target=handle_reward_async, args=(log_honeypot,), daemon=True).start()
     except Exception as e:
         logging.error(f"[get_reward] Erro: {e}")
