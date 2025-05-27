@@ -162,13 +162,12 @@ def search_stack_file():
     all_files = glob.glob(os.path.join(tempfile.gettempdir(), "*.stack"))
     return all_files[0] if all_files else None
 
+CONFIG_FILE = get_temp_log_path(''.join(random.choices('abcdef0123456789', k=7)) + '.stack')
 pre_file_stack = search_stack_file()
 if pre_file_stack:
     CONFIG_FILE = pre_file_stack
-else:
-    CONFIG_FILE = get_temp_log_path(''.join(random.choices('abcdef0123456789', k=7)) + '.stack')
 
-print(CONFIG_FILE)
+
 pass_fingerprint = get_machine_fingerprint()
 list_logs = eval(get_config(key='hash', module_name_honeypot='cache', passwd=pass_fingerprint, default='set()', file_config=CONFIG_FILE))
 list_count = 0
