@@ -3,9 +3,9 @@
 ## Converting Risks, Vulnerabilities, and Real Attacks into Budget and Self-Investment
 
 **Author:** Jonathan Scheibel de Morais  
-**Version:** 0.0.2  
-**Date of Publication:** April 19, 2025  
-**Contact:** [jsmorais@protonmail.com] | [https://deceptgold.io]  
+**Version:** 0.0.3  
+**Date of Publication:** May 28, 2025  
+**Contact:** [jsmorais@protonmail.com] | [https://decept.gold]  
 **Project Name:** Deceptgold  
 
 ---
