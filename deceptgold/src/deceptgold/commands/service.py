@@ -8,7 +8,6 @@ import platform
 
 from pathlib import Path
 from cyclopts import App, Group
-from pprint import pprint
 
 from deceptgold.configuration.opecanary import generate_config
 from deceptgold.configuration.config_manager import get_config
