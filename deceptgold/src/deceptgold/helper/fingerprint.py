@@ -6,7 +6,7 @@ import uuid
 
 def get_disk_serial():
     try:
-        if platform.system() == "Windows":
+        if platform.system().lower().strip() == "windows":
             output = subprocess.check_output("wmic diskdrive get serialnumber", shell=True, text=True)
             lines = output.strip().split("\n")
             return lines[1].strip() if len(lines) > 1 else ""
