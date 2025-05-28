@@ -37,6 +37,15 @@ multiprocessing.set_start_method("spawn")
 
 
 if __name__ == "__main__":
+    import time
+    import timeit
+
+    if not hasattr(time, "clock"):
+        print("Nao existe o atributo clock")
+        time.clock = timeit.default_timer
+    else:
+        print("Existe o atributo clock")
+
     logger.info("Initialization complete the application.")
     app()
     logger.info("Finally application!")
