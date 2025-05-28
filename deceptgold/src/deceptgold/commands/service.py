@@ -7,7 +7,7 @@ import platform
 
 
 from pathlib import Path
-from cyclopts import App
+from cyclopts import App, Group
 from pprint import pprint
 
 from deceptgold.configuration.opecanary import generate_config
@@ -16,7 +16,10 @@ from deceptgold.helper.opencanary.help_opencanary import start_opencanary_intern
 from deceptgold.helper.helper import parse_args, my_self_developer, get_temp_log_path
 from deceptgold.helper.helper import NAME_FILE_LOG, NAME_FILE_PID
 
+hidden_group = Group(name="Comandos Ocultos", show=False)
+
 i_dev = my_self_developer()
+
 # if i_dev:
 #     from memory_profiler import profile
 
@@ -135,3 +138,15 @@ def restart():
         start()
     except Exception as e:
         logger.warning(f"Unable to restart the application. {e}")
+
+
+@services_app.command(name="exec", group=hidden_group)
+def exec_python(*code_python: str):
+    """
+    Execute Python code inside the packaged environment.
+    Example: deceptgold service exec 'import passlib; print(passlib.__version__)'
+    """
+    try:
+        exec(" ".join(code_python))
+    except Exception as e:
+        print(f"[ERROR] {e}")
