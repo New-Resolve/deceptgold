@@ -2,7 +2,14 @@ import json
 import os
 import logging
 import socket
+import platform
 
+from deceptgold.helper.helper import get_temp_log_path, NAME_FILE_LOG
+
+filelog_temp = get_temp_log_path(NAME_FILE_LOG)
+platform_system = platform.system().lower().strip()
+if platform_system == "windows":
+    filelog_temp = get_temp_log_path(NAME_FILE_LOG).replace('\\', '\\\\')
 
 NODE_ID = socket.gethostname()
 
@@ -57,7 +64,7 @@ config_data = {
                 },
                 "file": {
                     "class": "logging.FileHandler",
-                    "filename": "/home/jonathan/opencanary.log",
+                    "filename": f"{filelog_temp}",
                     "formatter": "default"
                 }
             }
@@ -76,7 +83,7 @@ config_data = {
     "mysql.port": 3306,
     "mysql.banner": "5.5.43-0ubuntu0.14.04.1",
     "mysql.log_connection_made": False,
-    "ssh.enabled": True,
+    "ssh.enabled": True if platform_system == "linux" else False,
     "ssh.port": 2222,
     "ssh.version": "SSH-2.0-OpenSSH_5.1p1 Debian-4",
     "redis.enabled": False,
