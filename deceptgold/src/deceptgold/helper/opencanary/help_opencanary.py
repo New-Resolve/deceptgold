@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.helper import parse_args
 
@@ -283,7 +285,7 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
     try:
         address_user = get_config("user", "address")
         if debug:
-            pprint.pprint(f"Executou em modo debug: veja o endereco da carteida do usuario: {address_user}")
+            pprint(f"Executou em modo debug: veja o endereco da carteida do usuario: {address_user}")
         if not address_user:
             if force_no_wallet:
                 logMsg("Warning: You are forcing the use of the honeypot without using the reward.")
