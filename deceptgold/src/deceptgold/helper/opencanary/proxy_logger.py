@@ -16,4 +16,4 @@ class CustomFileHandler(logging.FileHandler):
         if "ignore" in record.getMessage().lower():
             return
 
-        # super().emit(record)
+        super().emit(record)
