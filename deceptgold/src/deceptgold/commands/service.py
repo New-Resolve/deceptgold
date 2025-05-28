@@ -33,13 +33,13 @@ def pre_execution():
 def pre_execution_decorator(func):
     def wrapper(*args, **kwargs):
         pre_execution()
-        if my_self_developer():
+        if parse_args(args).get('debug', False):
             return func(*args, **kwargs)
         else:
             try:
                 return func(*args, **kwargs)
             except Exception as e:
-                print(f"Error making encapsulated call. Check the documentation as the command is apparently being sent incorrectly. {e}")
+                print(f"Error making encapsulated call. Check the documentation as the command is apparently being sent incorrectly.")
     return wrapper
 
 # @profile
@@ -79,7 +79,6 @@ def start(*args):
     if not daemon:
         if not recall:
             if os.path.exists(PID_FILE):
-                logger.warning(msg_already_run)
                 print(msg_already_run)
                 return None
         start_opencanary_internal(p_force_no_wallet, debug)
