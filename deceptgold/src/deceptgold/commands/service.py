@@ -3,7 +3,10 @@ import os
 import psutil
 import sys
 import logging
+import platform
 
+
+from pathlib import Path
 from cyclopts import App
 from pprint import pprint
 
@@ -81,10 +84,16 @@ def start(*args):
                 return None
         start_opencanary_internal(p_force_no_wallet, debug)
     else:
+        executable_path = str(Path(sys.executable))
+        cmd = [executable_path, "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
+        if debug:
+            if platform.system() == "Windows":
+                from subprocess import list2cmdline
+                print(f"[DEBUG - Windows cmd]: {list2cmdline(cmd)}")
+            else:
+                print(f"[DEBUG - Unix cmd]: {' '.join(cmd)}")
+
         with open(LOG_FILE, 'a') as log:
-            cmd = [sys.executable, "service", "start", "daemon=false", 'recall=true', p_force_no_wallet]
-            if debug:
-                pprint(f"Este será o comando executado: {cmd}")
             process = subprocess.Popen(cmd, stdout=log, stderr=log)
             with open(PID_FILE, "w") as f:
                 f.write(str(process.pid))
