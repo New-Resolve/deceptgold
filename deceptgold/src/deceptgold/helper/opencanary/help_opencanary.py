@@ -12,7 +12,7 @@ def global_twisted_error_handler(eventDict):
 
 
 
-def start_opencanary_internal(force_no_wallet='force_no_wallet=False'):
+def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=False):
     parsed_args = parse_args([force_no_wallet])
     force_no_wallet = parsed_args.get('force_no_wallet', False)
 
@@ -282,6 +282,8 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False'):
 
     try:
         address_user = get_config("user", "address")
+        if debug:
+            pprint.pprint(f"Executou em modo debug: veja o endereco da carteida do usuario: {address_user}")
         if not address_user:
             if force_no_wallet:
                 logMsg("Warning: You are forcing the use of the honeypot without using the reward.")

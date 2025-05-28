@@ -5,6 +5,7 @@ import sys
 import logging
 
 from cyclopts import App
+from pprint import pprint
 
 from deceptgold.configuration.opecanary import generate_config
 from deceptgold.configuration.config_manager import get_config
@@ -59,9 +60,10 @@ def start(*args):
     daemon = parsed_args.get('daemon', True)
     force_no_wallet = parsed_args.get('force_no_wallet', False)
     recall = parsed_args.get('recall', False)
+    debug = parsed_args.get('debug', False)
 
-    if i_dev:
-        daemon = False
+    # if i_dev:
+    #     daemon = False
 
     p_force_no_wallet = 'force_no_wallet=True' if force_no_wallet else ''
 
@@ -77,10 +79,12 @@ def start(*args):
                 logger.warning(msg_already_run)
                 print(msg_already_run)
                 return None
-        start_opencanary_internal(p_force_no_wallet)
+        start_opencanary_internal(p_force_no_wallet, debug)
     else:
         with open(LOG_FILE, 'a') as log:
             cmd = [sys.executable, "service", "start", "daemon=false", 'recall=true', p_force_no_wallet]
+            if debug:
+                pprint(f"Este será o comando executado: {cmd}")
             process = subprocess.Popen(cmd, stdout=log, stderr=log)
             with open(PID_FILE, "w") as f:
                 f.write(str(process.pid))
