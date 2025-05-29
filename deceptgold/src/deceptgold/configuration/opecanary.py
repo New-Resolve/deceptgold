@@ -12,6 +12,8 @@ if platform_system == "windows":
     filelog_temp = get_temp_log_path(NAME_FILE_LOG).replace('\\', '\\\\')
 
 NODE_ID = socket.gethostname()
+FILE_CONF_OPENCANARY = ".opencanary.conf"
+PATH_CONFIG_OPENCANARY = os.path.join(os.path.expanduser("~"), FILE_CONF_OPENCANARY)
 
 config_data = {
     "device.node_id": NODE_ID,
@@ -136,10 +138,39 @@ config_data = {
 logger = logging.getLogger(__name__)
 
 def generate_config():
-    config_file = os.path.join(os.path.expanduser("~"), ".opencanary.conf")
+    config_file = PATH_CONFIG_OPENCANARY
 
     if os.path.exists(config_file):
         return
 
     with open(config_file, "w", encoding="utf-8") as file_config:
         json.dump(config_data, file_config, ensure_ascii=False, indent=4)
+
+
+def toggle_service(service_name: str, enable: bool):
+    """
+    Enables or disables a service in the OpenCanary configuration file.
+    """
+    try:
+        service_name = service_name.lower()
+
+        if not os.path.exists(PATH_CONFIG_OPENCANARY):
+            print("Configuration file not exists.")
+            return
+
+        with open(PATH_CONFIG_OPENCANARY, 'r') as f:
+            config = json.load(f)
+
+        enabled_key = f"{service_name}.enabled"
+
+        if enabled_key not in config:
+            print(f"The service '{service_name}' not exists.")
+            return
+
+        config[enabled_key] = enable
+
+        with open(PATH_CONFIG_OPENCANARY, 'w') as f:
+            json.dump(config, f, indent=4)
+        return True
+    except Exception:
+        return False
