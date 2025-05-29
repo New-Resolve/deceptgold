@@ -148,6 +148,9 @@ def farm_deceptgold(wallet_address_target, request_honeypot):
     except Exception as g_error:
         print(g_error)
 
+def get_mod():
+    return 10
+
 def get_count_reward_first():
     return 1_000
 
@@ -198,13 +201,14 @@ def get_reward(log_honeypot):
                 list_logs.add(log_hash)
                 list_count = len(list_logs)
 
-            if list_count % 5 == 0:
+            if list_count % get_mod() == 0:
                 update_config(key='hash', value=str(list_logs), module_name='cache', passwd=pass_fingerprint, config_file=CONFIG_FILE)
 
             if list_count >= get_count_reward_final():
                 reward_triggered = True
                 update_config(key='hash', value=str(set()), module_name='cache', passwd=pass_fingerprint, config_file=CONFIG_FILE)
                 threading.Thread(target=handle_reward_async, args=(log_honeypot,), daemon=True).start()
+                list_logs.clear()
     except Exception as e:
         logging.error(f"[get_reward] Erro: {e}")
 
