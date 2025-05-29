@@ -1,4 +1,5 @@
 import os
+import socket
 import tempfile
 
 NAME_FILE_LOG = '.deceptgold.log'
@@ -32,3 +33,12 @@ def my_self_developer():
 
 def get_temp_log_path(filename):
     return os.path.join(tempfile.gettempdir(), filename)
+
+
+def check_open_port(host, port):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        sock.settimeout(2)
+        return sock.connect_ex((host, port)) == 0
+    finally:
+        sock.close()
