@@ -227,6 +227,40 @@ def status():
 
 
 
+@services_app.command(name="list")
+def list_services():
+    """
+
+    """
+    if os.path.exists(PID_FILE):
+        with open(PID_FILE, 'r') as pid:
+            print(f"The Process started through the PID: {pid.read()}")
+
+    with open(PATH_CONFIG_OPENCANARY) as conf:
+        data = json.load(conf)
+
+    enabled_services = []
+
+    for key, value in data.items():
+        service = key.split('.')[0]
+        port_key = f"{service}.port"
+        port = data.get(port_key, "N/A")
+        enabled_services.append((service.upper(), port))
+
+    enabled_services = list(dict.fromkeys(enabled_services))
+
+    print("Below are all the services available and capable of being configured.")
+    print(f"{'Service':<15} {'Port':<6} {'Status':<6}")
+    print("-" * 30)
+    for service, port in enabled_services:
+        if str(port).lower().strip() == 'n/a' or 'banner' in service.lower().strip():
+            continue
+
+        status_service = "OPEN" if check_open_port("127.0.0.1", port) else "CLOSED"
+        print(f"{service:<15} {port:<6} {status_service:<6}")
+
+
+
 
 
 
