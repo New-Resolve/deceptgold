@@ -40,6 +40,10 @@ def show_balance():
     """
     Return the value of the accumulation of deceptgold tokens that the user has in his wallet
     """
+    address_user = get_config("user", "address")
+    if not address_user:
+        print('It is not possible to check the balance of your deceptgold tokens without having your wallet address previously configured. Please configure it using "user --my-address <public_address>". Then you can call the command "user --show-balance"')
+        return None
     w3 = Web3(Web3.HTTPProvider(get_config('blockchain', 'net_rpc')))
     try:
         root_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "resources"))
