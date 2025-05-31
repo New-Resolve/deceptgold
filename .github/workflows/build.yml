@@ -217,14 +217,20 @@ jobs:
     name: 🐧 Build for Linux
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: [codeql-analysis, run-tests, generate-changelog]
+    needs: [ codeql-analysis, run-tests, generate-changelog ]
+    strategy:
+      matrix:
+        distro:
+          - { name: ubuntu, python-version: '3.12', target: ubuntu, package-target: ubuntu }
+          - { name: fedora, python-version: '3.11', target: fedora, package-target: fedora:40 }
+          - { name: debian, python-version: '3.11', target: debian, package-target: debian }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.distro.python-version }}
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y patchelf tree
@@ -233,7 +239,7 @@ jobs:
       - name: Install project dependencies
         run: |
           poetry config virtualenvs.in-project true
-          poetry install
+          poetry install --no-root
         working-directory: deceptgold
       - name: Obfuscate source for Linux
         working-directory: deceptgold
@@ -245,25 +251,15 @@ jobs:
           cp -r src/deceptgold/CHANGELOG src_obf/deceptgold/
           cp -r src/deceptgold/LICENSE src_obf/deceptgold/
           cp -r src/deceptgold/NOTICE src_obf/deceptgold/
-      - name: Build and package for Ubuntu
+      - name: Build and package for ${{ matrix.distro.name }}
         working-directory: deceptgold
         run: |
-          poetry run briefcase build --target ubuntu --update
-          poetry run briefcase package --target ubuntu
-      - name: Build and package for Fedora
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build --target fedora --update
-          poetry run briefcase package --target fedora:40
-      - name: Build and package for Debian
-        working-directory: deceptgold
-        run: |
-          poetry run briefcase build --target debian --update
-          poetry run briefcase package --target debian
-      - name: Upload Linux artifacts
+          poetry run briefcase build --target ${{ matrix.distro.target }} --update
+          poetry run briefcase package --target ${{ matrix.distro.package-target }}
+      - name: Upload ${{ matrix.distro.name }} artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: linux-artifacts
+          name: ${{ matrix.distro.name }}-artifacts
           path: deceptgold/dist/*
 
   build-windows:
