@@ -251,7 +251,7 @@ jobs:
           cp -r src/deceptgold/CHANGELOG src_obf/deceptgold/
           cp -r src/deceptgold/LICENSE src_obf/deceptgold/
           cp -r src/deceptgold/NOTICE src_obf/deceptgold/
-      - name: Build and package for ${{ matrix.distro.name }}
+      - name: Build for ${{ matrix.distro.name }}
         working-directory: deceptgold
         run: |
           poetry run briefcase build --target ${{ matrix.distro.target }} --update
@@ -330,28 +330,38 @@ jobs:
     name: 🚀 Release
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: [build-linux, build-windows, scan-virustotal, generate-changelog]
+    needs: [ build-linux, build-windows, scan-virustotal, generate-changelog ]
     steps:
-      - name: Checkout repository [verified]
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Download Linux artifacts [verified]
+      - name: Download Ubuntu artifacts
         uses: actions/download-artifact@v4
         with:
-          name: linux-artifacts
-          path: deceptgold/dist
-      - name: Download Windows artifacts [verified]
+          name: ubuntu-artifacts
+          path: deceptgold/dist/ubuntu
+      - name: Download Fedora artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: fedora-artifacts
+          path: deceptgold/dist/fedora
+      - name: Download Debian artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: debian-artifacts
+          path: deceptgold/dist/debian
+      - name: Download Windows artifacts
         uses: actions/download-artifact@v4
         with:
           name: windows-artifacts
-          path: deceptgold/dist
-      - name: Fetch tags [verified]
+          path: deceptgold/dist/windows
+      - name: Fetch tags
         run: git fetch --tags
-      - name: Get latest semver tag [verified]
+      - name: Get latest semver tag
         id: get_latest_tag
         run: |
           latest=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
           echo "LATEST_TAG=$latest" >> $GITHUB_ENV
-      - name: Bump patch version [verified]
+      - name: Bump patch version
         id: bump_version
         run: |
           latest="${{ env.LATEST_TAG }}"
@@ -362,7 +372,7 @@ jobs:
             patch=$((patch + 1))
             echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
           fi
-      - name: Generate custom release notes [verified]
+      - name: Generate custom release notes
         id: generate_notes
         run: |
           if [[ -z "${{ env.LATEST_TAG }}" ]]; then
@@ -375,7 +385,7 @@ jobs:
           echo "" >> $GITHUB_ENV
           echo "$NOTES" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
-      - name: Create new tag [verified]
+      - name: Create new tag
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -384,14 +394,17 @@ jobs:
           git push origin ${{ env.NEW_TAG }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create GitHub Release and Upload Artifacts [verified]
+      - name: Create GitHub Release and Upload Artifacts
         uses: softprops/action-gh-release@v2
         with:
           name: Release ${{ env.NEW_TAG }}
           tag_name: ${{ env.NEW_TAG }}
           body: ${{ env.RELEASE_NOTES }}
           files: |
-            deceptgold/dist/**/*
+            deceptgold/dist/ubuntu/*
+            deceptgold/dist/fedora/*
+            deceptgold/dist/debian/*
+            deceptgold/dist/windows/*
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
