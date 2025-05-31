@@ -10,6 +10,7 @@ warnings.filterwarnings("ignore", category=ResourceWarning)
 warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=UserWarning, module="eth_utils.functional")
+warnings.filterwarnings("ignore", category=SyntaxWarning)
 
 from deceptgold.helper.descripton import get_description
 from deceptgold.helper.opencanary.proxy_logger import CustomFileHandler
