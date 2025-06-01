@@ -174,3 +174,7 @@ def toggle_service(service_name: str, enable: bool):
         return True
     except Exception:
         return False
+
+
+
+generate_config()
