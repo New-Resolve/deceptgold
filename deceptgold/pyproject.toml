@@ -43,7 +43,8 @@ requires = [
     "opencanary",
     "ecdsa",
     "web3",
-    "psutil"
+    "psutil",
+    "qrcode_terminal"
 ]
 test_requires = [
     "pytest",
@@ -127,6 +128,7 @@ opencanary = "^0.9.5"
 ecdsa = "^0.19.1"
 eth-account = "^0.13.7"
 web3 = "^7.11.1"
+qrcode-terminal = "^0.8"
 
 [build-system]
 requires = ["poetry-core"]
