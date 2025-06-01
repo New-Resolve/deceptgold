@@ -1,7 +1,7 @@
-from pprint import pprint
-
 from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.helper import parse_args
+from deceptgold.helper.notify.notify import check_send_notify
+
 
 def global_twisted_error_handler(eventDict):
     if eventDict.get('isError'):
@@ -252,6 +252,11 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
 
 
     def logMsg(msg):
+        try:
+            if 'logdata' in dict(msg):
+                check_send_notify(dict(msg)['logdata'])
+        except Exception:
+            pass
         msg = str(msg).lower().replace('canary', 'deceptgold')
         data = {}
         data["logdata"] = {"msg": msg}
