@@ -14,6 +14,8 @@ from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.opencanary.help_opencanary import start_opencanary_internal
 from deceptgold.helper.helper import parse_args, my_self_developer, get_temp_log_path, check_open_port
 from deceptgold.helper.helper import NAME_FILE_LOG, NAME_FILE_PID
+from deceptgold.helper.notify.notify import check_send_notify
+
 
 hidden_group = Group(name="Comandos Ocultos", show=False)
 
@@ -79,11 +81,14 @@ def start(*args):
 
     msg_already_run = "The service is already running. Consider using the 'service stop' command to stop it from running if necessary."
     if not daemon:
-        if not recall:
-            if os.path.exists(PID_FILE):
-                print(msg_already_run)
-                return None
-        start_opencanary_internal(p_force_no_wallet, debug)
+        try:
+            if not recall:
+                if os.path.exists(PID_FILE):
+                    print(msg_already_run)
+                    return None
+            start_opencanary_internal(p_force_no_wallet, debug)
+        finally:
+            check_send_notify("Honeypot application exit.")
     else:
         executable_path = str(Path(sys.executable))
         cmd = [executable_path, "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
