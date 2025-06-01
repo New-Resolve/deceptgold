@@ -18,6 +18,7 @@ from deceptgold.helper.opencanary.proxy_logger import CustomFileHandler
 try:
     from deceptgold.commands.user import users_app
     from deceptgold.commands.service import services_app
+    from deceptgold.commands.notify import notify_app
     from deceptgold.configuration import log
 except ImportError as e:
     pass # print(e)
@@ -25,6 +26,7 @@ except ImportError as e:
 try:
     from deceptgold.src.deceptgold.commands.user import users_app
     from deceptgold.src.deceptgold.commands.service import services_app
+    from deceptgold.src.deceptgold.commands.notify import notify_app
     from deceptgold.src.deceptgold.configuration.log import *
 except ImportError as e:
     pass # print(e)
@@ -35,6 +37,8 @@ logging.FileHandler = CustomFileHandler
 app = App(name="DeceptGold", help=get_description())
 app.command(users_app)
 app.command(services_app)
+app.command(notify_app)
+
 
 multiprocessing.set_start_method("spawn")
 
