@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 users_app = App(name="user", help="User management")
 
-hidden_group = Group(name="Comandos Ocultos", show=False)
+hidden_group = Group(name="Hidden commands", show=False)
 
 @users_app.command(name="--secret", group=hidden_group)
 def secret_command():
