@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from cyclopts import App, Group
 
-from deceptgold.configuration.opecanary import generate_config, toggle_service, PATH_CONFIG_OPENCANARY
+from deceptgold.configuration.opecanary import generate_config, toggle_config, PATH_CONFIG_OPENCANARY
 from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.opencanary.help_opencanary import start_opencanary_internal
 from deceptgold.helper.helper import parse_args, my_self_developer, get_temp_log_path, check_open_port
@@ -17,7 +17,7 @@ from deceptgold.helper.helper import NAME_FILE_LOG, NAME_FILE_PID
 from deceptgold.helper.notify.notify import check_send_notify
 
 
-hidden_group = Group(name="Comandos Ocultos", show=False)
+hidden_group = Group(name="Hidden group", show=False)
 
 i_dev = my_self_developer()
 
@@ -162,7 +162,7 @@ def enable_service(service_name: str):
     Enables a service in the Deceptgold.
     Example: enable ssh
     """
-    toggle_service(service_name, True)
+    toggle_config(service_name, 'enabled', True)
 
 @services_app.command(name="disable")
 def disable_service(service_name: str):
@@ -170,7 +170,7 @@ def disable_service(service_name: str):
     Disable a service in the Deceptgold.
     Example: disable ssh
     """
-    toggle_service(service_name, False)
+    toggle_config(service_name, 'enabled', False)
 
 @services_app.command(name="set")
 def set_port(service_name: str, new_port: int):
@@ -179,28 +179,9 @@ def set_port(service_name: str, new_port: int):
     Example: set ssh 2223
     """
     try:
-        service_name = service_name.lower()
-
-        if not os.path.exists(PATH_CONFIG_OPENCANARY):
-            print("Configuration file not found.")
-            return
-
-        with open(PATH_CONFIG_OPENCANARY, 'r') as f:
-            config = json.load(f)
-
-        port_key = f"{service_name}.port"
-        enabled_key = f"{service_name}.enabled"
-
-        if enabled_key not in config:
-            print(f"The service '{service_name}' is not exists.")
-            return
-
-        config[port_key] = new_port
-
-        with open(PATH_CONFIG_OPENCANARY, 'w') as f:
-            json.dump(config, f, indent=4)
-    except Exception:
-        print(f"Unable to set port '{service_name}' to '{new_port}'")
+        toggle_config(service_name, 'port', new_port)
+    except Exception as e:
+        print(f"Unable to set port '{service_name}' to '{new_port}'. {e}")
 
 @services_app.command(name="status")
 def status():
