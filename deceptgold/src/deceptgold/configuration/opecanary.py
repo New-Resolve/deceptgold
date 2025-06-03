@@ -139,41 +139,40 @@ logger = logging.getLogger(__name__)
 
 def generate_config():
     config_file = PATH_CONFIG_OPENCANARY
-
     if os.path.exists(config_file):
         return
-
     with open(config_file, "w", encoding="utf-8") as file_config:
         json.dump(config_data, file_config, ensure_ascii=False, indent=4)
 
+def get_config():
+    if not os.path.exists(PATH_CONFIG_OPENCANARY):
+        print("Configuration file not exists.")
+        return False
+    with open(PATH_CONFIG_OPENCANARY, 'r') as f:
+        return json.load(f)
 
-def toggle_service(service_name: str, enable: bool):
+def get_config_value(service, configuration):
+    try:
+        return get_config()[f"{service.lower()}.{configuration}"]
+    except Exception as e:
+        raise Exception('Error getting deceptgold wrapper configuration.')
+
+def toggle_config(service, configuration: str, value):
     """
-    Enables or disables a service in the OpenCanary configuration file.
+    Configuration a service in the OpenCanary configuration file.
+    Examples:
+        toggle_config(service_name, 'enabled', False)
+        toggle_config(service_name, 'port', new_port)
     """
     try:
-        service_name = service_name.lower()
-
-        if not os.path.exists(PATH_CONFIG_OPENCANARY):
-            print("Configuration file not exists.")
-            return
-
-        with open(PATH_CONFIG_OPENCANARY, 'r') as f:
-            config = json.load(f)
-
-        enabled_key = f"{service_name}.enabled"
-
-        if enabled_key not in config:
-            print(f"The service '{service_name}' not exists.")
-            return
-
-        config[enabled_key] = enable
-
+        config = get_config()
+        config[f"{service.lower()}.{configuration}"] = value
         with open(PATH_CONFIG_OPENCANARY, 'w') as f:
             json.dump(config, f, indent=4)
         return True
-    except Exception:
-        return False
+    except Exception as e:
+        raise Exception(f'Error setting deceptgold wrapper configuration. {e}')
+
 
 
 
