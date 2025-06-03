@@ -254,7 +254,7 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
     def logMsg(msg):
         try:
             if 'logdata' in dict(msg):
-                check_send_notify(dict(msg)['logdata'])
+                check_send_notify(dict(msg)['logdata'].lower().replace('canary', 'deceptgold'))
         except Exception:
             pass
         msg = str(msg).lower().replace('canary', 'deceptgold')
