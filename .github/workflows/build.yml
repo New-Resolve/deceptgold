@@ -222,6 +222,7 @@ jobs:
       matrix:
         distro:
           - { name: ubuntu, python-version: '3.12', target: ubuntu, package-target: ubuntu }
+          - { name: ubuntu22, python-version: '3.10', target: ubuntu, package-target: ubuntu:22:04 }
           - { name: fedora, python-version: '3.12', target: fedora, package-target: fedora:40 }
           - { name: debian, python-version: '3.11', target: debian, package-target: debian }
     steps:
