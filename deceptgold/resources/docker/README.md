@@ -6,19 +6,33 @@
 
 Save the file below as `Dockerfile`
 ```
-FROM debian:bookworm
-# FROM ubuntu:noble
-# FROM fedora:40
-
-
-RUN apt-get update || dnf -y update || true && \
-    (apt-get install -y wget curl ca-certificates jq gnupg lsb-release || \
-     dnf install -y wget curl ca-certificates jq redhat-lsb-core)
-
+FROM ubuntu:noble
+# FROM debian:bookworm
+# FROM fedora:42
 
 RUN set -e && \
-    DISTRO=$( (lsb_release -is 2>/dev/null || grep "^ID=" /etc/os-release | cut -d= -f2) | tr '[:upper:]' '[:lower:]' ) && \
-    echo "🔍 Detecting distribution: $DISTRO" && \
+    DISTRO=$(grep "^ID=" /etc/os-release | cut -d= -f2 | tr -d '"' | tr '[:upper:]' '[:lower:]') && \
+    echo "🔍 Installing dependencies for distribution: $DISTRO" && \
+    case "$DISTRO" in \
+      debian|ubuntu) \
+        apt-get update && \
+        apt-get install -y wget curl ca-certificates jq gnupg lsb-release git vim nano make && \
+        apt-get clean; \
+        ;; \
+      fedora) \
+        dnf -y update && \
+        dnf install -y wget curl ca-certificates jq redhat-lsb-core git vim nano make && \
+        dnf clean all; \
+        ;; \
+      *) \
+        echo "❌ Unsupported distribution for package installation: $DISTRO"; \
+        exit 1; \
+        ;; \
+    esac
+
+RUN set -e && \
+    DISTRO=$(grep "^ID=" /etc/os-release | cut -d= -f2 | tr -d '"' | tr '[:upper:]' '[:lower:]') && \
+    echo "🔍 Detecting distribution for deceptgold installation: $DISTRO" && \
     case "$DISTRO" in \
       debian) \
         ASSET=$(curl -s https://api.github.com/repos/New-Resolve/deceptgold/releases/latest | \
@@ -36,13 +50,13 @@ RUN set -e && \
         ;; \
       fedora) \
         ASSET=$(curl -s https://api.github.com/repos/New-Resolve/deceptgold/releases/latest | \
-                jq -r '.assets[] | select(.name | endswith("fc40.x86_64.rpm")) | .browser_download_url'); \
+                jq -r '.assets[] | select(.name | endswith(".x86_64.rpm")) | .browser_download_url'); \
         PACKAGE="deceptgold.rpm"; \
         wget "$ASSET" -O "$PACKAGE"; \
         dnf install -y ./"$PACKAGE"; \
         ;; \
       *) \
-        echo "❌ Unsupported distribution: $DISTRO"; \
+        echo "❌ Unsupported distribution for deceptgold: $DISTRO"; \
         exit 1; \
         ;; \
     esac && rm -f "$PACKAGE"
@@ -50,14 +64,13 @@ RUN set -e && \
 
 EXPOSE 2121 2222 8090
 
-
-CMD ["deceptgold", "service", "start", "daemon=false", "force-no-wallet=true"]
+# Default command to start deceptgold in development mode
+# Developers can override with `docker run -it <image> bash` for interactive debugging
+# CMD ["deceptgold", "service", "start", "daemon=false", "force-no-wallet=true"]
+CMD ["deceptgold", "--help"]
 ```
 
 Build the file with the command: `docker build -t deceptgold .`
 
 Congratulations, now you can use deceptgold easily.
-
-You can use the honeypot in a simple way. Example:
-`docker run -it -p 2121:2121 -p 2222:2222 -p 8090:8090 deceptgold`
 
