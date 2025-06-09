@@ -11,14 +11,18 @@ class CustomFileHandler(logging.FileHandler):
         Method that generates the reward for the attack suffered. This is deceptgold. Long live hackers!
         """
         try:
+            code_log_type = 0
+
             try:
                 dict_msg = json.loads(record.getMessage())
-                if dict_msg['logtype'] == 4000:
+                code_log_type= dict_msg['logtype']
+                if code_log_type in [4000, 5001]:  # scan-port-nmap
                     check_send_notify(f"Warning: Service scanning detected. Source IP: {dict_msg['src_host']}")
             except Exception:
                 pass
 
-            get_reward(record.getMessage())
+            if code_log_type not in [4000, 5001]:
+                get_reward(record.getMessage())
         except Exception as e:
             print(e)
 
