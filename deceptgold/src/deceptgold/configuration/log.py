@@ -1,10 +1,12 @@
 import logging
 import sys
 
+from deceptgold.configuration.opecanary import filelog_temp
+
 def setup_logging():
     logging.basicConfig(
         level=logging.INFO,
-        filename='deceptgold.log',
+        filename=filelog_temp,
         encoding="utf-8",
         filemode="a",
         format="%(asctime)s - %(levelname)s - %(message)s",

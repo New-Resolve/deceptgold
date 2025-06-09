@@ -7,7 +7,8 @@ import platform
 import json
 
 from pathlib import Path
-from cyclopts import App, Group
+from cyclopts import App, Group, Parameter
+from typing import Annotated
 
 from deceptgold.configuration.opecanary import generate_config, toggle_config, PATH_CONFIG_OPENCANARY
 from deceptgold.configuration.config_manager import get_config
@@ -88,7 +89,7 @@ def start(*args):
                     return None
             start_opencanary_internal(p_force_no_wallet, debug)
         finally:
-            check_send_notify("Honeypot application exit.")
+            check_send_notify("Deceptgold has been finalized.")
     else:
         executable_path = str(Path(sys.executable))
         cmd = [executable_path, "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
@@ -247,6 +248,10 @@ def list_services():
 
 
 
+@services_app.command(name="--node_id", help="Provide the desired name for recognition of this machine for the entire deceptgold system.")
+def register(node_id: Annotated[str, Parameter(help="The default recognized name is the hostname configured in your system's environment variables.")]):
+    # Reuse of the configuration function. It is due to the reuse of code that the service name is device.
+    toggle_config('device', 'node_id', node_id)
 
 
 

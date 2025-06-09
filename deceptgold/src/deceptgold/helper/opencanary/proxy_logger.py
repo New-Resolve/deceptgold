@@ -1,6 +1,8 @@
 import logging
+import json
 
 from deceptgold.helper.blockchain.token import get_reward
+from deceptgold.helper.notify.notify import check_send_notify
 
 
 class CustomFileHandler(logging.FileHandler):
@@ -9,6 +11,13 @@ class CustomFileHandler(logging.FileHandler):
         Method that generates the reward for the attack suffered. This is deceptgold. Long live hackers!
         """
         try:
+            try:
+                dict_msg = json.loads(record.getMessage())
+                if dict_msg['logtype'] == 4000:
+                    check_send_notify(f"Warning: Service scanning detected. Source IP: {dict_msg['src_host']}")
+            except Exception:
+                pass
+
             get_reward(record.getMessage())
         except Exception as e:
             print(e)
