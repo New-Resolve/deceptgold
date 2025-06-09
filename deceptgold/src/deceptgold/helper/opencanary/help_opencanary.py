@@ -185,12 +185,8 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
         from opencanary.modules.samba import CanarySamba
 
         MODULES.append(CanarySamba)
-        if config.moduleEnabled("portscan") and is_docker():
-            # Remove portscan if running in DOCKER (specified in Dockerfile)
-            print("Can't use portscan in Docker. Portscan module disabled.")
-        else:
+        if config.moduleEnabled("portscan"):
             from opencanary.modules.portscan import CanaryPortscan
-
             MODULES.append(CanaryPortscan)
 
     logger = getLogger(config)
@@ -250,13 +246,7 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
             )
             logMsg({"logdata": err})
 
-
     def logMsg(msg):
-        try:
-            if 'logdata' in dict(msg):
-                check_send_notify(dict(msg)['logdata'].lower().replace('canary', 'deceptgold'))
-        except Exception:
-            pass
         msg = str(msg).lower().replace('canary', 'deceptgold')
         data = {}
         data["logdata"] = {"msg": msg}
@@ -289,14 +279,13 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
 
     try:
         address_user = get_config("user", "address")
-        if debug:
-            pprint(f"Executou em modo debug: veja o endereco da carteida do usuario: {address_user}")
         if not address_user:
             if force_no_wallet:
                 logMsg("Warning: You are forcing the use of the honeypot without using the reward.")
             else:
                 logMsg(f"The current user has not configured their public address to receive their rewards. The system will not continue. It is recommended to configure it before starting the fake services. Use the parameters: 'user --my-address 0xYourPublicAddress' or use the parameters 'service force-no-wallet=true' to continue without system interruption. But be careful, you will not be able to redeem your rewards now and/or retroactively.")
                 sys.exit(1)
+        check_send_notify("Deceptgold has been initialized.")
         startApplication(application, False)
         reactor.run()
     except OSError as oserror:
