@@ -6,3 +6,12 @@ Run `sh utils/compile.sh` in bash linux environment
 - [Licence](src/deceptgold/LICENSE) : Compliance file responsible for safeguarding rights and duties. Covering written and third-party software used.
 - [Notice](src/deceptgold/NOTICE): Complementary attached file to the license file.
 
+
+## Search and analytics:
+- [umami](https://umami.is): Umami is an open-source, privacy-focused web analytics tool. It tracks website visitor data like page views, referrers, and user behavior without using cookies, ensuring GDPR compliance. It provides simple, customizable dashboards to monitor traffic and events, ideal for developers and privacy-conscious site owners. 
+- [bing](https://www.bing.com/webmasters): This is a free service from Microsoft for managing a website’s presence in Bing’s search engine. It offers tools to submit sitemaps, monitor search performance, analyze backlinks, and identify crawling issues. It also provides SEO reports and keyword research to optimize rankings on Bing.
+- [google](https://search.google.com/search-console): A free tool by Google to monitor and optimize a website’s performance in Google Search. It tracks search traffic, indexing status, and site errors, offers insights into keywords and click-through rates, and helps fix issues like mobile usability or security problems to improve search visibility.
+- [yandex](https://webmaster.yandex.com): Yandex’s free tool for managing a site’s presence in the Yandex search engine, popular in Russia. It allows users to submit sitemaps, monitor indexing, analyze search queries, and check for technical issues like broken links or crawl errors, helping optimize site performance in Yandex search results.
+
+# Demonstration:
+![Commands Service](deceptgold_service.gif)
