@@ -117,7 +117,7 @@ def get_disk_serial():
         return ""
 
     except Exception as e:
-        return f"Erro geral: {e}"
+        return ""
 
 
 def get_mac():

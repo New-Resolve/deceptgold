@@ -16,12 +16,12 @@ class CustomFileHandler(logging.FileHandler):
             try:
                 dict_msg = json.loads(record.getMessage())
                 code_log_type= dict_msg['logtype']
-                if code_log_type in [4000, 5001]:  # scan-port-nmap
+                if code_log_type in [4000]:
                     check_send_notify(f"Warning: Service scanning detected. Source IP: {dict_msg['src_host']}")
             except Exception:
                 pass
 
-            if code_log_type not in [4000, 5001]:
+            if code_log_type not in [3000, 4000, 1001]:
                 get_reward(record.getMessage())
         except Exception as e:
             print(e)
@@ -29,4 +29,4 @@ class CustomFileHandler(logging.FileHandler):
         if "ignore" in record.getMessage().lower():
             return
 
-        super().emit(record)
+        # super().emit(record)

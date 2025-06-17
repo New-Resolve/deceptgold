@@ -49,7 +49,7 @@ def pre_execution_decorator(func):
 
 # @profile
 @services_app.command(name="start", help=(
-        "Start service(s) in operational system\n\n"
+        "Start service(s) in operational system.\n\n"
         "Warning:\n"
         "  To execute this command you must inform your public wallet address to receive your rewards.\n\n"
         "Verbosity:\n"
@@ -106,11 +106,10 @@ def start(*args):
                 f.write(str(process.pid))
 
 
-@services_app.command(name="stop", help="Stop service(s) in operational system")
+@services_app.command(name="stop", help="Stop service(s) in operational system.")
 @pre_execution_decorator
 def stop():
     if not os.path.exists(PID_FILE):
-        logging.warning("Service is not running.")
         return
     with open(PID_FILE, "r") as f:
         pid = int(f.read())
@@ -119,13 +118,13 @@ def stop():
             p = psutil.Process(pid)
             p.terminate()
             p.wait(timeout=5)
-            logging.warning(f"Process {pid} finished executing.")
+            pass
         except psutil.NoSuchProcess:
-            logging.warning(f"Process {pid} not found.")
+            pass
         except Exception as e:
             logging.warning(f"Error stopping process: {e}")
     except ProcessLookupError:
-        logging.warning(f"Process {pid} not found.")
+        pass
     except Exception as e:
         logging.warning(f"Error in stop deceptgold: {e}")
     finally:
@@ -133,9 +132,7 @@ def stop():
 
 
 @services_app.command(name="restart",
-                      help="This functionality calls stop and then start. It will call start if stop succeeds "
-                           "without errors. These calls call the respective default "
-                            "attributes of each call.")
+                      help="This functionality calls stop and then start. It will call start if stop succeeds without errors.")
 @pre_execution_decorator
 def restart():
     try:
@@ -217,7 +214,7 @@ def status():
 @services_app.command(name="list")
 def list_services():
     """
-
+    Command to list all configured services showing the status of each service independent of activation.
     """
     if os.path.exists(PID_FILE):
         with open(PID_FILE, 'r') as pid:
