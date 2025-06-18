@@ -306,6 +306,7 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
             logMsg(msg_log)
             print(f"\nERROR: {msg_log}")
     except Exception as e:
-        msg_log = f"Generic Error: {str(e)}"
-        logMsg(msg_log)
-        print(f"\nERROR: {msg_log}")
+        if debug:
+            msg_log = f"Generic Error: {str(e)}"
+            logMsg(msg_log)
+            print(f"\nERROR: {msg_log}")

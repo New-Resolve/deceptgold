@@ -17,29 +17,34 @@ def decode(data, passwd):
 
 
 def update_config(key: str, value: str, module_name=None, passwd=None, config_file=None):
-    if not config_file:
-        config_file = CONFIG_PATH
-    config_file = Path(config_file)
-    caller_frame = inspect.stack()[1]
-    caller_filename = os.path.basename(caller_frame.filename)
-    if not module_name:
-        module_name = os.path.splitext(caller_filename)[0]
+    try:
+        if not config_file:
+            config_file = CONFIG_PATH
+        config_file = Path(config_file)
+        caller_frame = inspect.stack()[1]
+        caller_filename = os.path.basename(caller_frame.filename)
+        if not module_name:
+            module_name = os.path.splitext(caller_filename)[0]
 
-    config = {}
-    if config_file.exists() and config_file.stat().st_size > 0:
-        with open(config_file, "r") as file_config:
-            config = json.load(file_config)
+        config = {}
+        if config_file.exists() and config_file.stat().st_size > 0:
+            with open(config_file, "r") as file_config:
+                config = json.load(file_config)
 
-    if module_name not in config:
-        config[module_name] = {}
+        if module_name not in config:
+            config[module_name] = {}
 
-    if passwd:
-        value = encode(value, passwd)
+        if passwd:
+            value = encode(value, passwd)
 
-    config[module_name][key] = value
+        config[module_name][key] = value
 
-    with open(config_file, "w") as file_config:
-        json.dump(config, file_config, indent=4)
+        with open(config_file, "w") as file_config:
+            json.dump(config, file_config, indent=4)
+
+        return True
+    except Exception as ex:
+        return False
 
 def get_config(module_name_honeypot: str, key: str, default=None, passwd=None, file_config=None):
     if not file_config:

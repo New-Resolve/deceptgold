@@ -70,9 +70,6 @@ def start(*args):
     recall = parsed_args.get('recall', False)
     debug = parsed_args.get('debug', False)
 
-    # if i_dev:
-    #     daemon = False
-
     p_force_no_wallet = 'force_no_wallet=True' if force_no_wallet else ''
 
     if get_config("user", "address", None) is None:

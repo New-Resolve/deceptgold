@@ -2,6 +2,9 @@ import os
 import socket
 import tempfile
 
+from urllib.parse import urlparse
+
+
 NAME_FILE_LOG = '.deceptgold.log'
 NAME_FILE_PID = '.deceptgold.pid'
 
@@ -42,3 +45,10 @@ def check_open_port(host, port):
         return sock.connect_ex((host, port)) == 0
     finally:
         sock.close()
+
+def is_valid_url(url: str) -> bool:
+    try:
+        parsed = urlparse(url)
+        return all([parsed.scheme in ('http', 'https'), parsed.netloc])
+    except Exception:
+        return False

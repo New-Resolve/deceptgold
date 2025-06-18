@@ -37,7 +37,7 @@ def search_chat_id_by_token(token_local, fingerprint):
     except Exception as e:
         print(f"Error: {e}")
 
-def send_message_telegram(test_message, fingerprint=None):
+def send_message_telegram(message_send, fingerprint=None):
     if not fingerprint:
         fingerprint = get_machine_fingerprint()
     chat_id = get_config(module_name_honeypot='telegram', key='chat_id', passwd=fingerprint, default='')
@@ -46,7 +46,7 @@ def send_message_telegram(test_message, fingerprint=None):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": int(chat_id),
-        "text": test_message
+        "text": message_send
     }
     r = requests.post(url, data=payload)
     if not r.ok:
@@ -59,7 +59,7 @@ def configure_telegram():
     if not chat_id:
         generate_qrcode(LOCAL_TOKEN)
         if search_chat_id_by_token(LOCAL_TOKEN, fingerprint):
-            send_message_telegram("DeceptGold successfully configured. Your notifications will be displayed here.", fingerprint)
+            send_message_telegram("DeceptGold successfully configured telegram. Your notifications will be displayed here.", fingerprint)
     else:
         print("Telegram is already configured. If you want to configure notifications, first use '--telegram=false' to disable notifications and then enable them again.")
 
