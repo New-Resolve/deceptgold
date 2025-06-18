@@ -27,7 +27,7 @@ def search_chat_id_by_token(token_local, fingerprint):
                 txt = msg.get("text", "")
                 if txt.startswith("/start ") and txt.split(" ")[1] == token_local:
                     chat_id = msg["chat"]["id"]
-                    update_config('chat_id', str(chat_id), module_name='telegram', passwd=fingerprint)
+                    update_config('telegram', str(chat_id), module_name='webhook', passwd=fingerprint)
                     print("Telegram notifications have been successfully configured.")
                     return True
             time.sleep(2)
@@ -40,7 +40,7 @@ def search_chat_id_by_token(token_local, fingerprint):
 def send_message_telegram(message_send, fingerprint=None):
     if not fingerprint:
         fingerprint = get_machine_fingerprint()
-    chat_id = get_config(module_name_honeypot='telegram', key='chat_id', passwd=fingerprint, default='')
+    chat_id = get_config(module_name_honeypot='webhook', key='telegram', passwd=fingerprint, default='')
     if not chat_id:
         return
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -55,7 +55,7 @@ def send_message_telegram(message_send, fingerprint=None):
 
 def configure_telegram():
     fingerprint = get_machine_fingerprint()
-    chat_id = get_config(module_name_honeypot='telegram', key='chat_id', passwd=fingerprint, default='')
+    chat_id = get_config(module_name_honeypot='webhook', key='telegram', passwd=fingerprint, default='')
     if not chat_id:
         generate_qrcode(LOCAL_TOKEN)
         if search_chat_id_by_token(LOCAL_TOKEN, fingerprint):
@@ -65,4 +65,4 @@ def configure_telegram():
 
 
 def reset_configuration_telegram():
-    update_config('chat_id', '', module_name='telegram')
+    update_config('telegram', '', module_name='webhook')
