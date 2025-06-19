@@ -1,11 +1,11 @@
 # Deceptgold - Cyber Deception and Resource Inversion 
 
----
 [![Build](https://github.com/new-resolve/deceptgold/actions/workflows/build.yml/badge.svg)](https://github.com/new-resolve/deceptgold/actions/workflows/build.yml)
 ![Python](https://img.shields.io/badge/python-3.12-blue?logo=python)
 ![License](https://img.shields.io/github/license/new-resolve/deceptgold)
 ![Last Commit](https://img.shields.io/github/last-commit/new-resolve/deceptgold)
 [![Docs](https://img.shields.io/badge/docs-available-success)](https://github.com/New-Resolve/deceptgold/tree/master/deceptgold/docs)
+
 ---
 
 
