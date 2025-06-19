@@ -1,5 +1,10 @@
 # Deceptgold - Cyber Deception and Resource Inversion 
 
+[![Build](https://github.com/new-resolve/deceptgold/actions/workflows/build.yml/badge.svg)](https://github.com/new-resolve/deceptgold/actions/workflows/build.yml)
+![Python](https://img.shields.io/badge/python-3.12-blue?logo=python)
+![License](https://img.shields.io/github/license/new-resolve/deceptgold)
+![Last Commit](https://img.shields.io/github/last-commit/new-resolve/deceptgold)
+
 Deceptgold is a next-generation platform designed to manage deception strategies and reclaim value from cyber attacks. While most organizations focus only on detection, logging, and mitigation, Deceptgold takes a radically different approach: it transforms the computational effort of intrusion attempts into valuable digital assets.
 
 In today’s threat landscape, companies suffer not only from data breaches but also from a massive waste of computational power during attacks. Countless CPU cycles, network bandwidth, and system resources are consumed by malicious actors — and traditionally, all this energy is simply lost.
