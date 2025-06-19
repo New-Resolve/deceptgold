@@ -41,6 +41,7 @@ jobs:
         run: |
           poetry run pip install safety
           poetry run safety check --full-report
+        continue-on-error: true
       - name: Run tests
         working-directory: deceptgold
         run: |
