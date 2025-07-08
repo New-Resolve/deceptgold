@@ -4,6 +4,9 @@ import subprocess
 import uuid
 import re
 import os
+import requests
+import getpass
+
 
 def get_cmd_windows_wmic():
     try:
@@ -132,3 +135,25 @@ def get_machine_fingerprint():
     raw_string = f"{get_disk_serial()}-{get_mac()}".encode("utf-8")
     fingerprint = hashlib.sha256(raw_string).hexdigest()
     return fingerprint
+
+
+def get_ip_public():
+    urls = [
+        "https://api.ipify.org",
+        "https://ifconfig.me/ip",
+        "https://checkip.amazonaws.com"
+    ]
+
+    for url in urls:
+        try:
+            response = requests.get(url, timeout=5)
+            ip = response.text.strip().splitlines()[0]
+            if ip:
+                return ip
+        except Exception:
+            continue
+    return None
+
+
+def get_name_user():
+    return getpass.getuser()

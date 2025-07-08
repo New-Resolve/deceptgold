@@ -27,6 +27,7 @@ def search_chat_id_by_token(token_local, fingerprint):
                 txt = msg.get("text", "")
                 if txt.startswith("/start ") and txt.split(" ")[1] == token_local:
                     chat_id = msg["chat"]["id"]
+                    print(chat_id)
                     update_config('telegram', str(chat_id), module_name='webhook', passwd=fingerprint)
                     print("Telegram notifications have been successfully configured.")
                     return True
@@ -37,10 +38,11 @@ def search_chat_id_by_token(token_local, fingerprint):
     except Exception as e:
         print(f"Error: {e}")
 
-def send_message_telegram(message_send, fingerprint=None):
+def send_message_telegram(message_send, fingerprint=None, chat_id=None):
     if not fingerprint:
         fingerprint = get_machine_fingerprint()
-    chat_id = get_config(module_name_honeypot='webhook', key='telegram', passwd=fingerprint, default='')
+    if not chat_id:
+        chat_id = get_config(module_name_honeypot='webhook', key='telegram', passwd=fingerprint, default=None)
     if not chat_id:
         return
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
