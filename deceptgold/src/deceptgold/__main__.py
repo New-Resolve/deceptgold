@@ -27,20 +27,16 @@ def init_app():
         from deceptgold.commands.service import services_app
         from deceptgold.commands.notify import notify_app
         from deceptgold.configuration import log
-        from deceptgold.configuration.config_manager import get_config, update_config
-        from deceptgold.helper.notify.telegram import send_message_telegram
-        from deceptgold.helper.fingerprint import get_ip_public, get_name_user
+        from deceptgold.helper.notify.telemetry.send import exec_telemetry
+
 
         logger = logging.getLogger(__name__)
         logging.FileHandler = CustomFileHandler
         logger.info("Initialization complete the application.")
 
-        app = App(name="DeceptGold", help=get_description(), version="0.1.102")
+        app = App(name="DeceptGold", help=get_description(), version="0.1.103")
 
-        first_init = get_config(key='initialize', module_name_honeypot='software', passwd='passwd', default=None)
-        if not first_init:
-            update_config('initialize', value='yes', module_name='software', passwd='passwd')
-            send_message_telegram(message_send=f'Software is installed in {get_ip_public()} to user: {get_name_user()}', chat_id='845496816')
+        exec_telemetry()
 
         app.command(users_app)
         app.command(services_app)
