@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "deceptgold"
 bundle = "com.deceptgold"
-version = "0.1.109"
+version = "0.1.110"
 url = "https://deceptgold.com/deceptgold"
 license.file = "src/deceptgold/LICENSE"
 author = "Jonathan Scheibel"
@@ -10,7 +10,7 @@ author_email = "jonathan@deceptgold.com"
 
 [tool.poetry]
 name = "deceptgold"
-version = "0.1.109"
+version = "0.1.110"
 description = ""
 authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"

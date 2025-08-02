@@ -256,7 +256,7 @@ jobs:
       - name: Build for ${{ matrix.distro.name }}
         working-directory: deceptgold
         run: |
-          export DOCKER_BASE_IMAGE=${{ matrix.distro.package-target }}
+          export DOCKER_BASE_IMAGE="${{ matrix.distro.package-target }}"
           poetry run briefcase build --target "${{ matrix.distro.target }}" --update
           poetry run briefcase package --target "${{ matrix.distro.package-target }}"
       - name: Upload ${{ matrix.distro.name }} artifacts
