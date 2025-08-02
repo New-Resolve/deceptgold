@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "deceptgold"
 bundle = "com.deceptgold"
-version = "0.1.103"
+version = "0.1.104"
 url = "https://deceptgold.com/deceptgold"
 license.file = "src/deceptgold/LICENSE"
 author = "Jonathan Scheibel"
@@ -10,7 +10,7 @@ author_email = "jonathan@deceptgold.com"
 
 [tool.poetry]
 name = "deceptgold"
-version = "0.1.103"
+version = "0.1.104"
 description = ""
 authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"
@@ -54,50 +54,25 @@ resources = ["deceptgold/resources"]
 
 [tool.briefcase.app.deceptgold.macOS]
 universal_build = true
-requires = [
-    # Add your macOS-specific app requirements here
-]
+requires = []
 
 [tool.briefcase.app.deceptgold.linux]
-requires = [
-    # Add your Linux-specific app requirements here
-]
+requires = []
+
+[tool.briefcase.app.deceptgold.linux.system.ubuntu]
+system_requires = []
+system_runtime_requires = ["libpython3.12"]
 
 [tool.briefcase.app.deceptgold.linux.system.debian]
-system_requires = [
-    # Add any system packages needed at build the app here
-]
+system_requires = []
+system_runtime_requires = ["libpython3.11"]
 
-system_runtime_requires = [
-    # Add any system packages needed at runtime here
-]
+[tool.briefcase.app.deceptgold.linux.system.fedora]
+system_requires = []
+system_runtime_requires = ["libpython3.12"]
 
-[tool.briefcase.app.deceptgold.linux.system.rhel]
-system_requires = [
-    # Add any system packages needed at build the app here
-]
-
-system_runtime_requires = [
-    # Add any system packages needed at runtime here
-]
-
-[tool.briefcase.app.deceptgold.linux.system.suse]
-system_requires = [
-    # Add any system packages needed at build the app here
-]
-
-system_runtime_requires = [
-    # Add any system packages needed at runtime here
-]
-
-[tool.briefcase.app.deceptgold.linux.system.arch]
-system_requires = [
-    # Add any system packages needed at build the app here
-]
-
-system_runtime_requires = [
-    # Add any system packages needed at runtime here
-]
+[tool.briefcase.app.deceptgold.linux.system.kali]
+system_runtime_requires = ["libpython3.12"]
 
 [tool.briefcase.app.deceptgold.linux.flatpak]
 flatpak_runtime = "org.freedesktop.Platform"
@@ -105,18 +80,14 @@ flatpak_runtime_version = "24.08"
 flatpak_sdk = "org.freedesktop.Sdk"
 
 [tool.briefcase.app.deceptgold.windows]
-requires = [
-    # Add your Windows-specific app requirements here
-]
+requires = []
 
-# Mobile deployments
 [tool.briefcase.app.deceptgold.iOS]
 supported = false
 
 [tool.briefcase.app.deceptgold.android]
 supported = false
 
-# Web deployments
 [tool.briefcase.app.deceptgold.web]
 supported = false
 
@@ -134,7 +105,6 @@ qrcode-terminal = "^0.8"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
 
 [tool.poetry.scripts]
 generate-changelog = "utils.create_changelog:main"
