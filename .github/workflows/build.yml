@@ -225,7 +225,7 @@ jobs:
           - { name: ubuntu, python-version: '3.12', target: ubuntu, package-target: ubuntu }
           - { name: fedora, python-version: '3.12', target: fedora, package-target: fedora:40 }
           - { name: debian, python-version: '3.11', target: debian, package-target: debian }
-          - { name: kali, python-version: '3.12', target: 'kalilinux/kali-rolling', package-target: 'kalilinux/kali-rolling' }
+          - { name: kali, python-version: '3.11', target: debian, package-target: debian }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
