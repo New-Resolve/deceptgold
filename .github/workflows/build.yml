@@ -255,8 +255,7 @@ jobs:
           cp -r src/deceptgold/NOTICE src_obf/deceptgold/
       - name: Build for ${{ matrix.distro.name }}
         working-directory: deceptgold
-        run: |
-          export DOCKER_BASE_IMAGE="${{ matrix.distro.package-target }}"
+        run: |          
           poetry run briefcase build --target "${{ matrix.distro.target }}" --update
           poetry run briefcase package --target "${{ matrix.distro.package-target }}"
       - name: Upload ${{ matrix.distro.name }} artifacts
