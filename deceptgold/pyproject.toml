@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "deceptgold"
 bundle = "com.deceptgold"
-version = "0.1.106"
+version = "0.1.107"
 url = "https://deceptgold.com/deceptgold"
 license.file = "src/deceptgold/LICENSE"
 author = "Jonathan Scheibel"
@@ -10,7 +10,7 @@ author_email = "jonathan@deceptgold.com"
 
 [tool.poetry]
 name = "deceptgold"
-version = "0.1.106"
+version = "0.1.107"
 description = ""
 authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"
@@ -73,6 +73,7 @@ system_runtime_requires = ["python3.12", "python3.12-libs"]
 
 [tool.briefcase.app.deceptgold.linux.system.kali]
 system_runtime_requires = ["libpython3.12"]
+docker_base_image = "kalilinux/kali-rolling"
 
 [tool.briefcase.app.deceptgold.linux.flatpak]
 flatpak_runtime = "org.freedesktop.Platform"
