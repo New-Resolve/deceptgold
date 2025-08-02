@@ -225,7 +225,7 @@ jobs:
           - { name: ubuntu, python-version: '3.12', target: ubuntu, package-target: ubuntu }
           - { name: fedora, python-version: '3.12', target: fedora, package-target: fedora:40 }
           - { name: debian, python-version: '3.11', target: debian, package-target: debian }
-          - { name: kali, python-version: '3.12', target: kali, package-target: kali, docker-image: 'kalilinux/kali-rolling' }
+          - { name: kali, python-version: '3.12', target: kali, package-target: 'kalilinux/kali-rolling' }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -256,9 +256,9 @@ jobs:
       - name: Build for ${{ matrix.distro.name }}
         working-directory: deceptgold
         run: |
-          export DOCKER_BASE_IMAGE=${{ matrix.distro.docker-image }}
-          poetry run briefcase build --target ${{ matrix.distro.target }} --update
-          poetry run briefcase package --target ${{ matrix.distro.package-target }}
+          export DOCKER_BASE_IMAGE=${{ matrix.distro.package-target }}
+          poetry run briefcase build --target "${{ matrix.distro.target }}" --update
+          poetry run briefcase package --target "${{ matrix.distro.package-target }}"
       - name: Upload ${{ matrix.distro.name }} artifacts
         uses: actions/upload-artifact@v4
         with:

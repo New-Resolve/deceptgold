@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "deceptgold"
 bundle = "com.deceptgold"
-version = "0.1.108"
+version = "0.1.109"
 url = "https://deceptgold.com/deceptgold"
 license.file = "src/deceptgold/LICENSE"
 author = "Jonathan Scheibel"
@@ -10,7 +10,7 @@ author_email = "jonathan@deceptgold.com"
 
 [tool.poetry]
 name = "deceptgold"
-version = "0.1.108"
+version = "0.1.109"
 description = ""
 authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"
@@ -32,7 +32,7 @@ formal_name = "deceptgold"
 description = "Deceptgold is a next-gen deception platform that transforms the computational effort of cyber attacks into valuable digital assets — turning threats into opportunities."
 long_description = """Deceptgold is a next-generation platform designed to manage deception strategies and reclaim value from cyber attacks. While most organizations focus only on detection, logging, and mitigation, Deceptgold takes a radically different approach: it transforms the computational effort of intrusion attempts into valuable digital assets."""
 sources = [
-    "src_obf/deceptgold",
+    "src/deceptgold",
 ]
 test_sources = [
     "tests",
@@ -72,7 +72,7 @@ system_requires = []
 system_runtime_requires = ["python3.12", "python3.12-libs"]
 
 [tool.briefcase.app.deceptgold.linux.system.kali]
-system_runtime_requires = ["libpython3.12"]
+system_runtime_requires = ["python3", "libpython3-stdlib"]
 docker_base_image = "kalilinux/kali-rolling"
 
 [tool.briefcase.app.deceptgold.linux.flatpak]
