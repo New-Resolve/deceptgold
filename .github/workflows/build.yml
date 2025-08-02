@@ -225,6 +225,7 @@ jobs:
           - { name: ubuntu, python-version: '3.12', target: ubuntu, package-target: ubuntu }
           - { name: fedora, python-version: '3.12', target: fedora, package-target: fedora:40 }
           - { name: debian, python-version: '3.11', target: debian, package-target: debian }
+          - { name: kali, python-version: '3.12', target: kali, package-target: kali }
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -350,6 +351,11 @@ jobs:
         with:
           name: debian-artifacts
           path: deceptgold/dist/debian
+      - name: Download Kali artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: kali-artifacts
+          path: deceptgold/dist/kali
       - name: Download Windows artifacts
         uses: actions/download-artifact@v4
         with:
@@ -405,6 +411,7 @@ jobs:
             deceptgold/dist/ubuntu/*
             deceptgold/dist/fedora/*
             deceptgold/dist/debian/*
+            deceptgold/dist/kali/*
             deceptgold/dist/windows/*
           generate_release_notes: true
         env:
