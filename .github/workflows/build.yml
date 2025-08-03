@@ -258,6 +258,13 @@ jobs:
         run: |          
           poetry run briefcase build --target "${{ matrix.distro.target }}" --update
           poetry run briefcase package --target "${{ matrix.distro.package-target }}"
+      - name: Duplicate Debian package for Kali
+        if: matrix.distro.name == 'kali'
+        run: |
+          FILE=$(ls deceptgold/dist/*.deb | head -n 1)
+          BASENAME=$(basename "$FILE")
+          NEWNAME=$(echo "$BASENAME" | sed 's/debian/kali/g')
+          cp "$FILE" "deceptgold/dist/$NEWNAME"
       - name: Upload ${{ matrix.distro.name }} artifacts
         uses: actions/upload-artifact@v4
         with:
