@@ -24,10 +24,32 @@ cd deceptgold/deceptgold
 # Install Poetry if you haven't already
 curl -sSL https://install.python-poetry.org | python3 -
 
+# Add Poetry to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# If you need Python 3.12 (using pyenv)
+pyenv install 3.12
+pyenv local 3.12
+
+# Configure Poetry
+poetry config virtualenvs.create true
+poetry env use python
+
 # Install project dependencies
 poetry install
+```
 
-# Activate virtual environment
+**For Poetry 2.0+**, activate the environment:
+
+```bash
+# Option 1: Manual activation (recommended)
+source .venv/bin/activate
+
+# Option 2: Use poetry run (no activation needed)
+poetry run python -m deceptgold --version
+
+# Option 3: Install shell plugin
+poetry self add poetry-plugin-shell
 poetry shell
 ```
 
@@ -267,6 +289,32 @@ export PATH="$HOME/.local/bin:$PATH"
 # Remove and recreate
 poetry env remove python
 poetry install
+```
+
+### Python Version Error
+
+```bash
+# If you get "Current Python version (3.10.x) is not allowed"
+# Install Python 3.12 with pyenv
+pyenv install 3.12
+pyenv local 3.12
+
+# Tell Poetry to use it
+poetry env use python
+poetry install
+```
+
+### Poetry Shell Not Available (Poetry 2.0+)
+
+```bash
+# Option 1: Activate manually
+source .venv/bin/activate
+
+# Option 2: Install shell plugin
+poetry self add poetry-plugin-shell
+
+# Option 3: Use poetry run
+poetry run python -m deceptgold --help
 ```
 
 ### Permission Errors

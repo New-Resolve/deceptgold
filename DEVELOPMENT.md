@@ -51,6 +51,56 @@ Add Poetry to your PATH (add to `~/.bashrc` or `~/.zshrc`):
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
+### Python Version Management
+
+Deceptgold requires **Python 3.11+** (3.12 recommended). If your system has an older version, use **pyenv** to manage multiple Python versions.
+
+#### Install pyenv (if not installed)
+
+**Linux/macOS:**
+```bash
+curl https://pyenv.run | bash
+```
+
+Add to your `~/.bashrc` or `~/.zshrc`:
+```bash
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+Reload shell:
+```bash
+source ~/.bashrc  # or ~/.zshrc
+```
+
+#### Install Python 3.12 with pyenv
+
+```bash
+# Install Python 3.12
+pyenv install 3.12
+
+# Set as local version for this project
+cd deceptgold/deceptgold
+pyenv local 3.12
+
+# Verify
+python --version  # Should show Python 3.12.x
+```
+
+#### Configure Poetry to use correct Python
+
+```bash
+# Tell Poetry to use the current Python (from pyenv)
+poetry env use python
+
+# Or specify the full path
+poetry env use $(which python)
+
+# Verify Poetry is using correct Python
+poetry env info
+```
+
 ## Quick Start
 
 ### 1. Clone the Repository
@@ -63,10 +113,39 @@ cd deceptgold/deceptgold
 ### 2. Install Dependencies
 
 ```bash
+# Ensure virtualenv creation is enabled (Poetry 2.0+)
+poetry config virtualenvs.create true
+
+# Configure Poetry to use correct Python version
+poetry env use python
+
 # Create virtual environment and install dependencies
 poetry install
+```
 
-# Activate the virtual environment
+**For Poetry 2.0+**, you have three options to activate the environment:
+
+**Option 1: Manual activation (Recommended)**
+```bash
+# Activate the virtual environment directly
+source .venv/bin/activate  # Linux/macOS
+# or
+.venv\Scripts\activate  # Windows
+```
+
+**Option 2: Use `poetry run` (No activation needed)**
+```bash
+# Run commands through Poetry
+poetry run python -m deceptgold
+poetry run briefcase dev --
+```
+
+**Option 3: Install shell plugin (Optional)**
+```bash
+# Install the shell plugin to get `poetry shell` back
+poetry self add poetry-plugin-shell
+
+# Then you can use
 poetry shell
 ```
 
@@ -76,21 +155,21 @@ poetry shell
 # Option 1: Using briefcase (recommended)
 poetry run briefcase dev --
 
-# Option 2: Using Python module
+# Option 2: Using Python module (if environment is activated)
 python -m deceptgold
 
-# Option 3: Direct briefcase
+# Option 3: Direct briefcase (if environment is activated)
 briefcase dev --
 ```
 
 ### 4. Verify Installation
 
 ```bash
-# Check version
-deceptgold --version
+# Check version (use poetry run if not activated)
+poetry run python -m deceptgold --version
 
 # View help
-deceptgold --help
+poetry run python -m deceptgold --help
 ```
 
 ## Project Structure
@@ -428,6 +507,27 @@ export PATH="$HOME/.local/bin:$PATH"
 ```bash
 # Remove and recreate
 poetry env remove python
+poetry install
+```
+
+**Problem**: `poetry shell` not available (Poetry 2.0+)
+```bash
+# Option 1: Activate manually (recommended)
+source .venv/bin/activate  # Linux/macOS
+
+# Option 2: Install shell plugin
+poetry self add poetry-plugin-shell
+
+# Option 3: Use poetry run for commands
+poetry run python -m deceptgold
+```
+
+**Problem**: `virtualenvs.create = false` error
+```bash
+# Enable virtualenv creation
+poetry config virtualenvs.create true
+
+# Reinstall dependencies
 poetry install
 ```
 
