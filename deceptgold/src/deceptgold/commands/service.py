@@ -9,6 +9,10 @@ import json
 from pathlib import Path
 from cyclopts import App, Group, Parameter
 from typing import Annotated
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich import box
 
 from deceptgold.configuration.opecanary import generate_config, toggle_config, PATH_CONFIG_OPENCANARY
 from deceptgold.configuration.config_manager import get_config
@@ -89,7 +93,7 @@ def start(*args):
             check_send_notify("Deceptgold has been finalized.")
     else:
         executable_path = str(Path(sys.executable))
-        cmd = [executable_path, "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
+        cmd = [executable_path, "-m", "deceptgold", "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
         if debug:
             if platform.system() == "Windows":
                 from subprocess import list2cmdline
@@ -183,28 +187,39 @@ def status():
     """
     Capture the services that are enabled and check the status of each specific port whether it is open or closed.
     """
+    console = Console()
+    
     if os.path.exists(PID_FILE):
         with open(PID_FILE, 'r') as pid:
-            print(f"The Process started through the PID: {pid.read()}")
+            console.print(Panel(f"[bold blue]Deceptgold System Daemon[/]\n[bold]PID:[/] {pid.read()}", expand=False))
 
     with open(PATH_CONFIG_OPENCANARY) as conf:
         data = json.load(conf)
 
-    enabled_services = []
+    table = Table(title="Deceptgold Operational Status", box=box.ROUNDED, show_header=True, header_style="bold magenta")
+    table.add_column("Layer", style="cyan", justify="center")
+    table.add_column("Service", style="white")
+    table.add_column("Port", justify="right", style="yellow")
+    table.add_column("Status", justify="center")
 
     for key, value in data.items():
         if key.endswith('.enabled') and value is True:
-            service = key.split('.')[0]
-            port_key = f"{service}.port"
+            full_service = key.rsplit('.enabled', 1)[0]
+            layer = "Web3" if full_service.startswith('web3.') else "Web2"
+            service_name = full_service.split('.')[-1].upper()
+            
+            port_key = f"{full_service}.port"
             port = data.get(port_key, "N/A")
-            enabled_services.append((service.upper(), port))
+            
+            if str(port).lower().strip() == 'n/a' or 'banner' in service_name.lower():
+                continue
 
-    print("Enabled services and their respective ports:")
-    print(f"{'Service':<15} {'Port':<6} {'Status':<6}")
-    print("-" * 30)
-    for service, port in enabled_services:
-        status_service = "OPEN" if check_open_port("127.0.0.1", port) else "CLOSED"
-        print(f"{service:<15} {port:<6} {status_service:<6}")
+            is_open = check_open_port("127.0.0.1", port)
+            status_text = "[bold green]OPEN[/]" if is_open else "[bold red]CLOSED[/]"
+            
+            table.add_row(layer, service_name, str(port), status_text)
+
+    console.print(table)
 
 
 
@@ -213,32 +228,46 @@ def list_services():
     """
     Command to list all configured services showing the status of each service independent of activation.
     """
+    console = Console()
+    
     if os.path.exists(PID_FILE):
         with open(PID_FILE, 'r') as pid:
-            print(f"The Process started through the PID: {pid.read()}")
+            console.print(Panel(f"[bold blue]Deceptgold System Daemon[/]\n[bold]PID:[/] {pid.read()}", expand=False))
 
     with open(PATH_CONFIG_OPENCANARY) as conf:
         data = json.load(conf)
 
-    enabled_services = []
+    table = Table(title="Deceptgold Service Inventory", box=box.DOUBLE_EDGE, show_header=True, header_style="bold blue")
+    table.add_column("Layer", style="cyan", justify="center")
+    table.add_column("Service", style="white")
+    table.add_column("Port", justify="right", style="yellow")
+    table.add_column("Status", justify="center")
+    table.add_column("Configured", justify="center")
 
-    for key, value in data.items():
-        service = key.split('.')[0]
-        port_key = f"{service}.port"
-        port = data.get(port_key, "N/A")
-        enabled_services.append((service.upper(), port))
+    # Collect all unique service stems
+    service_stems = set()
+    for key in data.keys():
+        if key.endswith('.enabled'):
+            service_stems.add(key.rsplit('.enabled', 1)[0])
 
-    enabled_services = list(dict.fromkeys(enabled_services))
-
-    print("Below are all the services available and capable of being configured.")
-    print(f"{'Service':<15} {'Port':<6} {'Status':<6}")
-    print("-" * 30)
-    for service, port in enabled_services:
-        if str(port).lower().strip() == 'n/a' or 'banner' in service.lower().strip():
+    for stem in sorted(service_stems):
+        layer = "Web3" if stem.startswith('web3.') else "Web2"
+        service_name = stem.split('.')[-1].upper()
+        
+        port = data.get(f"{stem}.port", "N/A")
+        if str(port).lower().strip() == 'n/a' or 'banner' in service_name.lower():
             continue
+            
+        is_enabled = data.get(f"{stem}.enabled", False)
+        is_open = check_open_port("127.0.0.1", port)
+        
+        status_text = "[bold green]OPEN[/]" if is_open else "[bold red]CLOSED[/]"
+        enabled_text = "[green]YES[/]" if is_enabled else "[yellow]NO[/]"
+        
+        table.add_row(layer, service_name, str(port), status_text, enabled_text)
 
-        status_service = "OPEN" if check_open_port("127.0.0.1", port) else "CLOSED"
-        print(f"{service:<15} {port:<6} {status_service:<6}")
+    console.print(table)
+    console.print("\n[italic gray]Use 'service enable <Layer>.<Service>' to activate more layers.[/]")
 
 
 

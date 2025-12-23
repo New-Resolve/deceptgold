@@ -20,7 +20,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 # Welcome to Deceptgold
 
-Deceptgold is a cybersecurity tool that transforms attacks into tokenized value using blockchain technology.
+Deceptgold is a cutting-edge cybersecurity platform that transforms intrusion attempts into tokenized value through hybrid Web2 and Web3/Blockchain honeypot simulations.
 
 ## Getting Started
 

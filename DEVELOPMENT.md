@@ -549,6 +549,15 @@ rm -rf build/
 poetry run briefcase build --update
 ```
 
+**Problem**: Missing License File Error
+If you see an error about `src/deceptgold/LICENSE` missing:
+1. Ensure the directory `src/deceptgold` exists.
+2. Ensure `src/deceptgold/LICENSE` is a symlink to the real license file (e.g., `../src_obf/deceptgold/LICENSE`).
+   ```bash
+   mkdir -p src/deceptgold
+   ln -s ../../src_obf/deceptgold/LICENSE src/deceptgold/LICENSE
+   ```
+
 ### Runtime Issues
 
 **Problem**: Permission denied on service start

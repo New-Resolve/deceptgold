@@ -70,12 +70,13 @@ poetry run briefcase dev -- user --help
 
 ### What is Deceptgold?
 
-Deceptgold transforms cyber attacks into digital assets (tokens) through:
+Deceptgold transforms cyber attacks into digital assets through a multi-layered hybrid deception architecture:
 
-1. **Honeypots** - Fake services that attract attackers
-2. **Cryptographic Signing** - Each attack is signed to prove authenticity
-3. **Blockchain Tokenization** - Verified attacks generate ERC-20 tokens
-4. **Intelligence** - Tokens unlock threat intelligence data
+1. **Hybrid Honeypots** - Decoys for both standard IT services (Web2) and decentralized infrastructure (Web3/Blockchain).
+2. **Real-time Simulation** - Accurate emulation of protocols like JSON-RPC, IPFS, and DeFi logic.
+3. **Cryptographic Signing** - Every interaction is signed to ensure authenticity and non-repudiation.
+4. **Blockchain Tokenization** - Verified attacks generate ERC-20 tokens for the system's stakeholders.
+5. **Intelligence Generation** - Aggregated attack data provides actionable threat intelligence.
 
 ### Core Concepts
 

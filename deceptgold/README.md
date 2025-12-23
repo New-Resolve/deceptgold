@@ -16,6 +16,27 @@ Run `sh utils/compile.sh` in bash linux environment
 
 Running the compile command will generate within the paste a file for installation on your operational system. An example of installation for deb files is: `sudo dpkj -i dist/deceptgold.deb`  
 
+# Deceptgold
+
+Deceptgold is a next-generation security platform that transforms cyber attacks into valuable digital assets. By simulating a hybrid environment of traditional and decentralized services, it turns security threats into opportunities.
+
+## Key Features
+
+### 🌐 Web2 (Standard) Simulation
+Simulate a wide range of traditional IT services to bait and analyze attackers:
+- **Remote Access**: SSH, Telnet, VNC, RDP
+- **File Services**: FTP, TFTP, Samba
+- **Web Services**: HTTP, HTTPS, HTTP Proxy
+- **Databases**: MySQL, MSSQL, Redis
+- **VoIP & IoT**: SIP, SNMP, NTP, LLMNR
+
+### ⛓️ Web3 (Blockchain) Simulation
+Industry-first native blockchain protocol simulation for decentralized infrastructure:
+- **RPC Nodes**: Realistic JSON-RPC endpoints for Ethereum, BSC, and Polygon.
+- **Protocol Simulation**: DeFi protocol decoys and NFT marketplace simulations.
+- **Storage**: IPFS Gateway honeypots to detect decentralized storage abuse.
+- **Wallet Services**: Simulation of browser extension and wallet APIs to capture phishing attempts.
+
 # Specification:  
 ![Commands Service](resources/images/deceptgold_service.gif)  
   

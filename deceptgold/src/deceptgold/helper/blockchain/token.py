@@ -222,3 +222,7 @@ def handle_reward_async(log_honeypot):
             reward_triggered = False
     except Exception as e:
         logging.error(f"[handle_reward_async] Erro: {e}")
+
+# Import Web3 rewards
+from deceptgold.helper.blockchain.token_web3_rewards import calculate_web3_reward, WEB3_ATTACK_REWARDS
+

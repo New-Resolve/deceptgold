@@ -56,6 +56,56 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
     builtins.print = fake_print
 
     from opencanary.config import config
+
+    class Web2ConfigWrapper:
+        def __init__(self, original_config):
+            self.original_config = original_config
+        
+        def moduleEnabled(self, module_name):
+            if self.original_config.moduleEnabled(module_name): return True
+            if self.original_config.moduleEnabled(f"web2.{module_name}"): return True
+            return False
+
+        def getVal(self, key, default=None):
+            try:
+                val = self.original_config.getVal(key)
+                if val is not None: return val
+            except: pass
+            
+            try:
+                val = self.original_config.getVal(f"web2.{key}")
+                if val is not None: return val
+            except: pass
+            
+            return default
+
+        def setVal(self, key, val):
+            return self.original_config.setVal(key, val)
+            
+        def __getattr__(self, name):
+            return getattr(self.original_config, name)
+
+    config = Web2ConfigWrapper(config)
+    
+    # Refactoring: Map web2.* configuration to standard keys (legacy compatibility)
+    try:
+        import json
+        import os
+        conf_path = os.path.join(os.path.expanduser("~"), ".opencanary.conf")
+        if os.path.exists(conf_path):
+            with open(conf_path, 'r') as f:
+                data = json.load(f)
+                for key, val in data.items():
+                    if key.startswith("web2."):
+                        std_key = key[5:]
+                        try:
+                            # Ensure module can find its config without prefix
+                            config.setVal(std_key, val)
+                        except:
+                            pass
+    except Exception as e:
+        print(f"Error mapping web2 config: {e}")
+
     from opencanary.logger import getLogger
     from opencanary.modules.http import CanaryHTTP
     from opencanary.modules.https import CanaryHTTPS
@@ -191,6 +241,49 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
 
     logger = getLogger(config)
 
+    # Web3 Services Integration
+    if config.moduleEnabled("web3.rpc_node"):
+        try:
+            from deceptgold.helper.web3honeypot.rpc_node import RPCNodeHoneypot
+            MODULES.append(RPCNodeHoneypot)
+        except ImportError as e:
+            print(f"Failed to import RPCNodeHoneypot: {e}")
+
+    if config.moduleEnabled("web3.wallet_service"):
+        try:
+            from deceptgold.helper.web3honeypot.wallet_service import WalletServiceHoneypot
+            MODULES.append(WalletServiceHoneypot)
+        except ImportError as e:
+            print(f"Failed to import WalletServiceHoneypot: {e}")
+
+    if config.moduleEnabled("web3.ipfs_gateway"):
+        try:
+            from deceptgold.helper.web3honeypot.ipfs_gateway import IPFSGatewayHoneypot
+            MODULES.append(IPFSGatewayHoneypot)
+        except ImportError as e:
+            print(f"Failed to import IPFSGatewayHoneypot: {e}")
+
+    if config.moduleEnabled("web3.defi_protocol"):
+        try:
+            from deceptgold.helper.web3honeypot.defi_protocol import DeFiProtocolHoneypot
+            MODULES.append(DeFiProtocolHoneypot)
+        except ImportError as e:
+            print(f"Failed to import DeFiProtocolHoneypot: {e}")
+
+    if config.moduleEnabled("web3.nft_marketplace"):
+        try:
+            from deceptgold.helper.web3honeypot.nft_marketplace import NFTMarketplaceHoneypot
+            MODULES.append(NFTMarketplaceHoneypot)
+        except ImportError as e:
+            print(f"Failed to import NFTMarketplaceHoneypot: {e}")
+
+    if config.moduleEnabled("web3.explorer_api"):
+        try:
+            from deceptgold.helper.web3honeypot.explorer_api import BlockchainExplorerAPIHoneypot
+            MODULES.append(BlockchainExplorerAPIHoneypot)
+        except ImportError as e:
+            print(f"Failed to import BlockchainExplorerAPIHoneypot: {e}")
+
 
     def start_mod(application, klass):  # noqa: C901
         try:
@@ -257,7 +350,6 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
 
     # List of modules to start
     start_modules = []
-
     # Add all custom modules
     # (Permanently enabled as they don't officially use settings yet)
     for ep in iter_entry_points(ENTRYPOINT):
