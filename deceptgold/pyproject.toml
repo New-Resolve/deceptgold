@@ -15,7 +15,7 @@ description = "Deceptgold is a next-gen deception platform that transforms cyber
 authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
 readme = "README.md"
 packages = [
-    {include = "deceptgold", from = "src_obf"},
+    {include = "deceptgold", from = "src"},
 ]
 
 [tool.poetry.group.dev.dependencies]
