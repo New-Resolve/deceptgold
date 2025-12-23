@@ -6,7 +6,20 @@ can be correctly initialized and started within the Deceptgold environment.
 """
 
 import pytest
-from unittest.mock import Mock
+import sys
+from unittest.mock import Mock, MagicMock
+
+# Mock opencanary.config before any opencanary modules are imported
+# This prevents SystemExit: 1 when opencanary modules are imported in CI
+if 'opencanary.config' not in sys.modules:
+    mock_config_module = MagicMock()
+    mock_config_module.ConfigException = Exception
+    mock_config_instance = MagicMock()
+    mock_config_instance.moduleEnabled.return_value = False
+    mock_config_instance.getVal.return_value = None
+    mock_config_module.config = mock_config_instance
+    mock_config_module.Config.return_value = mock_config_instance
+    sys.modules['opencanary.config'] = mock_config_module
 
 # List of Web2 modules to test
 WEB2_MODULE_IMPORTS = [

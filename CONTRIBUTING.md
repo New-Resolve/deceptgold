@@ -53,7 +53,7 @@ Before creating bug reports, please check the existing issues to avoid duplicate
 **Environment:**
 - OS: Fedora 40
 - Python: 3.12.1
-- Deceptgold: 0.1.110
+- Deceptgold: 0.2.0
 - Installed via: RPM package
 ```
 

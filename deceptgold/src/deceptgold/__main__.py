@@ -34,7 +34,7 @@ def init_app():
         logging.FileHandler = CustomFileHandler
         logger.info("Initialization complete the application.")
 
-        app = App(name="DeceptGold", help=get_description(), version="0.1.110")
+        app = App(name="DeceptGold", help=get_description(), version="0.2.0")
 
         exec_telemetry()
 
