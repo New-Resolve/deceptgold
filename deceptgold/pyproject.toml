@@ -19,7 +19,7 @@ packages = [
 ]
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.5"
+pytest = "^9.0.2"
 memory-profiler = "^0.61.0"
 
 [tool.poetry.group.docs.dependencies]
