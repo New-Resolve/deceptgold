@@ -1,5 +1,7 @@
 site_name: Deceptgold Documentation
 site_url: https://docs.decept.gold/
+docs_dir: content
+site_dir: site
 theme:
   name: material
   features:
@@ -30,5 +32,7 @@ nav:
   - Development: Development.md
   - Contributing: Contributing.md
   - About: About.md
+  - Whitepaper: Whitepaper.md
+  - Rewards: Rewards.md
 extra:
   generator: false
