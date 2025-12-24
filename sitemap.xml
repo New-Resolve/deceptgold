@@ -9,6 +9,10 @@
          <lastmod>2025-12-24</lastmod>
     </url>
     <url>
+         <loc>https://docs.decept.gold/Architecture/</loc>
+         <lastmod>2025-12-24</lastmod>
+    </url>
+    <url>
          <loc>https://docs.decept.gold/Blockchain/</loc>
          <lastmod>2025-12-24</lastmod>
     </url>
@@ -17,7 +21,19 @@
          <lastmod>2025-12-24</lastmod>
     </url>
     <url>
+         <loc>https://docs.decept.gold/Contributing/</loc>
+         <lastmod>2025-12-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.decept.gold/Development/</loc>
+         <lastmod>2025-12-24</lastmod>
+    </url>
+    <url>
          <loc>https://docs.decept.gold/Installation/</loc>
+         <lastmod>2025-12-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.decept.gold/Rewards/</loc>
          <lastmod>2025-12-24</lastmod>
     </url>
     <url>
@@ -29,11 +45,7 @@
          <lastmod>2025-12-24</lastmod>
     </url>
     <url>
-         <loc>https://docs.decept.gold/reward_calculation_specification/</loc>
-         <lastmod>2025-12-24</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.decept.gold/whitepaper/</loc>
+         <loc>https://docs.decept.gold/Whitepaper/</loc>
          <lastmod>2025-12-24</lastmod>
     </url>
 </urlset>
