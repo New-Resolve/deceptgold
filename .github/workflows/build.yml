@@ -236,6 +236,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y patchelf tree
+          # Force debian:bookworm to be debian:latest to avoid issues with Trixie in Briefcase
+          if [[ "${{ matrix.distro.target }}" == "debian" ]]; then
+            docker pull debian:bookworm
+            docker tag debian:bookworm debian:latest
+          fi
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install project dependencies
