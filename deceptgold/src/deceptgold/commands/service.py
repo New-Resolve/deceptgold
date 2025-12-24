@@ -124,7 +124,6 @@ def stop():
             p = psutil.Process(pid)
             p.terminate()
             p.wait(timeout=5)
-            pass
         except psutil.NoSuchProcess:
             pass
         except Exception as e:
