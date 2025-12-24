@@ -217,7 +217,8 @@ jobs:
         if: github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: deceptgold/docs/site
+          publish_dir: docs/site
+          cname: docs.decept.gold
 
   build-linux:
     name: 🐧 Build for Linux

@@ -1,0 +1,1677 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.decept.gold/Web3_Testing/">
+      
+      
+        <link rel="prev" href="../Testing/">
+      
+      
+        <link rel="next" href="../About/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>Web3 Testing - Deceptgold Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#web3-honeypot-testing-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deceptgold Documentation" class="md-header__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deceptgold Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Web3 Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deceptgold Documentation" class="md-nav__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deceptgold Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Blockchain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#indice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Índice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente de Testes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração do Ambiente de Testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-instalar-dependencias-de-teste" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Instalar Dependências de Teste
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configurar-honeypots-web3" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Configurar Honeypots Web3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executando-testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executando Testes Unitários
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Executando Testes Unitários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#todos-os-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Todos os Testes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testes-especificos-por-servico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes Específicos por Serviço
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes Específicos por Serviço">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rpc-node-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPC Node Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wallet-service-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wallet Service Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipfs-gateway-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPFS Gateway Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defi-protocol-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeFi Protocol Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nft-marketplace-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      NFT Marketplace Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blockchain-explorer-api-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blockchain Explorer API Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testes-de-integracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes de Integração
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulando-ataques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simulando Ataques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulando Ataques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usando-o-simulador-de-ataques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usando o Simulador de Ataques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usando o Simulador de Ataques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#executar-todos-os-ataques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executar Todos os Ataques
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ataques-individuais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ataques Individuais
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ataques-manuais-com-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ataques Manuais com curl
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ataques Manuais com curl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rpc-node-account-unlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPC Node - Account Unlock
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wallet-service-seed-phrase-phishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wallet Service - Seed Phrase Phishing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defi-protocol-flash-loan" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeFi Protocol - Flash Loan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificando-logs-e-recompensas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verificando Logs e Recompensas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verificando Logs e Recompensas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verificar-logs-de-ataque" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verificar Logs de Ataque
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formato-de-log-web3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formato de Log Web3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-recompensas-geradas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verificar Recompensas Geradas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes de Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes de Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#teste-de-carga-rpc-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste de Carga - RPC Node
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teste-de-carga-wallet-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste de Carga - Wallet Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testes-falhando" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes Falhando
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#honeypots-nao-respondendo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Honeypots Não Respondendo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs-nao-sendo-gerados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logs Não Sendo Gerados
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-de-recompensas-esperadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tabela de Recompensas Esperadas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplos-de-saida-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplos de Saída de Testes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemplos de Saída de Testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#teste-bem-sucedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste Bem-Sucedido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teste-com-cobertura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste com Cobertura
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proximos-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Próximos Passos
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Contributing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../About/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#indice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Índice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente de Testes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuração do Ambiente de Testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-instalar-dependencias-de-teste" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Instalar Dependências de Teste
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-configurar-honeypots-web3" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Configurar Honeypots Web3
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executando-testes-unitarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executando Testes Unitários
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Executando Testes Unitários">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#todos-os-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Todos os Testes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testes-especificos-por-servico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes Específicos por Serviço
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes Específicos por Serviço">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rpc-node-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPC Node Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wallet-service-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wallet Service Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipfs-gateway-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      IPFS Gateway Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defi-protocol-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeFi Protocol Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nft-marketplace-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      NFT Marketplace Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blockchain-explorer-api-honeypot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blockchain Explorer API Honeypot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testes-de-integracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes de Integração
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulando-ataques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simulando Ataques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulando Ataques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usando-o-simulador-de-ataques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usando o Simulador de Ataques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usando o Simulador de Ataques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#executar-todos-os-ataques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Executar Todos os Ataques
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ataques-individuais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ataques Individuais
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ataques-manuais-com-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ataques Manuais com curl
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ataques Manuais com curl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rpc-node-account-unlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPC Node - Account Unlock
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wallet-service-seed-phrase-phishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wallet Service - Seed Phrase Phishing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defi-protocol-flash-loan" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeFi Protocol - Flash Loan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verificando-logs-e-recompensas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verificando Logs e Recompensas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verificando Logs e Recompensas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verificar-logs-de-ataque" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verificar Logs de Ataque
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formato-de-log-web3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formato de Log Web3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verificar-recompensas-geradas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verificar Recompensas Geradas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testes-de-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes de Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testes de Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#teste-de-carga-rpc-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste de Carga - RPC Node
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teste-de-carga-wallet-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste de Carga - Wallet Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testes-falhando" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testes Falhando
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#honeypots-nao-respondendo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Honeypots Não Respondendo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs-nao-sendo-gerados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logs Não Sendo Gerados
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-de-recompensas-esperadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tabela de Recompensas Esperadas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplos-de-saida-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplos de Saída de Testes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemplos de Saída de Testes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#teste-bem-sucedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste Bem-Sucedido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teste-com-cobertura" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teste com Cobertura
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proximos-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Próximos Passos
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="web3-honeypot-testing-guide">Web3 Honeypot Testing Guide</h1>
+<p>Guia completo para testar os honeypots Web3 do Deceptgold.</p>
+<h2 id="indice">Índice</h2>
+<ul>
+<li><a href="#configuração-do-ambiente-de-testes">Configuração do Ambiente de Testes</a></li>
+<li><a href="#executando-testes-unitários">Executando Testes Unitários</a></li>
+<li><a href="#simulando-ataques">Simulando Ataques</a></li>
+<li><a href="#verificando-logs-e-recompensas">Verificando Logs e Recompensas</a></li>
+<li><a href="#testes-de-integração">Testes de Integração</a></li>
+</ul>
+<h2 id="configuracao-do-ambiente-de-testes">Configuração do Ambiente de Testes</h2>
+<h3 id="1-instalar-dependencias-de-teste">1. Instalar Dependências de Teste</h3>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>deceptgold/deceptgold
+
+<span class="c1"># Instalar dependências de teste</span>
+poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>dev
+
+<span class="c1"># Verificar instalação</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--version
+</code></pre></div>
+<h3 id="2-configurar-honeypots-web3">2. Configurar Honeypots Web3</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Habilitar serviços Web3 para teste</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>web3.rpc_node
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>web3.wallet_service
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>web3.defi_protocol
+
+<span class="c1"># Configurar portas (opcional)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">set</span><span class="w"> </span>web3.rpc_node<span class="w"> </span><span class="m">8545</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">set</span><span class="w"> </span>web3.wallet_service<span class="w"> </span><span class="m">8546</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">set</span><span class="w"> </span>web3.defi_protocol<span class="w"> </span><span class="m">8548</span>
+</code></pre></div>
+<h2 id="executando-testes-unitarios">Executando Testes Unitários</h2>
+<h3 id="todos-os-testes">Todos os Testes</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Executar todos os testes Web3</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py<span class="w"> </span>-v
+
+<span class="c1"># Com cobertura</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py<span class="w"> </span>--cov<span class="o">=</span>deceptgold.helper.web3honeypot<span class="w"> </span>--cov-report<span class="o">=</span>html
+
+<span class="c1"># Ver relatório de cobertura</span>
+open<span class="w"> </span>htmlcov/index.html<span class="w">  </span><span class="c1"># macOS</span>
+xdg-open<span class="w"> </span>htmlcov/index.html<span class="w">  </span><span class="c1"># Linux</span>
+</code></pre></div>
+<h3 id="testes-especificos-por-servico">Testes Específicos por Serviço</h3>
+<h4 id="rpc-node-honeypot">RPC Node Honeypot</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Todos os testes do RPC node</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestRPCNodeHoneypot<span class="w"> </span>-v
+
+<span class="c1"># Teste específico</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestRPCNodeHoneypot::test_personal_unlockAccount_detected<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Testes Incluídos:</strong>
+- ✅ <code>test_initialization</code> - Verifica inicialização correta
+- ✅ <code>test_eth_getBalance_returns_fake_balance</code> - Verifica balances falsos atrativos
+- ✅ <code>test_personal_unlockAccount_detected</code> - Detecta tentativas de unlock (CRÍTICO)
+- ✅ <code>test_eth_sendRawTransaction_malicious_detected</code> - Detecta transações maliciosas
+- ✅ <code>test_eth_call_contract_exploit_detected</code> - Detecta exploração de contratos
+- ✅ <code>test_multiple_getBalance_calls_detected_as_scanning</code> - Detecta varredura de endereços</p>
+<h4 id="wallet-service-honeypot">Wallet Service Honeypot</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Todos os testes do wallet service</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestWalletServiceHoneypot<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Testes Incluídos:</strong>
+- ✅ <code>test_wallet_import_seed_phrase_phishing</code> - Detecta phishing de seed phrases (CRÍTICO)
+- ✅ <code>test_wallet_export_private_key_attempt</code> - Detecta export de chaves privadas
+- ✅ <code>test_malicious_transaction_signing</code> - Detecta assinatura de transações maliciosas
+- ✅ <code>test_brute_force_password_detected</code> - Detecta força bruta em senhas</p>
+<h4 id="ipfs-gateway-honeypot">IPFS Gateway Honeypot</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Todos os testes do IPFS gateway</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestIPFSGatewayHoneypot<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Testes Incluídos:</strong>
+- ✅ <code>test_malicious_file_upload_detected</code> - Detecta uploads maliciosos
+- ✅ <code>test_path_traversal_attempt_detected</code> - Detecta path traversal
+- ✅ <code>test_dos_via_massive_uploads</code> - Detecta DoS via uploads massivos</p>
+<h4 id="defi-protocol-honeypot">DeFi Protocol Honeypot</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Todos os testes do DeFi protocol</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestDeFiProtocolHoneypot<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Testes Incluídos:</strong>
+- ✅ <code>test_flash_loan_attack_detected</code> - Detecta flash loan attacks (ALTO VALOR)
+- ✅ <code>test_reentrancy_attempt_detected</code> - Detecta ataques de reentrancy
+- ✅ <code>test_sandwich_attack_detected</code> - Detecta sandwich attacks (front-running)
+- ✅ <code>test_price_manipulation_detected</code> - Detecta manipulação de oráculos de preço</p>
+<h4 id="nft-marketplace-honeypot">NFT Marketplace Honeypot</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Todos os testes do NFT marketplace</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestNFTMarketplaceHoneypot<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Testes Incluídos:</strong>
+- ✅ <code>test_wash_trading_detected</code> - Detecta wash trading
+- ✅ <code>test_floor_price_manipulation</code> - Detecta manipulação de floor price
+- ✅ <code>test_malicious_approval_exploit</code> - Detecta exploits de aprovação</p>
+<h4 id="blockchain-explorer-api-honeypot">Blockchain Explorer API Honeypot</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Todos os testes do explorer API</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestBlockchainExplorerAPIHoneypot<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Testes Incluídos:</strong>
+- ✅ <code>test_api_scraping_detected</code> - Detecta scraping de API
+- ✅ <code>test_rate_limit_exploitation</code> - Detecta exploração de rate limits
+- ✅ <code>test_contract_vulnerability_search</code> - Detecta busca por contratos vulneráveis</p>
+<h3 id="testes-de-integracao">Testes de Integração</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Executar testes de integração</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py::TestWeb3HoneypotIntegration<span class="w"> </span>-v
+</code></pre></div>
+<p><strong>Testes Incluídos:</strong>
+- ✅ <code>test_all_honeypots_can_start</code> - Verifica que todos os honeypots inicializam
+- ✅ <code>test_reward_generation_for_all_attack_types</code> - Verifica geração de recompensas</p>
+<h2 id="simulando-ataques">Simulando Ataques</h2>
+<h3 id="usando-o-simulador-de-ataques">Usando o Simulador de Ataques</h3>
+<p>O simulador permite testar os honeypots com ataques realistas.</p>
+<h4 id="executar-todos-os-ataques">Executar Todos os Ataques</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Executar todas as simulações de ataque</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>all
+
+<span class="c1"># Contra honeypot remoto</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--host<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>--attack<span class="w"> </span>all
+</code></pre></div>
+<h4 id="ataques-individuais">Ataques Individuais</h4>
+<p><strong>RPC Node Attacks:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Tentativa de unlock de conta (CRÍTICO - 100 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>rpc_unlock
+
+<span class="c1"># Varredura de balances (20 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>balance_scan
+
+<span class="c1"># Transação maliciosa (50 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>malicious_tx
+</code></pre></div>
+<p><strong>Wallet Service Attacks:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Phishing de seed phrase (CRÍTICO - 150 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>seed_phishing
+
+<span class="c1"># Export de chave privada (120 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>key_export
+</code></pre></div>
+<p><strong>IPFS Gateway Attacks:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Upload malicioso (30 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>ipfs_upload
+
+<span class="c1"># Path traversal (40 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>ipfs_traversal
+</code></pre></div>
+<p><strong>DeFi Protocol Attacks:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Flash loan attack (ALTO VALOR - 200 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>flash_loan
+
+<span class="c1"># Reentrancy attack (180 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>reentrancy
+
+<span class="c1"># Sandwich attack (100 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>sandwich
+</code></pre></div>
+<p><strong>NFT Marketplace Attacks:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Wash trading (40 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>wash_trading
+</code></pre></div>
+<p><strong>Blockchain Explorer Attacks:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># API scraping (20 DGLD)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/web3_attack_simulator.py<span class="w"> </span>--attack<span class="w"> </span>api_scraping
+</code></pre></div>
+<h3 id="ataques-manuais-com-curl">Ataques Manuais com curl</h3>
+<h4 id="rpc-node-account-unlock">RPC Node - Account Unlock</h4>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8545<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;jsonrpc&quot;: &quot;2.0&quot;,</span>
+<span class="s1">    &quot;method&quot;: &quot;personal_unlockAccount&quot;,</span>
+<span class="s1">    &quot;params&quot;: [&quot;0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb&quot;, &quot;password123&quot;, 300],</span>
+<span class="s1">    &quot;id&quot;: 1</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong>
+- ✅ Log gerado com <code>attack_type: rpc_account_unlock_attempt</code>
+- ✅ Severidade: <code>critical</code>
+- ✅ Recompensa: 100 DGLD</p>
+<h4 id="wallet-service-seed-phrase-phishing">Wallet Service - Seed Phrase Phishing</h4>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8546/api/v1/wallet/import<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;seed_phrase&quot;: &quot;abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art&quot;</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong>
+- ✅ Log gerado com <code>attack_type: wallet_seed_phrase_phishing</code>
+- ✅ Severidade: <code>critical</code>
+- ✅ Recompensa: 150 DGLD
+- ✅ Notificação enviada ao admin</p>
+<h4 id="defi-protocol-flash-loan">DeFi Protocol - Flash Loan</h4>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8548/api/v1/flashloan<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;token&quot;: &quot;0x1234567890123456789012345678901234567890&quot;,</span>
+<span class="s1">    &quot;amount&quot;: &quot;1000000000000000000000000&quot;,</span>
+<span class="s1">    &quot;callback_data&quot;: &quot;0xaaaaaaaaaaaaaaaaaaaaaaaa&quot;</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong>
+- ✅ Log gerado com <code>attack_type: defi_flash_loan_attack</code>
+- ✅ Severidade: <code>high</code>
+- ✅ Recompensa: 200 DGLD (MUITO ALTO)</p>
+<h2 id="verificando-logs-e-recompensas">Verificando Logs e Recompensas</h2>
+<h3 id="verificar-logs-de-ataque">Verificar Logs de Ataque</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ver logs em tempo real</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/deceptgold/attacks.log
+
+<span class="c1"># Filtrar apenas ataques Web3</span>
+grep<span class="w"> </span><span class="s2">&quot;logtype.*5000&quot;</span><span class="w"> </span>/var/log/deceptgold/attacks.log
+
+<span class="c1"># Ver ataques críticos</span>
+grep<span class="w"> </span><span class="s2">&quot;severity.*critical&quot;</span><span class="w"> </span>/var/log/deceptgold/attacks.log
+</code></pre></div>
+<h3 id="formato-de-log-web3">Formato de Log Web3</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-22T21:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;logtype&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;web3_rpc_node&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;attack_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rpc_account_unlock_attempt&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;src_host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;personal_unlockAccount&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;severity&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;reward_tokens&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="verificar-recompensas-geradas">Verificar Recompensas Geradas</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ver balance de tokens</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>user<span class="w"> </span>--show-balance
+
+<span class="c1"># Ver histórico de recompensas</span>
+grep<span class="w"> </span><span class="s2">&quot;reward_tokens&quot;</span><span class="w"> </span>/var/log/deceptgold/attacks.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.reward_tokens&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{sum+=$1} END {print &quot;Total:&quot;, sum, &quot;DGLD&quot;}&#39;</span>
+</code></pre></div>
+<h2 id="testes-de-performance">Testes de Performance</h2>
+<h3 id="teste-de-carga-rpc-node">Teste de Carga - RPC Node</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Instalar Apache Bench</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>apache2-utils
+
+<span class="c1"># Teste de carga</span>
+ab<span class="w"> </span>-n<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-c<span class="w"> </span><span class="m">10</span><span class="w"> </span>-p<span class="w"> </span>rpc_request.json<span class="w"> </span>-T<span class="w"> </span>application/json<span class="w"> </span>http://localhost:8545/
+</code></pre></div>
+<p><strong>Arquivo <code>rpc_request.json</code>:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;jsonrpc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eth_blockNumber&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="teste-de-carga-wallet-service">Teste de Carga - Wallet Service</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Teste de múltiplas requisições simultâneas</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..100<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:8546/api/v1/wallet/balance<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;wallet_id&quot;: &quot;wallet_&#39;</span><span class="nv">$i</span><span class="s1">&#39;&quot;}&#39;</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">done</span>
+<span class="nb">wait</span>
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="testes-falhando">Testes Falhando</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Limpar cache do pytest</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cache-clear
+
+<span class="c1"># Executar com mais verbosidade</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py<span class="w"> </span>-vv
+
+<span class="c1"># Ver output completo</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_web3_honeypots.py<span class="w"> </span>-s
+</code></pre></div>
+<h3 id="honeypots-nao-respondendo">Honeypots Não Respondendo</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verificar se serviços estão rodando</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span>status
+
+<span class="c1"># Verificar portas abertas</span>
+netstat<span class="w"> </span>-tuln<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;8545|8546|8547|8548|8549&quot;</span>
+
+<span class="c1"># Reiniciar serviços</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>service<span class="w"> </span>restart
+</code></pre></div>
+<h3 id="logs-nao-sendo-gerados">Logs Não Sendo Gerados</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verificar permissões do diretório de logs</span>
+ls<span class="w"> </span>-la<span class="w"> </span>/var/log/deceptgold/
+
+<span class="c1"># Criar diretório se não existir</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/log/deceptgold/
+sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span><span class="nv">$USER</span>:<span class="nv">$USER</span><span class="w"> </span>/var/log/deceptgold/
+
+<span class="c1"># Verificar configuração de logging</span>
+cat<span class="w"> </span>~/.opencanary.conf<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;logger&quot;</span>
+</code></pre></div>
+<h2 id="tabela-de-recompensas-esperadas">Tabela de Recompensas Esperadas</h2>
+<table>
+<thead>
+<tr>
+<th>Tipo de Ataque</th>
+<th>Severidade</th>
+<th>Recompensa (DGLD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flash Loan Attack</td>
+<td>High</td>
+<td>200</td>
+</tr>
+<tr>
+<td>Reentrancy Attack</td>
+<td>High</td>
+<td>180</td>
+</tr>
+<tr>
+<td>Seed Phrase Phishing</td>
+<td>Critical</td>
+<td>150</td>
+</tr>
+<tr>
+<td>Private Key Export</td>
+<td>Critical</td>
+<td>120</td>
+</tr>
+<tr>
+<td>RPC Account Unlock</td>
+<td>Critical</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Sandwich Attack</td>
+<td>Medium</td>
+<td>100</td>
+</tr>
+<tr>
+<td>NFT Approval Exploit</td>
+<td>Medium</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Malicious Transaction</td>
+<td>Medium</td>
+<td>50</td>
+</tr>
+<tr>
+<td>NFT Wash Trading</td>
+<td>Low</td>
+<td>40</td>
+</tr>
+<tr>
+<td>IPFS Path Traversal</td>
+<td>Low</td>
+<td>40</td>
+</tr>
+<tr>
+<td>IPFS Malicious Upload</td>
+<td>Low</td>
+<td>30</td>
+</tr>
+<tr>
+<td>API Scraping</td>
+<td>Low</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<h2 id="exemplos-de-saida-de-testes">Exemplos de Saída de Testes</h2>
+<h3 id="teste-bem-sucedido">Teste Bem-Sucedido</h3>
+<div class="highlight"><pre><span></span><code>tests/test_web3_honeypots.py::TestRPCNodeHoneypot::test_personal_unlockAccount_detected PASSED [100%]
+
+================================ 1 passed in 0.15s =================================
+</code></pre></div>
+<h3 id="teste-com-cobertura">Teste com Cobertura</h3>
+<div class="highlight"><pre><span></span><code>---------- coverage: platform linux, python 3.12.11 -----------
+Name                                              Stmts   Miss  Cover
+---------------------------------------------------------------------
+deceptgold/helper/web3honeypot/__init__.py            5      0   100%
+deceptgold/helper/web3honeypot/rpc_node.py          120      8    93%
+deceptgold/helper/web3honeypot/wallet_service.py     95      5    95%
+deceptgold/helper/web3honeypot/defi_protocol.py     150     12    92%
+---------------------------------------------------------------------
+TOTAL                                               370     25    93%
+</code></pre></div>
+<h2 id="proximos-passos">Próximos Passos</h2>
+<ol>
+<li>Execute todos os testes unitários</li>
+<li>Simule ataques individuais</li>
+<li>Verifique logs e recompensas</li>
+<li>Execute testes de carga</li>
+<li>Revise cobertura de testes</li>
+</ol>
+<hr />
+<p><strong>Dúvidas?</strong> Consulte a <a href="../Blockchain/">documentação completa</a> ou abra uma issue no GitHub.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>

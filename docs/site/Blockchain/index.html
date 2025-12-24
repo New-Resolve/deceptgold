@@ -1,0 +1,1764 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.decept.gold/Blockchain/">
+      
+      
+        <link rel="prev" href="../Installation/">
+      
+      
+        <link rel="next" href="../Testing/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>Blockchain - Deceptgold Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#blockchain-integration-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deceptgold Documentation" class="md-header__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deceptgold Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Blockchain
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deceptgold Documentation" class="md-nav__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deceptgold Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technology Stack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-contract-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smart Contract Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Smart Contract Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dual-contract-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dual Contract System
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dual Contract System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-token-contract-erc-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Token Contract (ERC-20)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-validator-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Validator Contract
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract-interaction-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contract Interaction Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cryptographic-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cryptographic Signatures
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cryptographic Signatures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature Generation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Considerations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web3-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web3 Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web3 Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connecting to Network
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading Contracts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reading-contract-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading Contract Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#submitting-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Submitting Transactions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#token-economics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Token Economics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Token Economics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reward-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reward Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token-utility" class="md-nav__link">
+    <span class="md-ellipsis">
+      Token Utility
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Network Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Networks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Supported Networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bsc-testnet-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      BSC Testnet (Default)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bsc-mainnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      BSC Mainnet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polygon
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing Networks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-and-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development and Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development and Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-blockchain-ganache" class="md-nav__link">
+    <span class="md-ellipsis">
+      Local Blockchain (Ganache)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testnet-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testnet Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-testing-blockchain-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit Testing Blockchain Code
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#smart-contract-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smart Contract Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Update
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web3_Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Contributing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../About/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#technology-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technology Stack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-contract-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smart Contract Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Smart Contract Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dual-contract-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dual Contract System
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dual Contract System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-token-contract-erc-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Token Contract (ERC-20)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-validator-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Validator Contract
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contract-interaction-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contract Interaction Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cryptographic-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cryptographic Signatures
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cryptographic Signatures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signature-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature Generation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Signature Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Considerations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web3-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web3 Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web3 Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connecting to Network
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loading Contracts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reading-contract-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading Contract Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#submitting-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Submitting Transactions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#token-economics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Token Economics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Token Economics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reward-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reward Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token-utility" class="md-nav__link">
+    <span class="md-ellipsis">
+      Token Utility
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Network Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Networks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Supported Networks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bsc-testnet-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      BSC Testnet (Default)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bsc-mainnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      BSC Mainnet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polygon
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-networks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changing Networks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-and-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development and Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development and Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-blockchain-ganache" class="md-nav__link">
+    <span class="md-ellipsis">
+      Local Blockchain (Ganache)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testnet-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testnet Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-testing-blockchain-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit Testing Blockchain Code
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#smart-contract-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smart Contract Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Update
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="blockchain-integration-guide">Blockchain Integration Guide</h1>
+<p>Complete guide to understanding and working with Deceptgold's blockchain integration.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#smart-contract-architecture">Smart Contract Architecture</a></li>
+<li><a href="#cryptographic-signatures">Cryptographic Signatures</a></li>
+<li><a href="#web3-integration">Web3 Integration</a></li>
+<li><a href="#token-economics">Token Economics</a></li>
+<li><a href="#network-configuration">Network Configuration</a></li>
+<li><a href="#development-and-testing">Development and Testing</a></li>
+<li><a href="#deployment">Deployment</a></li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>Deceptgold uses blockchain technology to:</p>
+<ol>
+<li><strong>Tokenize Attacks</strong> - Convert verified attacks into ERC-20 tokens</li>
+<li><strong>Ensure Integrity</strong> - Cryptographically sign and verify attack logs</li>
+<li><strong>Prevent Fraud</strong> - On-chain validation prevents self-farming</li>
+<li><strong>Enable Trading</strong> - Tokens can be traded or used for intelligence access</li>
+</ol>
+<h3 id="technology-stack">Technology Stack</h3>
+<ul>
+<li><strong>Blockchain</strong>: Ethereum-compatible networks (Ethereum, BSC, Polygon)</li>
+<li><strong>Token Standard</strong>: ERC-20</li>
+<li><strong>Signature Algorithm</strong>: ECDSA (Elliptic Curve Digital Signature Algorithm)</li>
+<li><strong>Hashing</strong>: Keccak-256</li>
+<li><strong>Library</strong>: Web3.py, eth-account, ecdsa</li>
+</ul>
+<h2 id="smart-contract-architecture">Smart Contract Architecture</h2>
+<h3 id="dual-contract-system">Dual Contract System</h3>
+<p>Deceptgold uses two smart contracts for security and modularity:</p>
+<h4 id="1-token-contract-erc-20">1. Token Contract (ERC-20)</h4>
+<p><strong>Purpose</strong>: Manage DGLD token supply and transfers</p>
+<p><strong>Key Functions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1">// Standard ERC-20 functions</span>
+<span class="kt">function</span><span class="w"> </span><span class="nv">balanceOf</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">account</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">uint256</span><span class="p">)</span>
+<span class="kt">function</span><span class="w"> </span><span class="nv">transfer</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">to</span><span class="p">,</span><span class="w"> </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">amount</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">bool</span><span class="p">)</span>
+<span class="kt">function</span><span class="w"> </span><span class="nv">approve</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">spender</span><span class="p">,</span><span class="w"> </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">amount</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">bool</span><span class="p">)</span>
+
+<span class="c1">// Controlled minting</span>
+<span class="kt">function</span><span class="w"> </span><span class="nv">mint</span><span class="p">(</span><span class="kt">address</span><span class="w"> </span><span class="nv">to</span><span class="p">,</span><span class="w"> </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">amount</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span>onlyMinter
+<span class="kt">function</span><span class="w"> </span><span class="nv">burn</span><span class="p">(</span><span class="kt">uint256</span><span class="w"> </span><span class="nv">amount</span><span class="p">)</span><span class="w"> </span><span class="kt">external</span>
+</code></pre></div></p>
+<p><strong>Contract Address</strong> (BSC Testnet):
+<div class="highlight"><pre><span></span><code>0x606c0fE69D437F42BfC11D3eec82F596cC02C02a
+</code></pre></div></p>
+<p><strong>Features</strong>:
+- Standard ERC-20 implementation
+- Only validator contract can mint
+- Users can burn tokens for utility
+- Fully compatible with wallets and exchanges</p>
+<h4 id="2-validator-contract">2. Validator Contract</h4>
+<p><strong>Purpose</strong>: Verify attack signatures and authorize token minting</p>
+<p><strong>Key Functions</strong>:
+<div class="highlight"><pre><span></span><code><span class="k">contract</span><span class="w"> </span><span class="ni">AttackValidator</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">address</span><span class="w"> </span><span class="k">public </span><span class="nv">authorizedSigner</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">address</span><span class="w"> </span><span class="k">public </span><span class="nv">tokenContract</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">mapping</span><span class="p">(</span><span class="kt">bytes32</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="kt">public</span><span class="w"> </span>processedAttacks<span class="p">;</span>
+
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">validateAndMint</span><span class="p">(</span>
+<span class="w">        </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">attackHash</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>signature<span class="p">,</span>
+<span class="w">        </span><span class="kt">address</span><span class="w"> </span><span class="nv">recipient</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">uint256</span><span class="w"> </span><span class="nv">reward</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kt">external</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. Verify signature</span>
+<span class="w">        </span><span class="kt">require</span><span class="p">(</span>verifySignature<span class="p">(</span>attackHash<span class="p">,</span><span class="w"> </span>signature<span class="p">),</span><span class="w"> </span><span class="s2">&quot;Invalid signature&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// 2. Check not already processed</span>
+<span class="w">        </span><span class="kt">require</span><span class="p">(</span><span class="o">!</span>processedAttacks<span class="p">[</span>attackHash<span class="p">],</span><span class="w"> </span><span class="s2">&quot;Already processed&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// 3. Mark as processed</span>
+<span class="w">        </span>processedAttacks<span class="p">[</span>attackHash<span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">true</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// 4. Mint tokens</span>
+<span class="w">        </span>IDeceptgoldToken<span class="p">(</span>tokenContract<span class="p">).</span>mint<span class="p">(</span>recipient<span class="p">,</span><span class="w"> </span>reward<span class="p">);</span>
+
+<span class="w">        </span>emit<span class="w"> </span>AttackTokenized<span class="p">(</span>attackHash<span class="p">,</span><span class="w"> </span>recipient<span class="p">,</span><span class="w"> </span>reward<span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">function</span><span class="w"> </span><span class="nv">verifySignature</span><span class="p">(</span>
+<span class="w">        </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">messageHash</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>signature
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>view<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">address</span><span class="w"> </span><span class="nv">signer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>recoverSigner<span class="p">(</span>messageHash<span class="p">,</span><span class="w"> </span>signature<span class="p">);</span>
+<span class="w">        </span><span class="kt">return</span><span class="w"> </span>signer<span class="w"> </span><span class="o">==</span><span class="w"> </span>authorizedSigner<span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Contract Address</strong> (BSC Testnet):
+<div class="highlight"><pre><span></span><code>0x12485DAE42bFc5bF625f4Da5738847e79CFe2cAD
+</code></pre></div></p>
+<p><strong>Features</strong>:
+- ECDSA signature verification
+- Replay attack protection
+- Single authorized signer
+- Event logging for transparency</p>
+<h3 id="contract-interaction-flow">Contract Interaction Flow</h3>
+<div class="highlight"><pre><span></span><code>Attack Detected
+    ↓
+Sign Attack Data (off-chain)
+    ↓
+Submit to Validator Contract
+    ↓
+Verify Signature (on-chain)
+    ↓
+Check Not Processed
+    ↓
+Mark as Processed
+    ↓
+Call Token Contract Mint
+    ↓
+Tokens Sent to User Wallet
+</code></pre></div>
+<h2 id="cryptographic-signatures">Cryptographic Signatures</h2>
+<h3 id="signature-generation">Signature Generation</h3>
+<p><strong>Process</strong>:</p>
+<ol>
+<li>
+<p><strong>Serialize Attack Data</strong>:
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">attack_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-12-22T20:00:00Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;source_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;ssh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;requests&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="s2">&quot;fingerprint&quot;</span><span class="p">:</span> <span class="s2">&quot;unique_system_id&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Canonical JSON (sorted keys)</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">attack_data</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Hash Message</strong> (Keccak-256):
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">eth_account.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">encode_defunct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
+<span class="c1"># Create Ethereum-compatible message hash</span>
+<span class="n">message_hash</span> <span class="o">=</span> <span class="n">encode_defunct</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Sign with Private Key</strong>:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">eth_account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+
+<span class="c1"># Private key (embedded in obfuscated code)</span>
+<span class="n">private_key</span> <span class="o">=</span> <span class="s2">&quot;0x...&quot;</span>
+
+<span class="c1"># Sign</span>
+<span class="n">signed_message</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">sign_message</span><span class="p">(</span><span class="n">message_hash</span><span class="p">,</span> <span class="n">private_key</span><span class="p">)</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">signed_message</span><span class="o">.</span><span class="n">signature</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+</code></pre></div></p>
+</li>
+</ol>
+<h3 id="signature-verification">Signature Verification</h3>
+<p><strong>On-Chain</strong> (in smart contract):
+<div class="highlight"><pre><span></span><code><span class="kt">function</span><span class="w"> </span><span class="nv">recoverSigner</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">messageHash</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">bytes</span><span class="w"> </span><span class="nv">memory</span><span class="w"> </span>signature
+<span class="p">)</span><span class="w"> </span><span class="kt">internal</span><span class="w"> </span>pure<span class="w"> </span><span class="kt">returns</span><span class="w"> </span><span class="p">(</span><span class="kt">address</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">r</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">bytes32</span><span class="w"> </span><span class="nv">s</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint8</span><span class="w"> </span><span class="nv">v</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Extract signature components</span>
+<span class="w">    </span>assembly<span class="w"> </span><span class="p">{</span>
+<span class="w">        </span>r<span class="w"> </span><span class="o">:=</span><span class="w"> </span>mload<span class="p">(</span>add<span class="p">(</span>signature<span class="p">,</span><span class="w"> </span><span class="m m-Decimal">32</span><span class="p">))</span>
+<span class="w">        </span>s<span class="w"> </span><span class="o">:=</span><span class="w"> </span>mload<span class="p">(</span>add<span class="p">(</span>signature<span class="p">,</span><span class="w"> </span><span class="m m-Decimal">64</span><span class="p">))</span>
+<span class="w">        </span>v<span class="w"> </span><span class="o">:=</span><span class="w"> </span>byte<span class="p">(</span><span class="m m-Decimal">0</span><span class="p">,</span><span class="w"> </span>mload<span class="p">(</span>add<span class="p">(</span>signature<span class="p">,</span><span class="w"> </span><span class="m m-Decimal">96</span><span class="p">)))</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Recover signer address</span>
+<span class="w">    </span><span class="kt">return</span><span class="w"> </span>ecrecover<span class="p">(</span>messageHash<span class="p">,</span><span class="w"> </span>v<span class="p">,</span><span class="w"> </span>r<span class="p">,</span><span class="w"> </span>s<span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Off-Chain</strong> (for testing):
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">eth_account.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">encode_defunct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eth_account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">verify_signature</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">signature</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expected_address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">message_hash</span> <span class="o">=</span> <span class="n">encode_defunct</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+    <span class="n">recovered_address</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">recover_message</span><span class="p">(</span><span class="n">message_hash</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">recovered_address</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">expected_address</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div></p>
+<h3 id="security-considerations">Security Considerations</h3>
+<p><strong>Private Key Protection</strong>:
+- Embedded in source code
+- Protected by PyArmor obfuscation
+- Platform-specific compilation
+- Never transmitted or stored externally</p>
+<p><strong>Signature Properties</strong>:
+- <strong>Authenticity</strong>: Only Deceptgold instances can sign
+- <strong>Integrity</strong>: Tampering invalidates signature
+- <strong>Non-repudiation</strong>: Signature proves origin
+- <strong>Uniqueness</strong>: Each attack has unique signature</p>
+<h2 id="web3-integration">Web3 Integration</h2>
+<h3 id="connecting-to-network">Connecting to Network</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
+<span class="c1"># RPC endpoint</span>
+<span class="n">rpc_url</span> <span class="o">=</span> <span class="s2">&quot;https://data-seed-prebsc-1-s1.binance.org:8545/&quot;</span>
+
+<span class="c1"># Create Web3 instance</span>
+<span class="n">w3</span> <span class="o">=</span> <span class="n">Web3</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">HTTPProvider</span><span class="p">(</span><span class="n">rpc_url</span><span class="p">))</span>
+
+<span class="c1"># Verify connection</span>
+<span class="k">if</span> <span class="n">w3</span><span class="o">.</span><span class="n">is_connected</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connected to network: </span><span class="si">{</span><span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">chain_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connection failed&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="loading-contracts">Loading Contracts</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+
+<span class="c1"># Load ABI</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;TokenContract.abi.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">token_abi</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Contract address</span>
+<span class="n">token_address</span> <span class="o">=</span> <span class="n">Web3</span><span class="o">.</span><span class="n">to_checksum_address</span><span class="p">(</span>
+    <span class="s2">&quot;0x606c0fE69D437F42BfC11D3eec82F596cC02C02a&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Create contract instance</span>
+<span class="n">token_contract</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span>
+    <span class="n">address</span><span class="o">=</span><span class="n">token_address</span><span class="p">,</span>
+    <span class="n">abi</span><span class="o">=</span><span class="n">token_abi</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="reading-contract-data">Reading Contract Data</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get token balance</span>
+<span class="n">user_address</span> <span class="o">=</span> <span class="n">Web3</span><span class="o">.</span><span class="n">to_checksum_address</span><span class="p">(</span><span class="s2">&quot;0x...&quot;</span><span class="p">)</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">token_contract</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">balanceOf</span><span class="p">(</span><span class="n">user_address</span><span class="p">)</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
+
+<span class="c1"># Get token decimals</span>
+<span class="n">decimals</span> <span class="o">=</span> <span class="n">token_contract</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">decimals</span><span class="p">()</span><span class="o">.</span><span class="n">call</span><span class="p">()</span>
+
+<span class="c1"># Format balance</span>
+<span class="n">balance_formatted</span> <span class="o">=</span> <span class="n">balance</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="n">decimals</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Balance: </span><span class="si">{</span><span class="n">balance_formatted</span><span class="si">}</span><span class="s2"> DGLD&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="submitting-transactions">Submitting Transactions</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">eth_account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+
+<span class="c1"># Prepare transaction</span>
+<span class="n">tx</span> <span class="o">=</span> <span class="n">validator_contract</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">validateAndMint</span><span class="p">(</span>
+    <span class="n">attack_hash</span><span class="p">,</span>
+    <span class="n">signature</span><span class="p">,</span>
+    <span class="n">recipient_address</span><span class="p">,</span>
+    <span class="n">reward_amount</span>
+<span class="p">)</span><span class="o">.</span><span class="n">build_transaction</span><span class="p">({</span>
+    <span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">sender_address</span><span class="p">,</span>
+    <span class="s1">&#39;nonce&#39;</span><span class="p">:</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">get_transaction_count</span><span class="p">(</span><span class="n">sender_address</span><span class="p">),</span>
+    <span class="s1">&#39;gas&#39;</span><span class="p">:</span> <span class="mi">200000</span><span class="p">,</span>
+    <span class="s1">&#39;gasPrice&#39;</span><span class="p">:</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">gas_price</span>
+<span class="p">})</span>
+
+<span class="c1"># Sign transaction</span>
+<span class="n">signed_tx</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">sign_transaction</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">private_key</span><span class="p">)</span>
+
+<span class="c1"># Send transaction</span>
+<span class="n">tx_hash</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">send_raw_transaction</span><span class="p">(</span><span class="n">signed_tx</span><span class="o">.</span><span class="n">rawTransaction</span><span class="p">)</span>
+
+<span class="c1"># Wait for confirmation</span>
+<span class="n">receipt</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">wait_for_transaction_receipt</span><span class="p">(</span><span class="n">tx_hash</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">receipt</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Success! TX: </span><span class="si">{</span><span class="n">tx_hash</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed! TX: </span><span class="si">{</span><span class="n">tx_hash</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="token-economics">Token Economics</h2>
+<h3 id="reward-calculation">Reward Calculation</h3>
+<p><strong>Formula</strong>:
+<div class="highlight"><pre><span></span><code>Token Reward = base_reward × service_multiplier × volume_multiplier
+</code></pre></div></p>
+<p><strong>Base Rewards</strong> (per attack type):
+- SSH brute force: 10 DGLD
+- HTTP flood: 5 DGLD
+- FTP attempts: 8 DGLD
+- MySQL probes: 12 DGLD
+- SMB attacks: 15 DGLD</p>
+<p><strong>Service Multiplier</strong>:
+- Single service: 1.0x
+- 2-3 services: 1.2x
+- 4+ services: 1.5x</p>
+<p><strong>Volume Multiplier</strong>:
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">calculate_volume_multiplier</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">requests</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.5</span>
+    <span class="k">elif</span> <span class="n">requests</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">requests</span> <span class="o">&lt;</span> <span class="mi">10000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.5</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">2.0</span>
+</code></pre></div></p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code>Attack: SSH brute force
+Requests: 5000
+Services: 1
+
+Reward = 10 × 1.0 × 1.5 = 15 DGLD
+</code></pre></div></p>
+<h3 id="token-utility">Token Utility</h3>
+<p><strong>Uses for DGLD Tokens</strong>:</p>
+<ol>
+<li><strong>Threat Intelligence Access</strong></li>
+<li>IP reputation data</li>
+<li>Attack pattern analysis</li>
+<li>Geographic threat maps</li>
+<li>
+<p>Cost: 100 DGLD per month</p>
+</li>
+<li>
+<p><strong>Premium Features</strong></p>
+</li>
+<li>Advanced analytics</li>
+<li>Custom alerts</li>
+<li>API access</li>
+<li>
+<p>Cost: 500 DGLD per month</p>
+</li>
+<li>
+<p><strong>Trading</strong></p>
+</li>
+<li>Exchange for other cryptocurrencies</li>
+<li>Peer-to-peer transfers</li>
+<li>Liquidity pools</li>
+</ol>
+<h2 id="network-configuration">Network Configuration</h2>
+<h3 id="supported-networks">Supported Networks</h3>
+<h4 id="bsc-testnet-default">BSC Testnet (Default)</h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;network&quot;</span><span class="p">:</span> <span class="s2">&quot;BSC Testnet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rpc_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://data-seed-prebsc-1-s1.binance.org:8545/&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;chain_id&quot;</span><span class="p">:</span> <span class="mi">97</span><span class="p">,</span>
+    <span class="s2">&quot;explorer&quot;</span><span class="p">:</span> <span class="s2">&quot;https://testnet.bscscan.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;token_address&quot;</span><span class="p">:</span> <span class="s2">&quot;0x606c0fE69D437F42BfC11D3eec82F596cC02C02a&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;validator_address&quot;</span><span class="p">:</span> <span class="s2">&quot;0x12485DAE42bFc5bF625f4Da5738847e79CFe2cAD&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="bsc-mainnet">BSC Mainnet</h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;network&quot;</span><span class="p">:</span> <span class="s2">&quot;BSC Mainnet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rpc_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://bsc-dataseed.binance.org/&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;chain_id&quot;</span><span class="p">:</span> <span class="mi">56</span><span class="p">,</span>
+    <span class="s2">&quot;explorer&quot;</span><span class="p">:</span> <span class="s2">&quot;https://bscscan.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;token_address&quot;</span><span class="p">:</span> <span class="s2">&quot;TBD&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;validator_address&quot;</span><span class="p">:</span> <span class="s2">&quot;TBD&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="polygon">Polygon</h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;network&quot;</span><span class="p">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rpc_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://polygon-rpc.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;chain_id&quot;</span><span class="p">:</span> <span class="mi">137</span><span class="p">,</span>
+    <span class="s2">&quot;explorer&quot;</span><span class="p">:</span> <span class="s2">&quot;https://polygonscan.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;token_address&quot;</span><span class="p">:</span> <span class="s2">&quot;TBD&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;validator_address&quot;</span><span class="p">:</span> <span class="s2">&quot;TBD&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="changing-networks">Changing Networks</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.configuration.config_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_config</span>
+
+<span class="c1"># Update RPC endpoint</span>
+<span class="n">update_config</span><span class="p">(</span><span class="s1">&#39;net_rpc&#39;</span><span class="p">,</span> <span class="s1">&#39;https://polygon-rpc.com&#39;</span><span class="p">,</span> <span class="s1">&#39;blockchain&#39;</span><span class="p">)</span>
+
+<span class="c1"># Update contract addresses</span>
+<span class="n">update_config</span><span class="p">(</span><span class="s1">&#39;contract_token_address&#39;</span><span class="p">,</span> <span class="s1">&#39;0x...&#39;</span><span class="p">,</span> <span class="s1">&#39;blockchain&#39;</span><span class="p">)</span>
+<span class="n">update_config</span><span class="p">(</span><span class="s1">&#39;contract_validator_address&#39;</span><span class="p">,</span> <span class="s1">&#39;0x...&#39;</span><span class="p">,</span> <span class="s1">&#39;blockchain&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="development-and-testing">Development and Testing</h2>
+<h3 id="local-blockchain-ganache">Local Blockchain (Ganache)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install Ganache</span>
+npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>ganache
+
+<span class="c1"># Start local blockchain</span>
+ganache<span class="w"> </span>--port<span class="w"> </span><span class="m">8545</span><span class="w"> </span>--deterministic
+
+<span class="c1"># Connect Deceptgold to local network</span>
+deceptgold<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>blockchain.rpc_url<span class="w"> </span>http://localhost:8545
+</code></pre></div>
+<h3 id="testnet-testing">Testnet Testing</h3>
+<p><strong>Get Testnet Tokens</strong>:
+1. Visit BSC Testnet Faucet: https://testnet.binance.org/faucet-smart
+2. Enter your wallet address
+3. Receive test BNB for gas fees</p>
+<p><strong>Test Attack Submission</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Simulate attack</span>
+<span class="n">attack_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-12-22T20:00:00Z&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;source_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;ssh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;requests&quot;</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">}</span>
+
+<span class="c1"># Sign and submit</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">sign_attack</span><span class="p">(</span><span class="n">attack_data</span><span class="p">)</span>
+<span class="n">tx_hash</span> <span class="o">=</span> <span class="n">submit_to_blockchain</span><span class="p">(</span><span class="n">attack_data</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+
+<span class="c1"># Check on explorer</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://testnet.bscscan.com/tx/</span><span class="si">{</span><span class="n">tx_hash</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="unit-testing-blockchain-code">Unit Testing Blockchain Code</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span><span class="p">,</span> <span class="n">patch</span>
+
+<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;web3.Web3&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_token_balance_query</span><span class="p">(</span><span class="n">mock_web3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test querying token balance.&quot;&quot;&quot;</span>
+    <span class="c1"># Setup mock</span>
+    <span class="n">mock_contract</span> <span class="o">=</span> <span class="n">Mock</span><span class="p">()</span>
+    <span class="n">mock_contract</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">balanceOf</span><span class="o">.</span><span class="n">return_value</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="mi">1000000000000000000000</span>
+    <span class="n">mock_contract</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">decimals</span><span class="o">.</span><span class="n">return_value</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="mi">18</span>
+
+    <span class="c1"># Test</span>
+    <span class="n">balance</span> <span class="o">=</span> <span class="n">get_token_balance</span><span class="p">(</span><span class="s2">&quot;0x123...&quot;</span><span class="p">,</span> <span class="n">mock_contract</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">balance</span> <span class="o">==</span> <span class="mf">1000.0</span>  <span class="c1"># 1000 tokens</span>
+</code></pre></div>
+<h2 id="deployment">Deployment</h2>
+<h3 id="smart-contract-deployment">Smart Contract Deployment</h3>
+<p><strong>Requirements</strong>:
+- Solidity compiler (solc)
+- Deployment wallet with gas funds
+- Network RPC endpoint</p>
+<p><strong>Deployment Script</strong>:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">solcx</span><span class="w"> </span><span class="kn">import</span> <span class="n">compile_source</span>
+
+<span class="c1"># Compile contract</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;DeceptgoldToken.sol&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">compiled</span> <span class="o">=</span> <span class="n">compile_source</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+<span class="n">contract_interface</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">[</span><span class="s1">&#39;&lt;stdin&gt;:DeceptgoldToken&#39;</span><span class="p">]</span>
+
+<span class="c1"># Deploy</span>
+<span class="n">w3</span> <span class="o">=</span> <span class="n">Web3</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">HTTPProvider</span><span class="p">(</span><span class="n">rpc_url</span><span class="p">))</span>
+<span class="n">Contract</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">contract</span><span class="p">(</span>
+    <span class="n">abi</span><span class="o">=</span><span class="n">contract_interface</span><span class="p">[</span><span class="s1">&#39;abi&#39;</span><span class="p">],</span>
+    <span class="n">bytecode</span><span class="o">=</span><span class="n">contract_interface</span><span class="p">[</span><span class="s1">&#39;bin&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Build transaction</span>
+<span class="n">tx</span> <span class="o">=</span> <span class="n">Contract</span><span class="o">.</span><span class="n">constructor</span><span class="p">()</span><span class="o">.</span><span class="n">build_transaction</span><span class="p">({</span>
+    <span class="s1">&#39;from&#39;</span><span class="p">:</span> <span class="n">deployer_address</span><span class="p">,</span>
+    <span class="s1">&#39;nonce&#39;</span><span class="p">:</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">get_transaction_count</span><span class="p">(</span><span class="n">deployer_address</span><span class="p">),</span>
+    <span class="s1">&#39;gas&#39;</span><span class="p">:</span> <span class="mi">3000000</span><span class="p">,</span>
+    <span class="s1">&#39;gasPrice&#39;</span><span class="p">:</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">gas_price</span>
+<span class="p">})</span>
+
+<span class="c1"># Sign and send</span>
+<span class="n">signed</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">sign_transaction</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">private_key</span><span class="p">)</span>
+<span class="n">tx_hash</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">send_raw_transaction</span><span class="p">(</span><span class="n">signed</span><span class="o">.</span><span class="n">rawTransaction</span><span class="p">)</span>
+
+<span class="c1"># Get contract address</span>
+<span class="n">receipt</span> <span class="o">=</span> <span class="n">w3</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">wait_for_transaction_receipt</span><span class="p">(</span><span class="n">tx_hash</span><span class="p">)</span>
+<span class="n">contract_address</span> <span class="o">=</span> <span class="n">receipt</span><span class="p">[</span><span class="s1">&#39;contractAddress&#39;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Contract deployed at: </span><span class="si">{</span><span class="n">contract_address</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="configuration-update">Configuration Update</h3>
+<p>After deployment, update Deceptgold configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="n">update_config</span><span class="p">(</span><span class="s1">&#39;contract_token_address&#39;</span><span class="p">,</span> <span class="n">contract_address</span><span class="p">,</span> <span class="s1">&#39;blockchain&#39;</span><span class="p">)</span>
+<span class="n">update_config</span><span class="p">(</span><span class="s1">&#39;contract_validator_address&#39;</span><span class="p">,</span> <span class="n">validator_address</span><span class="p">,</span> <span class="s1">&#39;blockchain&#39;</span><span class="p">)</span>
+<span class="n">update_config</span><span class="p">(</span><span class="s1">&#39;key_public_expected_signer&#39;</span><span class="p">,</span> <span class="n">signer_address</span><span class="p">,</span> <span class="s1">&#39;blockchain&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>Connection Failed</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Check RPC endpoint</span>
+<span class="n">w3</span> <span class="o">=</span> <span class="n">Web3</span><span class="p">(</span><span class="n">Web3</span><span class="o">.</span><span class="n">HTTPProvider</span><span class="p">(</span><span class="n">rpc_url</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connected: </span><span class="si">{</span><span class="n">w3</span><span class="o">.</span><span class="n">is_connected</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Try alternative RPC</span>
+<span class="n">alternative_rpc</span> <span class="o">=</span> <span class="s2">&quot;https://bsc-dataseed1.defibit.io/&quot;</span>
+</code></pre></div></p>
+<p><strong>Transaction Reverted</strong>:
+- Check gas limit (increase if needed)
+- Verify signature is valid
+- Ensure attack hash not already processed
+- Check wallet has sufficient gas funds</p>
+<p><strong>Invalid Signature</strong>:
+- Verify message format matches contract expectation
+- Check private key matches authorized signer
+- Ensure proper Keccak-256 hashing</p>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="Architecture.md">Architecture.md</a> - System architecture</li>
+<li><a href="../Commands/">Commands.md</a> - Command reference</li>
+<li><a href="../Testing/">Testing.md</a> - Testing guide</li>
+<li><a href="Whitepaper.md">Whitepaper</a> - Project vision</li>
+</ul>
+<hr />
+<p><strong>Questions?</strong> Contact: contact@decept.gold</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>

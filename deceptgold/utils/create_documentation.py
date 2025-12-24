@@ -21,7 +21,7 @@ def call_serve():
     """Serve MkDocs documentation for the Deceptgold project locally."""
     try:
         result = subprocess.run(
-            ["mkdocs", "serve", "-f", "docs/mkdocs.yml"],
+            ["mkdocs", "serve", "-f", "../docs/mkdocs.yml"],
             check=True,
             text=True
         )
@@ -40,7 +40,7 @@ def call_build():
     """Build MkDocs documentation for the Deceptgold project."""
     try:
         result = subprocess.run(
-            ["mkdocs", "build", "-f", "docs/mkdocs.yml"],
+            ["mkdocs", "build", "-f", "../docs/mkdocs.yml"],
             check=True,
             text=True,
             capture_output=True
