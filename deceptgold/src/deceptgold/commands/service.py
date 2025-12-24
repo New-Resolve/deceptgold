@@ -93,7 +93,12 @@ def start(*args):
             check_send_notify("Deceptgold has been finalized.")
     else:
         executable_path = str(Path(sys.executable))
-        cmd = [executable_path, "-m", "deceptgold", "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
+        
+        # Detect if we are running from a Python interpreter or a standalone binary (packaged)
+        if "python" in os.path.basename(executable_path).lower():
+            cmd = [executable_path, "-m", "deceptgold", "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
+        else:
+            cmd = [executable_path, "service", "start", "daemon=false", "recall=true", p_force_no_wallet]
         if debug:
             if platform.system() == "Windows":
                 from subprocess import list2cmdline
