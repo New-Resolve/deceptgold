@@ -2,8 +2,9 @@ import subprocess
 
 
 def main():
-    result = subprocess.run("git-cliff", shell=True, check=True, capture_output=True, text=True)
-    output = result.stdout.replace("unreleased", "In This Version")
+    # git-cliff will use the config file located in the utils directory
+    result = subprocess.run("git-cliff --unreleased --config utils/config/cliff.toml", shell=True, check=True, capture_output=True, text=True)
+    output = result.stdout
     with open("src/deceptgold/CHANGELOG", "w") as f:
         f.write(output)
 
