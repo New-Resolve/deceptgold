@@ -1,0 +1,602 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.decept.gold/whitepaper/">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>Whitepaper - Deceptgold Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#whitepaper" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deceptgold Documentation" class="md-header__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deceptgold Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Whitepaper
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deceptgold Documentation" class="md-nav__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deceptgold Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Blockchain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web3_Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Contributing.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../About/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#converting-risks-vulnerabilities-and-real-attacks-into-budget-and-self-investment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting Risks, Vulnerabilities, and Real Attacks into Budget and Self-Investment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Converting Risks, Vulnerabilities, and Real Attacks into Budget and Self-Investment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. The Problem
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-the-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. The Solution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-how-deceptgold-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. How Deceptgold Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-smart-contract-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Smart Contract Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cryptographic-integrity" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Cryptographic Integrity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-granular-logging-and-user-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Granular Logging and User Control
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-use-of-tokens-for-advanced-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Use of Tokens for Advanced Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-prevention-of-unauthorized-farming" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Prevention of Unauthorized Farming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-business-intelligence" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Business Intelligence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-architecture-and-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Architecture and Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-the-future-with-deceptgold" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. The Future with Deceptgold
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-regulatory-compliance-commitment" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Regulatory Compliance Commitment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="whitepaper">Whitepaper</h1>
+<h2 id="converting-risks-vulnerabilities-and-real-attacks-into-budget-and-self-investment">Converting Risks, Vulnerabilities, and Real Attacks into Budget and Self-Investment</h2>
+<p><strong>Author:</strong> Jonathan Scheibel de Morais<br />
+<strong>Version:</strong> 0.0.3<br />
+<strong>Date of Publication:</strong> May 28, 2025<br />
+<strong>Contact:</strong> [contact@decept.gold] | [https://decept.gold]<br />
+<strong>Project Name:</strong> Deceptgold  </p>
+<hr />
+<p><strong>Abstract:</strong>  </p>
+<p>Deceptgold is introducing a paradigm shift in cybersecurity: instead of treating attacks as mere threats, it transforms them into measurable digital assets. By monetizing intrusion attempts through an innovative token-based model, Deceptgold is creating a new revenue stream in an industry traditionally defined by cost. This breakthrough enables companies to generate value from vulnerabilities while simultaneously gaining strategic intelligence. For all, Deceptgold represents a high-impact opportunity at the intersection of security, blockchain, and data monetization—with scalable potential in industries that are under constant cyber pressure.</p>
+<hr />
+<h3 id="1-the-problem">1. The Problem</h3>
+<p>Companies suffer cyberattacks every day. These attacks consume CPU power, bandwidth, time, and attention – all wasted, with no return. The current scenario turns attacks into losses. Deceptgold has changed that.</p>
+<h3 id="2-the-solution">2. The Solution</h3>
+<p>Deceptgold transforms each attack attempt into digital tokens. These tokens are rewards automatically generated from requests made by attackers. The more attacks, the more tokens are generated — and the more resources the company has to invest in security, intelligence, and prevention. This new model not only makes attacks less damaging but also turns them into opportunities to finance better protection and analytics.</p>
+<h3 id="3-how-deceptgold-works">3. How Deceptgold Works</h3>
+<p>Deployed on all major operating systems, the Deceptgold captures attack data and converts it into tokens through smart contracts and code obfuscation. These tokens can be used to access Thread Intel, providing insights into malicious IPs, attacked services, and other threats. This makes the enterprise smarter by anticipating risks and optimizing its defense actions. The deployment is modular and designed for easy integration into existing infrastructure. Deceptgold runs as a command-line binary, installable through system package managers, making it lightweight, fast, and ideal for on-premises or cloud environments. Some use cases could be retail e-commerce platforms converting DDoS attack attempts into tokens, funding enhanced firewall protections, or a financial services provider using Thread Intel to map malicious IPs, reducing fraud and improving threat response.</p>
+<h3 id="4-smart-contract-architecture">4. Smart Contract Architecture</h3>
+<p>Deceptgold is built on the ERC-20 token standard and relies on a dual smart contract infrastructure. The first contract manages token issuance, while the second is responsible for validating digital signatures attached to each attack log. This structure ensures that each token is minted only after a cryptographically verifiable interaction, thus eliminating the possibility of self-farming or token inflation through spoofing.</p>
+<h3 id="5-cryptographic-integrity">5. Cryptographic Integrity</h3>
+<p>To authenticate and validate each threat interaction, Deceptgold uses Ethereum-compatible cryptographic signatures based on the Keccak-256 hashing algorithm. Each attack is serialized, signed, and submitted for on-chain verification, ensuring that only events with valid signatures — generated by trusted deceptgold — are eligible for token rewards. This system guarantees both transparency and immutability in token generation.</p>
+<h3 id="6-granular-logging-and-user-control">6. Granular Logging and User Control</h3>
+<p>Deceptgold provides granular attack logging, giving the honeypot operator full control over the data collected. Logs are detailed and structured to support strategic decisions, making threat analysis simple and actionable. It also allows the system customer to store or manage all attack data.</p>
+<h3 id="7-use-of-tokens-for-advanced-resources">7. Use of Tokens for Advanced Resources</h3>
+<p>Tokens earned can be used to unlock deeper layers of intelligence, such as access to Thread Intel — offering behavioral scoring of IPs, the most targeted services, origin trends, and predictive threat mapping.</p>
+<h3 id="8-prevention-of-unauthorized-farming">8. Prevention of Unauthorized Farming</h3>
+<p>To ensure that legitimate companies cannot farm their own tokens, intelligent rate-limiting mechanisms have been implemented. Combined with cryptographic verification and verification smart contracts, the system ensures that only external interactions, both real and malicious, are rewarded. This maintains the balance and trustworthiness of the ecosystem. Unlike traditional models where companies aim for fewer attacks, Deceptgold rewards visibility. In high-threat environments, Deceptgold provides a return on the very exposure that used to be purely negative. Even in periods of low attack frequency, the platform continues to offer value through access to analytics, threat mapping, and peer data contributions. Instead of merely reacting to threats, companies start earning while observing — and learning.</p>
+<h3 id="9-business-intelligence">9. Business Intelligence</h3>
+<p>In addition to generating resources, Deceptgold provides Business Intelligence tools for strategic analysis of attacks. Users can use their own tokens to benefit from intelligent data features. With data on attack patterns and malicious behaviors, companies can make more informed decisions and always be ahead of threats.</p>
+<h3 id="10-architecture-and-security">10. Architecture and Security</h3>
+<p>Deceptgold employs a dual ERC-20 smart contract system to tokenize cyberattack data securely and efficiently. A lightweight, configurable detection module captures and classifies attack events across Linux, Windows, and macOS, integrating seamlessly via standard package managers. Attack logs are serialized and signed with a private key embedded in the obfuscated source code, using a robust hashing algorithm for cryptographic integrity. Two contracts ensure trust: one mints tokens for verified events, leveraging ERC-20 interoperability and gas efficiency, while the other validates signatures against an on-chain public key, preventing self-farming. Advanced code obfuscation protects proprietary logic, balancing security and performance. This architecture delivers scalable, transparent tokenization, turning threats into actionable assets.</p>
+<h3 id="11-the-future-with-deceptgold">11. The Future with Deceptgold</h3>
+<p>Deceptgold redefines digital security, transforming attacks into financial resources and valuable data. With it, security stops being a cost and becomes an ongoing investment, strengthening defense, Business Intelligence and Trade Intelligence, and creating a virtuous cycle of growth and protection.</p>
+<h3 id="12-regulatory-compliance-commitment">12. Regulatory Compliance Commitment</h3>
+<p>Deceptgold is committed to adhering to global privacy and blockchain regulations. By implementing data anonymization and consulting legal experts, the platform ensures compliance with standards in major jurisdictions, protecting user data and maintaining trust in the tokenization process.</p>
+<hr />
+<p><strong>Legal Disclaimer:</strong><br />
+This whitepaper is for informational purposes only and does not constitute an offer or solicitation to sell shares or securities in Deceptgold or any related or associated company. The tokens mentioned are utility tokens designed to grant access to services within the Deceptgold platform. They do not represent ownership or claims in any traditional sense and may be subject to regulatory guidelines in specific jurisdictions. Furthermore, these tokens fall under the category of Real World Assets (RWA), as they are directly backed by verifiable cybersecurity events and data — turning digital threats into tangible value. Use at your own discretion.</p>
+<p><strong>Note on the Name "Deceptgold:"</strong>
+The name "Deceptgold" reflects the platform’s innovative approach to cybersecurity. "Decept" refers to an advanced category of threat capture techniques, extending beyond traditional honeypots, designed to outsmart attackers. "Gold" symbolizes the value generated for users, who "mint" tokens from attack attempts, turning threats into assets. While attackers seek elusive rewards, Deceptgold empowers its users to capture and create tangible value.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>
