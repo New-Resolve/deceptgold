@@ -212,7 +212,12 @@ jobs:
         working-directory: deceptgold
         run: |
           poetry run generate-doc --build-only
-          echo "NOTICE: The documentation is internal. Run 'poetry run generate-doc' locally to view it at http://localhost:8000."
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/master'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: deceptgold/docs/site
 
   build-linux:
     name: 🐧 Build for Linux

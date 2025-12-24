@@ -13,7 +13,6 @@ plugins:
             docstring_style: google
             show_source: false
             merge_init_into_class: true
-  - markdown-exec
 markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed
@@ -23,6 +22,9 @@ nav:
   - Home: index.md
   - CLI Reference: Commands.md
   - Installation: Installation.md
-  - about: About.md
+  - Blockchain: Blockchain.md
+  - Testing: Testing.md
+  - Web3 Testing: Web3_Testing.md
+  - About: About.md
 extra:
   generator: false
