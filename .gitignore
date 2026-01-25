@@ -7,3 +7,10 @@ deceptgold/.env
 deceptgold/env
 deceptgold/dist
 deceptgold/.idea
+
+.idea/
+*.iml
+.venv/
+venv/
+.env
+env/

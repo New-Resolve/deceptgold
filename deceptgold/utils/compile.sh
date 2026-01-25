@@ -1,5 +1,13 @@
 #!/bin/bash
 
+set -e
+
+MODE="${1:---all}"
+if [ "$MODE" != "--deb" ] && [ "$MODE" != "--rpm" ] && [ "$MODE" != "--all" ]; then
+  echo "Usage: $0 [--deb|--rpm|--all]"
+  exit 2
+fi
+
 echo "[+] Ativando ambiente virtual do Poetry"
 . $(poetry env info --path)/bin/activate
 
@@ -17,7 +25,7 @@ cp -r src/deceptgold/CHANGELOG src_obf/deceptgold/
 cp -r src/deceptgold/LICENSE src_obf/deceptgold/
 cp -r src/deceptgold/NOTICE src_obf/deceptgold/
 
-echo "[+] Gerando .deb standalone com Python embutido (mantém comando 'deceptgold')"
+echo "[+] Gerando pacote(s) standalone com Python embutido (mantém comando 'deceptgold')"
 
 VERSION=$(poetry version -s)
 ARCH=$(dpkg --print-architecture)
@@ -52,7 +60,9 @@ exec "$APP_ROOT/python/bin/python3" -m deceptgold "$@"
 EOF
 chmod 0755 "$PKGDIR/usr/bin/deceptgold"
 
-cat > "$PKGDIR/DEBIAN/control" <<EOF
+build_deb() {
+  mkdir -p "$PKGDIR/DEBIAN"
+  cat > "$PKGDIR/DEBIAN/control" <<EOF
 Package: deceptgold
 Version: ${VERSION}
 Section: utils
@@ -62,8 +72,76 @@ Maintainer: Jonathan Scheibel <jonathan@deceptgold.com>
 Description: Deceptgold
 EOF
 
-DEB_OUT="dist/deceptgold_${VERSION}-1~standalone_${ARCH}.deb"
-dpkg-deb --root-owner-group --build "$PKGDIR" "$DEB_OUT"
+  DEB_OUT="dist/deceptgold_${VERSION}-1~standalone_${ARCH}.deb"
+  dpkg-deb --root-owner-group --build "$PKGDIR" "$DEB_OUT"
+  echo "[+] Standalone DEB gerado: $DEB_OUT"
+}
+
+build_rpm() {
+  if ! command -v rpmbuild >/dev/null 2>&1; then
+    echo "[!] rpmbuild não encontrado. Instale rpmbuild/rpm-build antes de gerar .rpm."
+    exit 1
+  fi
+
+  RPMTOP=$(mktemp -d)
+  mkdir -p "$RPMTOP"/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+
+  PAYLOAD_DIR=$(mktemp -d)
+  cp -a "$PKGDIR"/* "$PAYLOAD_DIR"/
+  rm -rf "$PAYLOAD_DIR/DEBIAN" || true
+
+  TAR_NAME="deceptgold-${VERSION}.tar.gz"
+  tar -C "$PAYLOAD_DIR" -czf "$RPMTOP/SOURCES/$TAR_NAME" .
+
+  SPEC_FILE="$RPMTOP/SPECS/deceptgold.spec"
+  cat > "$SPEC_FILE" <<EOF
+Name: deceptgold
+Version: ${VERSION}
+Release: 1%{?dist}
+Summary: Deceptgold
+License: Proprietary
+BuildArch: x86_64
+Source0: ${TAR_NAME}
+
+%description
+Deceptgold
+
+%prep
+%setup -q
+
+%build
+
+%install
+mkdir -p %{buildroot}
+cp -a * %{buildroot}/
+
+%files
+/usr/bin/deceptgold
+/usr/lib/deceptgold
+
+%changelog
+EOF
+
+  rpmbuild --define "_topdir $RPMTOP" -bb "$SPEC_FILE"
+  RPM_OUT=$(find "$RPMTOP/RPMS" -type f -name '*.rpm' | head -n 1)
+  if [ -z "$RPM_OUT" ]; then
+    echo "[!] Falha ao gerar RPM."
+    exit 1
+  fi
+  cp "$RPM_OUT" "dist/$(basename "$RPM_OUT" | sed 's/^deceptgold-/deceptgold_/')"
+  echo "[+] Standalone RPM gerado: dist/$(basename "$RPM_OUT" | sed 's/^deceptgold-/deceptgold_/')"
+
+  rm -rf "$RPMTOP" "$PAYLOAD_DIR"
+}
+
+if [ "$MODE" = "--deb" ] || [ "$MODE" = "--all" ]; then
+  build_deb
+fi
+
+if [ "$MODE" = "--rpm" ] || [ "$MODE" = "--all" ]; then
+  build_rpm
+fi
+
 rm -rf "$PKGDIR"
 
 echo "[+] Limpando temporários"

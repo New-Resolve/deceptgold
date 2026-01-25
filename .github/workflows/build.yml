@@ -231,7 +231,7 @@ jobs:
           python-version: ${{ matrix.distro.python-version }}
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y patchelf tree
+          sudo apt-get update && sudo apt-get install -y patchelf tree rpm
           # Force debian:bookworm to be debian:latest to avoid issues with Trixie in Briefcase
           if [[ "${{ matrix.distro.target }}" == "debian" ]]; then
             docker pull debian:bookworm
@@ -257,19 +257,36 @@ jobs:
       - name: Build for ${{ matrix.distro.name }}
         working-directory: deceptgold
         run: |          
+          poetry run briefcase build --target "${{ matrix.distro.target }}" --update
+          poetry run briefcase package --target "${{ matrix.distro.package-target }}"
+
           if [[ "${{ matrix.distro.target }}" == "debian" ]]; then
-            bash utils/compile.sh
-          else
-            poetry run briefcase build --target "${{ matrix.distro.target }}" --update
-            poetry run briefcase package --target "${{ matrix.distro.package-target }}"
+            bash utils/compile.sh --deb
+          fi
+
+          if [[ "${{ matrix.distro.target }}" == "fedora" ]]; then
+            bash utils/compile.sh --rpm
           fi
       - name: Duplicate Debian package for Kali
         if: matrix.distro.name == 'kali'
         run: |
-          FILE=$(ls deceptgold/dist/*.deb | head -n 1)
-          BASENAME=$(basename "$FILE")
-          NEWNAME=$(echo "$BASENAME" | sed 's/debian/kali/g')
-          cp "$FILE" "deceptgold/dist/$NEWNAME"
+          for FILE in deceptgold/dist/*.deb; do
+            BASENAME=$(basename "$FILE")
+
+            # If it has debian in the name, replace it.
+            NEWNAME=$(echo "$BASENAME" | sed 's/debian/kali/g')
+
+            # If nothing changed (e.g. standalone artifacts), add a kali suffix.
+            if [[ "$NEWNAME" == "$BASENAME" ]]; then
+              if [[ "$BASENAME" == *"~standalone"* ]]; then
+                NEWNAME=$(echo "$BASENAME" | sed 's/~standalone/~standalone-kali/g')
+              else
+                NEWNAME=$(echo "$BASENAME" | sed 's/\.deb$/~kali.deb/g')
+              fi
+            fi
+
+            cp "$FILE" "deceptgold/dist/$NEWNAME"
+          done
       - name: Upload ${{ matrix.distro.name }} artifacts
         uses: actions/upload-artifact@v4
         with:
