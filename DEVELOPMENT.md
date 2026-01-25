@@ -53,7 +53,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 ### Python Version Management
 
-Deceptgold requires **Python 3.11+** (3.12 recommended). If your system has an older version, use **pyenv** to manage multiple Python versions.
+Deceptgold requires **Python >=3.11,<3.13**. If your system Python is not compatible (for example, Python 3.13 on rolling distros), use **pyenv** to manage multiple Python versions.
 
 #### Install pyenv (if not installed)
 
@@ -74,18 +74,18 @@ Reload shell:
 source ~/.bashrc  # or ~/.zshrc
 ```
 
-#### Install Python 3.12 with pyenv
+#### Install Python 3.11 with pyenv
 
 ```bash
-# Install Python 3.12
-pyenv install 3.12
+# Install Python 3.11
+pyenv install 3.11
 
 # Set as local version for this project
 cd deceptgold/deceptgold
-pyenv local 3.12
+pyenv local 3.11
 
 # Verify
-python --version  # Should show Python 3.12.x
+python --version  # Should show Python 3.11.x
 ```
 
 #### Configure Poetry to use correct Python
@@ -99,6 +99,20 @@ poetry env use $(which python)
 
 # Verify Poetry is using correct Python
 poetry env info
+```
+
+If you see an error like:
+
+```text
+Current Python version (3.13.x) is not allowed by the project (>=3.11,<3.13).
+```
+
+Fix it with:
+
+```bash
+pyenv local 3.11
+poetry env use python
+poetry install
 ```
 
 ## Quick Start
@@ -318,15 +332,30 @@ cd deceptgold
 sh utils/compile.sh
 ```
 
+### Service CLI Cheatsheet
+
+```bash
+# List all services and see which ones are enabled (Configured)
+deceptgold service list
+
+# Change the port of a service (does not enable it)
+deceptgold service set GIT 9814
+
+# Enable a service (layer is part of the service name, not a subcommand)
+deceptgold service enable web2.git
+
+# Restart the daemon to apply changes
+deceptgold service restart
+```
+
 **What the script does:**
 
 1. Activates Poetry environment
 2. Cleans previous builds
 3. Obfuscates code with PyArmor
 4. Copies resources (LICENSE, CHANGELOG, etc.)
-5. Builds with Briefcase for target platform
-6. Packages the application
-7. Outputs to `dist/` directory
+5. Generates a standalone `.deb` with an embedded Python runtime
+6. Outputs to `dist/` directory
 
 ### Build for Specific Platforms
 
