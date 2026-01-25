@@ -272,7 +272,13 @@ def list_services():
         table.add_row(layer, service_name, str(port), status_text, enabled_text)
 
     console.print(table)
-    console.print("\n[italic gray]Use 'service enable <Layer>.<Service>' to activate more layers.[/]")
+    console.print(
+        "\n[italic gray]Quick tips:[/]\n"
+        "[italic gray]- Layer is not a subcommand. Use it as a prefix in the service name: <layer>.<service> (example: web2.git)[/]\n"
+        "[italic gray]- To change a port (does not enable):  deceptgold service set GIT 9814[/]\n"
+        "[italic gray]- To enable a service (keeps current port): deceptgold service enable web2.git[/]\n"
+        "[italic gray]- Then restart the daemon to apply: deceptgold service restart[/]"
+    )
 
 
 

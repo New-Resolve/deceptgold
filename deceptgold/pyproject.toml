@@ -98,7 +98,7 @@ supported = false
 supported = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 cyclopts = "^3.11.1"
 briefcase = "^0.3.22"
 pyarmor = "^9.1.6"

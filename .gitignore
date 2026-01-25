@@ -1,1 +1,16 @@
 docs/site/
+deceptgold/.python-version
+deceptgold/poetry.lock
+deceptgold/.venv
+deceptgold/venv
+deceptgold/.env
+deceptgold/env
+deceptgold/dist
+deceptgold/.idea
+
+.idea/
+*.iml
+.venv/
+venv/
+.env
+env/
