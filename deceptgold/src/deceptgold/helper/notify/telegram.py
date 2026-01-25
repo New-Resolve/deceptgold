@@ -7,11 +7,12 @@ import qrcode_terminal
 from deceptgold.configuration.config_manager import get_config, update_config
 from deceptgold.helper.fingerprint import get_machine_fingerprint
 
-BOT_TOKEN = "7817219543:AAG3inIRElxo8VHVcncYTJw8DJOIjlz9018"
+BOT_TOKEN = "8579594367:AAEIkuAMmogONttmZn3W5arsNkLBe656sDk"
+NAME_BOT = 'DeceptGoldNotifybot'
 LOCAL_TOKEN = str(uuid.uuid4())[-17:]
 
 def generate_qrcode(token=LOCAL_TOKEN):
-    url = f"https://t.me/DeceptGoldBot?start={token}"
+    url = f"https://t.me/{NAME_BOT}?start={token}"
     qrcode_terminal.draw(url)
     print(f"Scan the QRCode above to open in Telegram: {url} ⏳ Waiting for binding...")
 
@@ -27,7 +28,6 @@ def search_chat_id_by_token(token_local, fingerprint):
                 txt = msg.get("text", "")
                 if txt.startswith("/start ") and txt.split(" ")[1] == token_local:
                     chat_id = msg["chat"]["id"]
-                    print(chat_id)
                     update_config('telegram', str(chat_id), module_name='webhook', passwd=fingerprint)
                     print("Telegram notifications have been successfully configured.")
                     return True
