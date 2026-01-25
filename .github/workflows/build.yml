@@ -257,8 +257,12 @@ jobs:
       - name: Build for ${{ matrix.distro.name }}
         working-directory: deceptgold
         run: |          
-          poetry run briefcase build --target "${{ matrix.distro.target }}" --update
-          poetry run briefcase package --target "${{ matrix.distro.package-target }}"
+          if [[ "${{ matrix.distro.target }}" == "debian" ]]; then
+            bash utils/compile.sh
+          else
+            poetry run briefcase build --target "${{ matrix.distro.target }}" --update
+            poetry run briefcase package --target "${{ matrix.distro.package-target }}"
+          fi
       - name: Duplicate Debian package for Kali
         if: matrix.distro.name == 'kali'
         run: |
