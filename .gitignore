@@ -15,4 +15,6 @@ deceptgold/.briefcase/
 venv/
 .env
 env/
+/tools
 /tools/
+/tools/*
