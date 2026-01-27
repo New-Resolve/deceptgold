@@ -42,7 +42,7 @@ def search_chat_id_by_token(token_local, fingerprint):
     except Exception as e:
         print(f"Error: {e}")
 
-def send_message_telegram(message_send, fingerprint=None, chat_id=None):
+def send_message_telegram(message_send, fingerprint=None, chat_id=None, parse_mode=None):
     if not BOT_TOKEN:
         return
     if not fingerprint:
@@ -56,6 +56,8 @@ def send_message_telegram(message_send, fingerprint=None, chat_id=None):
         "chat_id": int(chat_id),
         "text": message_send
     }
+    if parse_mode:
+        payload["parse_mode"] = parse_mode
     r = requests.post(url, data=payload)
     if not r.ok:
         print("Error sending notification to telegram.")

@@ -4,23 +4,62 @@ import subprocess
 import uuid
 import re
 import os
+import shutil
 import requests
 import getpass
 
 
 def get_cmd_windows_wmic():
     try:
-        output = subprocess.check_output("wmic diskdrive get serialnumber", shell=True, text=True)
+        if shutil.which("wmic") is None:
+            return None
+        output = subprocess.check_output(
+            "wmic diskdrive get serialnumber",
+            shell=True,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
         lines = [line.strip() for line in output.strip().split("\n") if line.strip()]
         if len(lines) > 1 and lines[1]:
             return lines[1]
     except Exception:
         pass
 
+
+def get_cmd_windows_powershell_cim():
+    try:
+        ps_command = "(Get-CimInstance Win32_PhysicalMedia | Select-Object -ExpandProperty SerialNumber)"
+        output = subprocess.check_output(
+            [
+                "powershell",
+                "-NoProfile",
+                "-NonInteractive",
+                "-Command",
+                ps_command,
+            ],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
+        lines = [line.strip() for line in output.strip().split("\n") if line.strip()]
+        if lines and lines[0]:
+            return lines[0]
+    except Exception:
+        pass
+
 def get_cmd_windows_powershell():
     try:
         ps_command = "Get-WmiObject win32_physicalmedia | Select-Object -ExpandProperty SerialNumber"
-        output = subprocess.check_output(["powershell", "-Command", ps_command], text=True)
+        output = subprocess.check_output(
+            [
+                "powershell",
+                "-NoProfile",
+                "-NonInteractive",
+                "-Command",
+                ps_command,
+            ],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
         lines = [line.strip() for line in output.strip().split("\n") if line.strip()]
         if lines and lines[0]:
             return lines[0]
@@ -30,7 +69,12 @@ def get_cmd_windows_powershell():
 
 def get_cmd_windows_cmd():
     try:
-        output = subprocess.check_output("vol C:", shell=True, text=True)
+        output = subprocess.check_output(
+            "vol C:",
+            shell=True,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        )
         match = re.search(
             r"(?:número de série do volume é|"
             r"volume serial number is|"
@@ -94,8 +138,9 @@ def get_disk_serial():
         system = platform.system().strip().lower()
 
         windows_cmds = [
-            get_cmd_windows_wmic,
+            get_cmd_windows_powershell_cim,
             get_cmd_windows_powershell,
+            get_cmd_windows_wmic,
             get_cmd_windows_cmd
         ]
 

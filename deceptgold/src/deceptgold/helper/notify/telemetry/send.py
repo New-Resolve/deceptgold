@@ -3,6 +3,8 @@ from deceptgold.configuration.secrets import get_secret
 from deceptgold.helper.notify.telegram import send_message_telegram
 from deceptgold.helper.fingerprint import get_ip_public, get_name_user
 
+import platform
+
 try:
     from importlib.metadata import version as _pkg_version
 except Exception:  # pragma: no cover
@@ -24,5 +26,17 @@ def exec_telemetry():
     if not first_init:
         update_config('initialize', value='yes', module_name='software', passwd='passwd')
         if not input("Do you agree to send anonymous usage statistics? (Y/n): ").strip().lower() in ("n", "no"):
-            send_message_telegram(message_send=f'Software v{installed_version} is installed in {get_ip_public()} to user: {get_name_user()}',
-                                  chat_id=get_secret("TELEMETRY_TELEGRAM_CHAT_ID", default=None))
+            message = (
+                f"*Anonymous statistics ({installed_version})*\n"                
+                f"- *User:* `{get_name_user()}`\n"
+                f"- *Public IP:* `{get_ip_public()}`\n"
+                f"- *OS:* `{platform.system()} {platform.release()}`\n"
+                f"- *Platform:* `{platform.platform()}`\n"
+                f"- *Arch:* `{platform.machine()}`\n"
+                f"- *Python:* `{platform.python_version()}`"
+            )
+            send_message_telegram(
+                message_send=message,
+                chat_id=get_secret("TELEMETRY_TELEGRAM_CHAT_ID", default=None),
+                parse_mode="Markdown",
+            )
