@@ -638,4 +638,3 @@ Edge Honeypots ─────────┘
 ---
 
 **Questions or suggestions?** Contact: contact@decept.gold
-
