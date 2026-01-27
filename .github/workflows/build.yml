@@ -355,6 +355,7 @@ jobs:
           rm -rf src_obf/ src/deceptgold.dist-info
           mkdir -p src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform linux.x86_64
+          cp -r src/deceptgold/_secrets_generated.py src_obf/deceptgold/
           cp -r src/deceptgold/resources src_obf/deceptgold/
           cp -r src/deceptgold/CHANGELOG src_obf/deceptgold/
           cp -r src/deceptgold/LICENSE src_obf/deceptgold/
@@ -435,12 +436,46 @@ jobs:
           poetry install
         shell: pwsh
 
-      - name: Prepare secrets module (stub for CI)
+      - name: Install sops + age
+        run: |
+          choco install sops -y
+          choco install age.portable -y
+        shell: pwsh
+
+      - name: Write age key (SOPS_AGE_KEY -> file)
         working-directory: deceptgold
         run: |
-          @'
-          SECRETS = {}
-          '@ | Out-File -FilePath src\deceptgold\_secrets_generated.py -Encoding utf8
+          if (-not $env:SOPS_AGE_KEY -or $env:SOPS_AGE_KEY.Trim().Length -eq 0) {
+            Write-Host "[!] Missing GitHub secret: SOPS_AGE_KEY"
+            exit 1
+          }
+          $keyDir = Join-Path $env:USERPROFILE ".config\sops\age"
+          New-Item -ItemType Directory -Force -Path $keyDir | Out-Null
+          $keyFile = Join-Path $keyDir "keys.txt"
+          Set-Content -NoNewline -Path $keyFile -Value $env:SOPS_AGE_KEY -Encoding utf8
+        env:
+          SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
+        shell: pwsh
+
+      - name: Checkout deceptgold-secrets
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.DECEPTGOLD_SECRETS_REPO || secrets.DECEPTGOLD_SECRETS_REPO || format('{0}/deceptgold-secrets', github.repository_owner) }}
+          token: ${{ secrets.DECEPTGOLD_SECRETS_REPO_PAT != '' && secrets.DECEPTGOLD_SECRETS_REPO_PAT || github.token }}
+          path: deceptgold-secrets
+
+      - name: Generate build-time secrets module
+        working-directory: deceptgold
+        env:
+          SOPS_AGE_KEY_FILE: ${{ format('{0}\.config\sops\age\keys.txt', env.USERPROFILE) }}
+        run: |
+          if (Test-Path "..\deceptgold-secrets") {
+            poetry run bootstrap-secrets --secrets-repo ..\deceptgold-secrets
+          } else {
+            @'
+            SECRETS = {}
+            '@ | Out-File -FilePath src\deceptgold\_secrets_generated.py -Encoding utf8
+          }
         shell: pwsh
       - name: Obfuscate source for Windows
         working-directory: deceptgold
@@ -448,6 +483,7 @@ jobs:
           Remove-Item -Recurse -Force src_obf, src\deceptgold.dist-info -ErrorAction SilentlyContinue
           mkdir src_obf
           poetry run pyarmor gen -O src_obf -r -i src/deceptgold --platform windows.x86_64
+          Copy-Item -Force src\deceptgold\_secrets_generated.py src_obf\deceptgold\
           Remove-Item -Recurse -Force src_obf\deceptgold\resources -ErrorAction SilentlyContinue
           Copy-Item -Recurse -Force src\deceptgold\resources src_obf\deceptgold\
           Copy-Item -Force src\deceptgold\CHANGELOG src_obf\deceptgold\
@@ -534,6 +570,27 @@ jobs:
             patch=$((patch + 1))
             echo "NEW_TAG=v${major}.${minor}.${patch}" >> $GITHUB_ENV
           fi
+      - name: Normalize Windows MSI filename
+        run: |
+          set -euo pipefail
+          version="${{ env.NEW_TAG }}"
+          version="${version#v}"
+
+          shopt -s nullglob
+          msi_files=(deceptgold/dist/windows/*.msi)
+          if (( ${#msi_files[@]} == 0 )); then
+            echo "No .msi files found under deceptgold/dist/windows"
+            exit 1
+          fi
+
+          # Keep only one MSI uploaded with a deterministic name.
+          target="deceptgold/dist/windows/deceptgold-${version}-windows.msi"
+          mv "${msi_files[0]}" "$target"
+
+          # Remove any extra MSI files to avoid uploading duplicates.
+          for f in "${msi_files[@]:1}"; do
+            rm -f "$f"
+          done
       - name: Generate custom release notes
         id: generate_notes
         run: |

@@ -24,13 +24,14 @@ def _get_app_version() -> str:
 
 
 def init_app():
+    my_self_developer_fn = None
     try:
         if not hasattr(time, "clock"):
             time.clock = timeit.default_timer
 
         from deceptgold.helper.descripton import get_description
         from deceptgold.helper.opencanary.proxy_logger import CustomFileHandler
-        from deceptgold.helper.helper import my_self_developer
+        from deceptgold.helper.helper import my_self_developer as my_self_developer_fn
         from deceptgold.commands.user import users_app
         from deceptgold.commands.service import services_app
         from deceptgold.commands.notify import notify_app
@@ -61,7 +62,7 @@ def init_app():
         print(f"Critical error in the application. Please contact us to report this situation. We do not collect any "
               f"information. It would be necessary for you to send us specific information about this specific "
               f"situation. Help us to constantly improve. contact@decept.gold")
-        if my_self_developer():
+        if callable(my_self_developer_fn) and my_self_developer_fn():
             traceback.print_exc()
 
     multiprocessing.set_start_method("spawn")

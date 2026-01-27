@@ -19,7 +19,14 @@ the honeypot generates consistent and verifiable signatures by a smart contract.
 The security of the key is guaranteed by other means such as via pyarmor
 ATTENTION: Change private key when repository goes to new private version control.
 """
-PRIVATE_KEY = get_secret("SIGNING_PRIVATE_KEY", required=True)
+def _get_private_key() -> str:
+    private_key = get_secret("SIGNING_PRIVATE_KEY", default="", required=False)
+    if not private_key:
+        raise RuntimeError(
+            "Missing required secret 'SIGNING_PRIVATE_KEY'. Provide 'DECEPTGOLD_SIGNING_PRIVATE_KEY' "
+            "environment variable or package a deceptgold/resources/secrets.json with this key."
+        )
+    return private_key
 
 """
 This is the value that will exist within the smart contract to prove the off-chain signature of the value 
@@ -30,7 +37,10 @@ EXPECTED_ADDRESS = get_secret("SIGNING_EXPECTED_ADDRESS", default="0xfA6a145a7e1
 def generate_signature_and_hash(json_data):
     json_string = json.dumps(json_data, separators=(',', ':'), sort_keys=True)
     message_hash = keccak(text=json_string)
-    signed_message = Account.sign_message(encode_defunct(hexstr=message_hash.hex()), private_key=PRIVATE_KEY)
+    signed_message = Account.sign_message(
+        encode_defunct(hexstr=message_hash.hex()),
+        private_key=_get_private_key(),
+    )
     return signed_message.signature, message_hash, json_string
 
 def verify_signature(signature, message_hash, expected_address=EXPECTED_ADDRESS):
