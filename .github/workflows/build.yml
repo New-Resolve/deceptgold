@@ -466,15 +466,12 @@ jobs:
 
       - name: Generate build-time secrets module
         working-directory: deceptgold
-        env:
-          SOPS_AGE_KEY_FILE: ${{ format('{0}\.config\sops\age\keys.txt', env.USERPROFILE) }}
         run: |
+          $env:SOPS_AGE_KEY_FILE = Join-Path $env:USERPROFILE ".config\sops\age\keys.txt"
           if (Test-Path "..\deceptgold-secrets") {
             poetry run bootstrap-secrets --secrets-repo ..\deceptgold-secrets
           } else {
-            @'
-            SECRETS = {}
-            '@ | Out-File -FilePath src\deceptgold\_secrets_generated.py -Encoding utf8
+            Set-Content -Path src\deceptgold\_secrets_generated.py -Value 'SECRETS = {}' -Encoding utf8
           }
         shell: pwsh
       - name: Obfuscate source for Windows
