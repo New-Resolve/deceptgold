@@ -846,11 +846,10 @@ Recommended `.vscode/settings.json`:
 - Explore [docs/](docs/) for detailed technical documentation
 - Review [docs/content/Whitepaper.md](docs/content/Whitepaper.md) for project vision
 
-## Getting Help
+## Support
 
-- **Documentation**: Check `docs/` directory
-- **Issues**: Open a GitHub issue
-- **Contact**: contact@decept.gold
+- **GitHub Issues**: Use the issue tracker for bug reports and feature requests
+- **Contact**: jsmorais@pm.me
 
 ---
 

@@ -586,4 +586,4 @@ alternative_rpc = "https://bsc-dataseed1.defibit.io/"
 
 ---
 
-**Questions?** Contact: contact@decept.gold
+**Questions?** Contact: jsmorais@pm.me

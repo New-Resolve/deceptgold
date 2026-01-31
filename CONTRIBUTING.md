@@ -237,12 +237,11 @@ from deceptgold.configuration import config
 - [deceptgold/docs/](deceptgold/docs/) - Technical documentation
 - [Whitepaper](documentation/whitepaper.md) - Project vision and technical details
 
-## Questions?
+## Getting Help
 
-If you have questions about contributing, feel free to:
-
-- Open a discussion on GitHub
-- Contact us at: contact@decept.gold
+If you have questions, feel free to:
+- Open an issue
+- Contact us at: jsmorais@pm.me
 - Check existing documentation in the `docs/` directory
 
 ---
