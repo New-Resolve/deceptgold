@@ -19,6 +19,8 @@ By deploying deceptive environments that interact with attackers in a controlled
 
 Deceptgold is ideal for cybersecurity teams, researchers, and critical infrastructure defenders who want more than just alerts. It is built for those who believe that every intrusion attempt is an opportunity — not just a threat.
 
+![Service list](docs/content/assets/deceptgold_service_list_new.jpeg)
+
 ## 🌟 Features
 
 - ✅ **Hybrid Web2 + Web3 Honeypots** - Traditional (Web2) and decentralized (Web3) service simulation
