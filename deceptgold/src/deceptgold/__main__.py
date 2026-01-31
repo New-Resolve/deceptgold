@@ -61,7 +61,7 @@ def init_app():
     except Exception:
         print(f"Critical error in the application. Please contact us to report this situation. We do not collect any "
               f"information. It would be necessary for you to send us specific information about this specific "
-              f"situation. Help us to constantly improve. contact@decept.gold")
+              f"situation. Help us to constantly improve. https://decept.gold")
         if callable(my_self_developer_fn) and my_self_developer_fn():
             traceback.print_exc()
 

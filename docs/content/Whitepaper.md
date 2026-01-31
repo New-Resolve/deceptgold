@@ -5,7 +5,7 @@
 **Author:** Jonathan Scheibel de Morais  
 **Version:** 0.0.3  
 **Date of Publication:** May 28, 2025  
-**Contact:** [contact@decept.gold] | [https://decept.gold]  
+**Contact:** [jsmorais@pm.me] | [https://decept.gold]  
 **Project Name:** Deceptgold  
 
 ---

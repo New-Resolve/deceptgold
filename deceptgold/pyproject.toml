@@ -6,13 +6,14 @@ version = "0.1.127"
 url = "https://deceptgold.com/deceptgold"
 license.file = "src/deceptgold/LICENSE"
 author = "Deceptgold"
-author_email = "jonathan@deceptgold.com"
+author_email = "jsmorais@pm.me"
 
 [tool.poetry]
 name = "deceptgold"
 version = "0.1.127"
 description = "Deceptgold is a next-gen deception platform that transforms cyber attacks into digital assets, featuring advanced Web2 and Web3/Blockchain honeypot simulations."
-authors = ["jonathan.scheibel <jonathan@deceptgold.com>"]
+authors = ["Jonathan Scheibel de Morais <jsmorais@pm.me>"]
+license = "Apache-2.0"
 readme = "README.md"
 packages = [
     {include = "deceptgold", from = "src"},

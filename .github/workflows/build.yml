@@ -349,6 +349,12 @@ jobs:
             echo "[!] Configure vars.DECEPTGOLD_SECRETS_REPO and secrets.DECEPTGOLD_SECRETS_REPO_PAT (if needed) plus secrets.SOPS_AGE_KEY."
             exit 1
           fi
+      - name: Sync LICENSE (root -> packaged path)
+        working-directory: deceptgold
+        run: |
+          if [ -f "../LICENSE" ]; then
+            cp -f "../LICENSE" "src/deceptgold/LICENSE"
+          fi
       - name: Obfuscate source for Linux
         working-directory: deceptgold
         run: |
@@ -472,6 +478,13 @@ jobs:
             poetry run bootstrap-secrets --secrets-repo ..\deceptgold-secrets
           } else {
             Set-Content -Path src\deceptgold\_secrets_generated.py -Value 'SECRETS = {}' -Encoding utf8
+          }
+        shell: pwsh
+      - name: Sync LICENSE (root -> packaged path)
+        working-directory: deceptgold
+        run: |
+          if (Test-Path "..\LICENSE") {
+            Copy-Item -Force "..\LICENSE" "src\deceptgold\LICENSE"
           }
         shell: pwsh
       - name: Obfuscate source for Windows

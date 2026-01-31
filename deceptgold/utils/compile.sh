@@ -11,6 +11,11 @@ fi
 echo "[+] Ativando ambiente virtual do Poetry"
 . $(poetry env info --path)/bin/activate
 
+echo "[+] Sincronizando LICENSE do repositório para o caminho empacotado"
+if [ -f "../LICENSE" ]; then
+  cp -f "../LICENSE" "src/deceptgold/LICENSE"
+fi
+
 SECRETS_FILE="src/deceptgold/_secrets_generated.py"
 if [ ! -f "$SECRETS_FILE" ]; then
   echo "[!] Missing required secrets file: $SECRETS_FILE"
@@ -76,7 +81,7 @@ Version: ${VERSION}
 Section: utils
 Priority: optional
 Architecture: ${ARCH}
-Maintainer: Jonathan Scheibel <jonathan@deceptgold.com>
+Maintainer: Jonathan Scheibel de Morais <jsmorais@pm.me>
 Description: Deceptgold
 EOF
 
@@ -112,7 +117,7 @@ Name: deceptgold
 Version: ${VERSION}
 Release: 1%{?dist}
 Summary: Deceptgold
-License: Proprietary
+License: Apache-2.0
 BuildArch: x86_64
 Source0: ${TAR_NAME}
 

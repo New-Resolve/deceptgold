@@ -5,7 +5,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/new-resolve/deceptgold)
 [![Docs](https://img.shields.io/badge/docs-available-success)](https://github.com/New-Resolve/deceptgold/tree/master/docs/content)
 ![Python](https://img.shields.io/badge/python-3.12-blue?logo=python)
-[![License: DeceptGold](https://img.shields.io/badge/License-DeceptGold-blue)](deceptgold/src/deceptgold/LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
 
 ---
 
@@ -96,10 +96,10 @@ Help fund the project with crowdfunding: `0x99eF54CDe7EaD64Ed49E78086fCF2ea98Ec4
 
 ## 📄 License
 
-This project is licensed under the Deceptgold License. See [LICENSE](deceptgold/src/deceptgold/LICENSE) for details.
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
 
 ## 📧 Contact
 
-- **Email**: contact@decept.gold
+- **Email**: jsmorais@pm.me
 - **Website**: https://decept.gold
 - **GitHub**: https://github.com/new-resolve/deceptgold
