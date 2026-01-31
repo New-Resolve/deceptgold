@@ -24,7 +24,7 @@ Deceptgold is a next-generation cybersecurity platform that monetizes cyber atta
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌──────────────┐      ┌──────────────┐      ┌──────────────┐   │
-│  │   Honeypot   │────▶│  Signature   │────▶|  Blockchain  │   |
+│  │   Honeypot   │────▶ │  Signature   │────▶ |  Blockchain  │   |
 │  │    System    │      │  Validation  │      │  Integration │   │
 │  │ (OpenCanary) │      │   (ECDSA)    │      │   (Web3)     │   │
 │  └──────────────┘      └──────────────┘      └──────────────┘   │
