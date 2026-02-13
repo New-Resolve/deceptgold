@@ -527,4 +527,4 @@ deceptgold user --show-balance
 
 ---
 
-**Need help?** Contact: jsmorais@pm.me
+**Need help?** Contact: contact@decept.gold

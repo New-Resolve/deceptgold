@@ -81,7 +81,7 @@ Version: ${VERSION}
 Section: utils
 Priority: optional
 Architecture: ${ARCH}
-Maintainer: Jonathan Scheibel de Morais <jsmorais@pm.me>
+Maintainer: Developer <contact@decept.gold>
 Description: Deceptgold
 EOF
 

@@ -24,6 +24,7 @@ Deceptgold is ideal for cybersecurity teams, researchers, and critical infrastru
 ## 🌟 Features
 
 - ✅ **Hybrid Web2 + Web3 Honeypots** - Traditional (Web2) and decentralized (Web3) service simulation
+- ✅ **Local AI Agent** - Real-time event enrichment and LLM analysis
 - ✅ **Real-Time Notifications** - Telegram, Slack, Discord, webhooks
 - ✅ **Cross-Platform** - Linux (all distros) and Windows versions
 - ✅ **Blockchain Tokenization** - ERC-20 tokens for verified attacks
@@ -48,6 +49,17 @@ deceptgold service start daemon=false
 
 # Start a honeypot service without an attached portfolio.
 deceptgold service start force-no-wallet=true
+
+# --- New: AI Module ---
+
+# Install a local AI model (GGUF)
+deceptgold ai install-model
+
+# Start the AI agent to follow logs in real-time with LLM enrichment
+deceptgold ai start
+
+# Generate a detailed AI security and compliance report
+deceptgold reports ai-report dest=report.md format=markdown
 
 # Configure wallet address
 deceptgold user --my-address 0xYourWalletAddress
@@ -102,6 +114,6 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 
 ## 📧 Contact
 
-- **Email**: jsmorais@pm.me
+- **Email**: contact@decept.gold
 - **Website**: https://decept.gold
 - **GitHub**: https://github.com/new-resolve/deceptgold

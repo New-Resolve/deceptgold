@@ -241,7 +241,7 @@ from deceptgold.configuration import config
 
 If you have questions, feel free to:
 - Open an issue
-- Contact us at: jsmorais@pm.me
+- Contact us at: contact@decept.gold
 - Check existing documentation in the `docs/` directory
 
 ---

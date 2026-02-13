@@ -37,6 +37,14 @@ Industry-first native blockchain protocol simulation for decentralized infrastru
 - **Storage**: IPFS Gateway honeypots to detect decentralized storage abuse.
 - **Wallet Services**: Simulation of browser extension and wallet APIs to capture phishing attempts.
 
+### 🤖 Local AI Agent
+Integrated AI capabilities for real-time threat analysis:
+- **Model Management**: Easy installation and management of GGUF models via `deceptgold ai install-model`.
+- **Real-Time Enrichment**: Automated event categorization and risk assessment as they occur.
+- **LLM Analysis**: Advanced cybersecurity analysis of honeypot events using local Large Language Models.
+- **Live Monitoring**: Follow honeypot logs in real-time with the `deceptgold ai start` command.
+- **Detailed Reporting**: Generate comprehensive security and compliance reports using `deceptgold reports ai-report`.
+
 # Specification:  
 ![Commands Service](resources/images/deceptgold_service.gif)  
   

@@ -633,7 +633,7 @@ Recommended `.vscode/settings.json`:
 ## Support
 
 - **GitHub Issues**: Use the issue tracker for bug reports and feature requests
-- **Contact**: jsmorais@pm.me
+- **Contact**: contact@decept.gold
 
 ---
 

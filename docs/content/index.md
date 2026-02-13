@@ -329,7 +329,7 @@ sudo chown -R $USER:$USER /var/log/deceptgold/
 
 - **Documentation**: Check `docs/` directory
 - **Issues**: [GitHub Issues](https://github.com/new-resolve/deceptgold/issues)
-- **Email**: jsmorais@pm.me
+- **Email**: contact@decept.gold
 
 ## Quick Reference Card
 
