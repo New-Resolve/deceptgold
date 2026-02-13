@@ -19,11 +19,12 @@ def parse_args(args):
                 key, value = arg[:].split('=', 1)
 
                 key = key.replace('-', '_').strip().lower()
-                value = value.strip().lower()
+                value = value.strip()
+                value_norm = value.lower()
 
-                if value in ('true', '1', 'yes', 'on'):
+                if value_norm in ('true', '1', 'yes', 'on'):
                     parsed[key] = True
-                elif value in ('false', '0', 'no', 'off'):
+                elif value_norm in ('false', '0', 'no', 'off'):
                     parsed[key] = False
                 else:
                     parsed[key] = value

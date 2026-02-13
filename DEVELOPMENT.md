@@ -355,6 +355,7 @@ deceptgold/
 ├── src/deceptgold/              # Main source code
 │   ├── __main__.py              # Application entry point
 │   ├── commands/                # CLI commands
+│   │   ├── ai.py                # AI agent and model management
 │   │   ├── user.py              # User management commands
 │   │   ├── service.py           # Service control commands
 │   │   └── notify.py            # Notification commands
@@ -399,6 +400,7 @@ deceptgold/
 - Handles initialization and error handling
 
 #### Commands (`commands/`)
+- **ai.py**: Local AI agent, model installation, and real-time log analysis
 - **user.py**: User account management, wallet operations
 - **service.py**: Honeypot service control (start, stop, status)
 - **notify.py**: Notification and telemetry management
@@ -849,7 +851,7 @@ Recommended `.vscode/settings.json`:
 ## Support
 
 - **GitHub Issues**: Use the issue tracker for bug reports and feature requests
-- **Contact**: jsmorais@pm.me
+- **Contact**: contact@decept.gold
 
 ---
 

@@ -538,4 +538,4 @@ poetry run pytest tests/test_signature.py::test_validation -vvs
 
 ---
 
-**Questions?** Contact: jsmorais@pm.me
+**Questions?** Contact: contact@decept.gold

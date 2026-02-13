@@ -35,8 +35,11 @@ def init_app():
         from deceptgold.commands.user import users_app
         from deceptgold.commands.service import services_app
         from deceptgold.commands.notify import notify_app
+        from deceptgold.commands.ai import ai_app
+        from deceptgold.commands.reports import reports_app
         from deceptgold.configuration import log
         from deceptgold.helper.notify.telemetry.send import exec_telemetry
+        from deceptgold.helper.ai_model import ensure_default_model_installed
 
 
         logger = logging.getLogger(__name__)
@@ -47,9 +50,13 @@ def init_app():
 
         exec_telemetry()
 
+        ensure_default_model_installed(interactive=True)
+
         app.command(users_app)
         app.command(services_app)
         app.command(notify_app)
+        app.command(ai_app)
+        app.command(reports_app)
 
         app()
 

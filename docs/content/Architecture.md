@@ -637,4 +637,4 @@ Edge Honeypots ─────────┘
 
 ---
 
-**Questions or suggestions?** Contact: jsmorais@pm.me
+**Questions or suggestions?** Contact: contact@decept.gold

@@ -1,0 +1,10 @@
+{
+  "default": {
+    "filename": "Qwen2.5-0.5B-Instruct-Q4_K_M.gguf",
+    "url": "https://huggingface.co/bartowski/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-0.5B-Instruct-Q4_K_M.gguf"
+  },
+  "mistral7b": {
+    "filename": "Mistral-7B-Instruct-v0.3-Q4_K_M.gguf",
+    "url": "https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF/resolve/main/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf"
+  }
+}

@@ -52,4 +52,4 @@ Deceptgold is built on a foundation of trust and transparency. While our core or
 - [Architecture Overview](Architecture.md)
 - [Project Whitepaper](Whitepaper.md)
 
-**Contact:** [jsmorais@pm.me](mailto:jsmorais@pm.me) | [https://decept.gold](https://decept.gold)
+**Contact:** [contact@decept.gold](mailto:contact@decept.gold) | [https://decept.gold](https://decept.gold)
