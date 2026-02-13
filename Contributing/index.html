@@ -1,0 +1,1065 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.decept.gold/Contributing/">
+      
+      
+        <link rel="prev" href="../Development/">
+      
+      
+        <link rel="next" href="../About/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>Contributing - Deceptgold Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#contributing-to-deceptgold" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deceptgold Documentation" class="md-header__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deceptgold Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Contributing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deceptgold Documentation" class="md-nav__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deceptgold Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Blockchain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web3_Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-of-conduct" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code of Conduct
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-can-i-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Can I Contribute?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Can I Contribute?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reporting-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reporting Bugs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suggesting-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suggesting Enhancements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pull-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Requests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#style-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Style Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Style Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-commit-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git Commit Messages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-style-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python Style Guide
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Style
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../About/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Privacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Privacy Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Whitepaper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Whitepaper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Rewards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rewards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-of-conduct" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code of Conduct
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-can-i-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Can I Contribute?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Can I Contribute?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reporting-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reporting Bugs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suggesting-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suggesting Enhancements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pull-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Requests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#style-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Style Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Style Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-commit-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git Commit Messages
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-style-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python Style Guide
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation Style
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="contributing-to-deceptgold">Contributing to Deceptgold</h1>
+<p>First off, thank you for considering contributing to Deceptgold! It's people like you that make Deceptgold such a great tool for transforming cyber threats into valuable digital assets.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#code-of-conduct">Code of Conduct</a></li>
+<li><a href="#how-can-i-contribute">How Can I Contribute?</a></li>
+<li><a href="#reporting-bugs">Reporting Bugs</a></li>
+<li><a href="#suggesting-enhancements">Suggesting Enhancements</a></li>
+<li><a href="#pull-requests">Pull Requests</a></li>
+<li><a href="#development-process">Development Process</a></li>
+<li><a href="#style-guidelines">Style Guidelines</a></li>
+<li><a href="#git-commit-messages">Git Commit Messages</a></li>
+<li><a href="#python-style-guide">Python Style Guide</a></li>
+<li><a href="#additional-resources">Additional Resources</a></li>
+</ul>
+<h2 id="code-of-conduct">Code of Conduct</h2>
+<p>This project and everyone participating in it is governed by our commitment to fostering an open and welcoming environment. We pledge to make participation in our project a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.</p>
+<h2 id="how-can-i-contribute">How Can I Contribute?</h2>
+<h3 id="reporting-bugs">Reporting Bugs</h3>
+<p>Before creating bug reports, please check the existing issues to avoid duplicates. When you create a bug report, include as many details as possible:</p>
+<p><strong>Great Bug Reports</strong> include:</p>
+<ul>
+<li><strong>Clear and descriptive title</strong></li>
+<li><strong>Exact steps to reproduce the problem</strong></li>
+<li><strong>Expected behavior vs. actual behavior</strong></li>
+<li><strong>Screenshots or terminal output</strong> (if applicable)</li>
+<li><strong>Environment details:</strong></li>
+<li>OS and version (e.g., Ubuntu 22.04, Fedora 40, macOS 14)</li>
+<li>Python version (<code>python --version</code>)</li>
+<li>Deceptgold version (<code>deceptgold --version</code>)</li>
+<li>Installation method (Poetry, .deb, .rpm, etc.)</li>
+</ul>
+<p><strong>Example Bug Report:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="gu">## Bug: Service fails to start on Fedora 40</span>
+
+<span class="gs">**Steps to reproduce:**</span>
+<span class="k">1.</span> Install deceptgold via RPM package
+<span class="k">2.</span> Run <span class="sb">`deceptgold service start`</span>
+<span class="k">3.</span> Service fails with error &quot;Permission denied&quot;
+
+<span class="gs">**Expected:**</span> Service starts successfully
+<span class="gs">**Actual:**</span> Permission error in /var/log/deceptgold/
+
+<span class="gs">**Environment:**</span>
+<span class="k">-</span><span class="w"> </span>OS: Fedora 40
+<span class="k">-</span><span class="w"> </span>Python: 3.12.1
+<span class="k">-</span><span class="w"> </span>Deceptgold: 0.2.0
+<span class="k">-</span><span class="w"> </span>Installed via: RPM package
+</code></pre></div>
+<h3 id="suggesting-enhancements">Suggesting Enhancements</h3>
+<p>Enhancement suggestions are tracked as GitHub issues. When creating an enhancement suggestion, include:</p>
+<ul>
+<li><strong>Clear and descriptive title</strong></li>
+<li><strong>Detailed description</strong> of the proposed functionality</li>
+<li><strong>Use cases</strong> - why is this enhancement useful?</li>
+<li><strong>Possible implementation</strong> (if you have ideas)</li>
+<li><strong>Alternatives considered</strong></li>
+</ul>
+<h3 id="pull-requests">Pull Requests</h3>
+<p>We actively welcome your pull requests! Here's the process:</p>
+<ol>
+<li><strong>Fork the repository</strong> and create your branch from <code>master</code></li>
+<li><strong>Set up your development environment</strong> (see <a href="../Development/">Development.md</a>)</li>
+<li><strong>Make your changes:</strong></li>
+<li>Add tests if you're adding functionality</li>
+<li>Update documentation if needed</li>
+<li>Follow our style guidelines</li>
+<li><strong>Test your changes</strong> thoroughly</li>
+<li><strong>Commit your changes</strong> using semantic commit messages</li>
+<li><strong>Push to your fork</strong> and submit a pull request</li>
+</ol>
+<p><strong>Pull Request Guidelines:</strong></p>
+<ul>
+<li>Keep PRs focused on a single feature or bug fix</li>
+<li>Include tests for new functionality</li>
+<li>Update documentation (README, docs/, etc.)</li>
+<li>Ensure all tests pass</li>
+<li>Follow the existing code style</li>
+<li>Reference related issues (e.g., "Fixes #123")</li>
+</ul>
+<h2 id="development-process">Development Process</h2>
+<h3 id="getting-started">Getting Started</h3>
+<ol>
+<li>
+<p><strong>Clone your fork:</strong>
+   <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/YOUR-USERNAME/deceptgold.git
+<span class="nb">cd</span><span class="w"> </span>deceptgold/deceptgold
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Set up development environment:</strong>
+   <div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>install
+poetry<span class="w"> </span>shell
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Create a feature branch:</strong>
+   <div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/your-feature-name
+<span class="c1"># or</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>fix/your-bug-fix
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Make your changes and test:</strong>
+   <div class="highlight"><pre><span></span><code><span class="c1"># Run in development mode</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--
+
+<span class="c1"># Run tests</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Commit and push:</strong>
+   <div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add amazing feature&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/your-feature-name
+</code></pre></div></p>
+</li>
+</ol>
+<p>For detailed development instructions, see <a href="../Development/">Development.md</a>.</p>
+<h3 id="testing">Testing</h3>
+<p>Before submitting a PR, ensure:</p>
+<ul>
+<li>All existing tests pass: <code>poetry run pytest</code></li>
+<li>New functionality has test coverage</li>
+<li>Manual testing has been performed</li>
+<li>No linting errors: <code>poetry run pydocstyle src/</code></li>
+</ul>
+<p>See <a href="deceptgold/docs/Testing.md">deceptgold/docs/Testing.md</a> for detailed testing guidelines.</p>
+<h2 id="style-guidelines">Style Guidelines</h2>
+<h3 id="git-commit-messages">Git Commit Messages</h3>
+<p>We use <strong>Semantic Commit Messages</strong> for automatic changelog generation:</p>
+<p><strong>Format:</strong> <code>&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</code></p>
+<p><strong>Types:</strong>
+- <code>feat:</code> New feature
+- <code>fix:</code> Bug fix
+- <code>docs:</code> Documentation changes
+- <code>style:</code> Code style changes (formatting, no logic change)
+- <code>refactor:</code> Code refactoring
+- <code>perf:</code> Performance improvements
+- <code>test:</code> Adding or updating tests
+- <code>chore:</code> Maintenance tasks, dependencies</p>
+<p><strong>Examples:</strong>
+<div class="highlight"><pre><span></span><code>feat<span class="o">(</span>blockchain<span class="o">)</span>:<span class="w"> </span>add<span class="w"> </span>support<span class="w"> </span><span class="k">for</span><span class="w"> </span>Polygon<span class="w"> </span>network
+fix<span class="o">(</span>service<span class="o">)</span>:<span class="w"> </span>resolve<span class="w"> </span>permission<span class="w"> </span>issue<span class="w"> </span>on<span class="w"> </span>Fedora
+docs<span class="o">(</span>readme<span class="o">)</span>:<span class="w"> </span>update<span class="w"> </span>installation<span class="w"> </span>instructions
+refactor<span class="o">(</span>signature<span class="o">)</span>:<span class="w"> </span>improve<span class="w"> </span>cryptographic<span class="w"> </span>validation
+test<span class="o">(</span>honeypot<span class="o">)</span>:<span class="w"> </span>add<span class="w"> </span>integration<span class="w"> </span>tests<span class="w"> </span><span class="k">for</span><span class="w"> </span>SSH<span class="w"> </span>module
+</code></pre></div></p>
+<p><strong>Scope</strong> is optional but recommended. Use component names like:
+- <code>blockchain</code>, <code>honeypot</code>, <code>signature</code>, <code>cli</code>, <code>service</code>, <code>config</code></p>
+<h3 id="python-style-guide">Python Style Guide</h3>
+<p>We follow <strong>PEP 8</strong> with some project-specific conventions:</p>
+<p><strong>Code Style:</strong>
+- Use 4 spaces for indentation (no tabs)
+- Maximum line length: 120 characters
+- Use descriptive variable names
+- Add docstrings to all public functions and classes
+- Type hints are encouraged</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate_signature</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">signature</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">public_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate a cryptographic signature against a message.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message: The original message that was signed</span>
+<span class="sd">        signature: The signature to validate</span>
+<span class="sd">        public_key: The public key for verification</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if signature is valid, False otherwise</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If public_key format is invalid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Implementation here</span>
+    <span class="k">pass</span>
+</code></pre></div></p>
+<p><strong>Imports:</strong>
+- Group imports: standard library, third-party, local
+- Use absolute imports
+- Sort alphabetically within groups</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">web3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Web3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ecdsa</span><span class="w"> </span><span class="kn">import</span> <span class="n">SigningKey</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.helper.signature</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+</code></pre></div></p>
+<h3 id="documentation-style">Documentation Style</h3>
+<ul>
+<li>Use <strong>Markdown</strong> for all documentation</li>
+<li>Keep lines under 120 characters when possible</li>
+<li>Use code blocks with language specification</li>
+<li>Include examples for complex features</li>
+<li>Keep language clear and concise</li>
+</ul>
+<h2 id="additional-resources">Additional Resources</h2>
+<ul>
+<li><a href="../Development/">Development.md</a> - Detailed development setup and workflow</li>
+<li><a href="../Architecture/">Architecture.md</a> - System architecture overview</li>
+<li><a href="deceptgold/docs/">deceptgold/docs/</a> - Technical documentation</li>
+<li><a href="documentation/Whitepaper.md">Whitepaper</a> - Project vision and technical details</li>
+</ul>
+<h2 id="getting-help">Getting Help</h2>
+<p>If you have questions, feel free to:
+- Open an issue
+- Contact us at: contact@decept.gold
+- Check existing documentation in the <code>docs/</code> directory</p>
+<hr />
+<p><strong>Thank you for contributing to Deceptgold!</strong> 🎉</p>
+<p>Every contribution, no matter how small, helps us build a better cybersecurity ecosystem where threats become opportunities.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1599 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.decept.gold/Commands/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../Installation/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>CLI Reference - Deceptgold Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deceptgold Documentation" class="md-header__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deceptgold Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CLI Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deceptgold Documentation" class="md-nav__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deceptgold Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version-and-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version and Help
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-my-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      user --my-address
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-show-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      user --show-balance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      service start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      service stop
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      service restart
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      service status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      service list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-enable" class="md-nav__link">
+    <span class="md-ellipsis">
+      service enable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-disable" class="md-nav__link">
+    <span class="md-ellipsis">
+      service disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      service set
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notify-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notify Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notify Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notify-telegramtrue" class="md-nav__link">
+    <span class="md-ellipsis">
+      notify --telegram=true
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notify-telegramfalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      notify --telegram=false
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notify-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      notify webhook
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-setup-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Setup Workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Codes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Blockchain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web3_Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../About/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Privacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Privacy Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Whitepaper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Whitepaper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Rewards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rewards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global Options
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version-and-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version and Help
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="User Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-my-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      user --my-address
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-show-balance" class="md-nav__link">
+    <span class="md-ellipsis">
+      user --show-balance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      service start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      service stop
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      service restart
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      service status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      service list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-enable" class="md-nav__link">
+    <span class="md-ellipsis">
+      service enable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-disable" class="md-nav__link">
+    <span class="md-ellipsis">
+      service disable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      service set
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notify-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notify Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notify Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notify-telegramtrue" class="md-nav__link">
+    <span class="md-ellipsis">
+      notify --telegram=true
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notify-telegramfalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      notify --telegram=false
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notify-webhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      notify webhook
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-setup-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Setup Workflow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Codes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="api-reference">API Reference</h1>
+<p>Complete command-line interface reference for Deceptgold.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#global-options">Global Options</a></li>
+<li><a href="#user-commands">User Commands</a></li>
+<li><a href="#service-commands">Service Commands</a></li>
+<li><a href="#notify-commands">Notify Commands</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+<h2 id="global-options">Global Options</h2>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span><span class="o">[</span>COMMAND<span class="o">]</span><span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div>
+<h3 id="version-and-help">Version and Help</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Show version</span>
+deceptgold<span class="w"> </span>--version
+
+<span class="c1"># Show help</span>
+deceptgold<span class="w"> </span>--help
+
+<span class="c1"># Show help for specific command</span>
+deceptgold<span class="w"> </span>user<span class="w"> </span>--help
+deceptgold<span class="w"> </span>service<span class="w"> </span>--help
+deceptgold<span class="w"> </span>notify<span class="w"> </span>--help
+</code></pre></div>
+<h2 id="user-commands">User Commands</h2>
+<p>Manage user accounts, wallets, and configuration.</p>
+<h3 id="user-my-address"><code>user --my-address</code></h3>
+<p>Register your wallet address to receive token rewards.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>user<span class="w"> </span>--my-address<span class="w"> </span>&lt;WALLET_ADDRESS&gt;
+</code></pre></div></p>
+<p><strong>Parameters:</strong>
+- <code>&lt;WALLET_ADDRESS&gt;</code> - Your ERC-20 compatible wallet address (e.g., <code>0x0105d8Ceab792bfece1b2994B71992Af56930081</code>)</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>user<span class="w"> </span>--my-address<span class="w"> </span>0x0105d8Ceab792bfece1b2994B71992Af56930081
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- This is <strong>mandatory</strong> before starting services to receive rewards
+- Address is stored in configuration file
+- Automatically configures blockchain network settings</p>
+<hr />
+<h3 id="user-show-balance"><code>user --show-balance</code></h3>
+<p>Display your Deceptgold token balance.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>user<span class="w"> </span>--show-balance
+</code></pre></div></p>
+<p><strong>Output:</strong>
+<div class="highlight"><pre><span></span><code>Balance: 1250.5 DGLD
+Balance (base units): 1250500000000000000000
+Explorer: https://testnet.bscscan.com/address/0x...
+</code></pre></div></p>
+<p><strong>Prerequisites:</strong>
+- Wallet address must be configured with <code>--my-address</code>
+- Internet connection to query blockchain</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>user<span class="w"> </span>--show-balance
+</code></pre></div></p>
+<hr />
+<h2 id="service-commands">Service Commands</h2>
+<p>Control honeypot services and configuration.</p>
+<h3 id="service-start"><code>service start</code></h3>
+<p>Start the honeypot service.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>start<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</code></pre></div></p>
+<p><strong>Options:</strong>
+- <code>daemon=true|false</code> - Run in background (default: <code>true</code>)
+- <code>force-no-wallet=true|false</code> - Skip wallet verification (default: <code>false</code>)
+- <code>debug=true|false</code> - Enable debug mode (default: <code>false</code>)</p>
+<p><strong>Examples:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start in background (daemon mode)</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start
+
+<span class="c1"># Start in foreground (see logs in terminal)</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start<span class="w"> </span><span class="nv">daemon</span><span class="o">=</span><span class="nb">false</span>
+
+<span class="c1"># Start without wallet configured (testing only)</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start<span class="w"> </span>force-no-wallet<span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># Start with debug output</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start<span class="w"> </span><span class="nv">daemon</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="nv">debug</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- Requires wallet address unless <code>force-no-wallet=true</code>
+- Creates PID file to track running process
+- Logs to <code>/var/log/deceptgold/</code> or <code>~/.deceptgold/logs/</code></p>
+<hr />
+<h3 id="service-stop"><code>service stop</code></h3>
+<p>Stop the running honeypot service.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>stop
+</code></pre></div></p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>stop
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- Gracefully terminates the service
+- Removes PID file
+- Waits up to 5 seconds for clean shutdown</p>
+<hr />
+<h3 id="service-restart"><code>service restart</code></h3>
+<p>Restart the honeypot service (stop + start).</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>restart
+</code></pre></div></p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>restart
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- Equivalent to calling <code>stop</code> then <code>start</code>
+- Inherits previous start configuration</p>
+<hr />
+<h3 id="service-status"><code>service status</code></h3>
+<p>Show status of enabled services and ports.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>status
+</code></pre></div></p>
+<p><strong>Output:</strong>
+<div class="highlight"><pre><span></span><code>[Deceptgold System Daemon]
+PID: 12345
+
+Deceptgold Operational Status
+Layer  Service  Port  Status
+Web2   SSH      22    OPEN
+Web2   HTTP     80    OPEN
+Web2   FTP      21    CLOSED
+</code></pre></div></p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>status
+</code></pre></div></p>
+<hr />
+<h3 id="service-list"><code>service list</code></h3>
+<p>List all available services (enabled and disabled).</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>list
+</code></pre></div></p>
+<p><strong>Output:</strong>
+<div class="highlight"><pre><span></span><code>[Deceptgold System Daemon]
+PID: 12345
+
+Deceptgold Service Inventory
+Layer  Service  Port  Status  Configured
+Web2   SSH      22    OPEN    YES
+Web2   HTTP     80    OPEN    YES
+Web3   RPC      8545  CLOSED  NO
+</code></pre></div></p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>list
+</code></pre></div></p>
+<hr />
+<h3 id="service-enable"><code>service enable</code></h3>
+<p>Enable a specific honeypot service.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>&lt;SERVICE_NAME&gt;
+</code></pre></div></p>
+<p><strong>Parameters:</strong>
+- <code>&lt;SERVICE_NAME&gt;</code> - Name of service to enable (e.g., <code>ssh</code>, <code>http</code>, <code>ftp</code>)</p>
+<p><strong>Examples:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Enable SSH honeypot</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>ssh
+
+<span class="c1"># Enable HTTP honeypot</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>http
+
+<span class="c1"># Enable MySQL honeypot</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>mysql
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- Changes take effect after service restart
+- Service must be in available services list</p>
+<hr />
+<h3 id="service-disable"><code>service disable</code></h3>
+<p>Disable a specific honeypot service.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span>disable<span class="w"> </span>&lt;SERVICE_NAME&gt;
+</code></pre></div></p>
+<p><strong>Parameters:</strong>
+- <code>&lt;SERVICE_NAME&gt;</code> - Name of service to disable</p>
+<p><strong>Examples:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Disable SSH honeypot</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>disable<span class="w"> </span>ssh
+
+<span class="c1"># Disable FTP honeypot</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>disable<span class="w"> </span>ftp
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- Changes take effect after service restart
+- Disabled services won't log attacks</p>
+<hr />
+<h3 id="service-set"><code>service set</code></h3>
+<p>Change the port of a specific service.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;SERVICE_NAME&gt;<span class="w"> </span>&lt;PORT&gt;
+</code></pre></div></p>
+<p><strong>Parameters:</strong>
+- <code>&lt;SERVICE_NAME&gt;</code> - Name of service
+- <code>&lt;PORT&gt;</code> - New port number (1-65535)</p>
+<p><strong>Examples:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Change SSH to port 2222</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">set</span><span class="w"> </span>ssh<span class="w"> </span><span class="m">2222</span>
+
+<span class="c1"># Change HTTP to port 8080</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">set</span><span class="w"> </span>http<span class="w"> </span><span class="m">8080</span>
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- Requires service restart to apply
+- Ensure port is not already in use
+- Some ports require root/admin privileges (&lt; 1024)</p>
+<hr />
+<h2 id="notify-commands">Notify Commands</h2>
+<p>Configure notification channels for attack alerts.</p>
+<h3 id="notify-telegramtrue"><code>notify --telegram=true</code></h3>
+<p>Enable Telegram notifications.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>notify<span class="w"> </span>--telegram<span class="o">=</span><span class="nb">true</span>
+</code></pre></div></p>
+<p><strong>Process:</strong>
+1. Command displays QR code in terminal
+2. Scan QR code with Telegram app
+3. Automatic synchronization
+4. Receive attack notifications</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>notify<span class="w"> </span>--telegram<span class="o">=</span><span class="nb">true</span>
+</code></pre></div></p>
+<hr />
+<h3 id="notify-telegramfalse"><code>notify --telegram=false</code></h3>
+<p>Disable Telegram notifications.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>notify<span class="w"> </span>--telegram<span class="o">=</span><span class="nb">false</span>
+</code></pre></div></p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>notify<span class="w"> </span>--telegram<span class="o">=</span><span class="nb">false</span>
+</code></pre></div></p>
+<hr />
+<h3 id="notify-webhook"><code>notify webhook</code></h3>
+<p>Configure webhook endpoints for notifications.</p>
+<p><strong>Syntax:</strong>
+<div class="highlight"><pre><span></span><code>deceptgold<span class="w"> </span>notify<span class="w"> </span>webhook<span class="w"> </span>&lt;TYPE&gt;<span class="o">=</span>&lt;URL&gt;
+</code></pre></div></p>
+<p><strong>Supported Types:</strong>
+- <code>custom</code> - Custom webhook endpoint
+- <code>slack</code> - Slack webhook
+- <code>discord</code> - Discord webhook
+- <code>jira</code> - Jira webhook</p>
+<p><strong>Examples:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Custom webhook</span>
+deceptgold<span class="w"> </span>notify<span class="w"> </span>webhook<span class="w"> </span><span class="nv">custom</span><span class="o">=</span><span class="s2">&quot;https://example.com/webhook&quot;</span>
+
+<span class="c1"># Slack webhook</span>
+deceptgold<span class="w"> </span>notify<span class="w"> </span>webhook<span class="w"> </span><span class="nv">slack</span><span class="o">=</span><span class="s2">&quot;https://hooks.slack.com/services/G1Z/BQA/71cKYc&quot;</span>
+
+<span class="c1"># Discord webhook</span>
+deceptgold<span class="w"> </span>notify<span class="w"> </span>webhook<span class="w"> </span><span class="nv">discord</span><span class="o">=</span><span class="s2">&quot;https://discord.com/api/webhooks/1238/abRSTUVWX&quot;</span>
+
+<span class="c1"># Jira webhook</span>
+deceptgold<span class="w"> </span>notify<span class="w"> </span>webhook<span class="w"> </span><span class="nv">jira</span><span class="o">=</span><span class="s2">&quot;https://api.yoursite.com/jira/webhook&quot;</span>
+</code></pre></div></p>
+<p><strong>Webhook Payload Format:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-22T19:58:22Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;event&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;attack_detected&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;service&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ssh&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source_ip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;attack_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;brute_force&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requests_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1500</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;production-honeypot-01&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Notes:</strong>
+- URL must be valid HTTPS endpoint
+- Multiple webhooks can be configured
+- Webhooks receive real-time attack notifications</p>
+<hr />
+<h2 id="examples">Examples</h2>
+<h3 id="complete-setup-workflow">Complete Setup Workflow</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Configure wallet address</span>
+deceptgold<span class="w"> </span>user<span class="w"> </span>--my-address<span class="w"> </span>0x0105d8Ceab792bfece1b2994B71992Af56930081
+
+<span class="c1"># 2. Enable desired services</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>ssh
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>http
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>ftp
+
+<span class="c1"># 3. Configure notifications</span>
+deceptgold<span class="w"> </span>notify<span class="w"> </span>--telegram<span class="o">=</span><span class="nb">true</span>
+deceptgold<span class="w"> </span>notify<span class="w"> </span>webhook<span class="w"> </span><span class="nv">slack</span><span class="o">=</span><span class="s2">&quot;https://hooks.slack.com/services/...&quot;</span>
+
+<span class="c1"># 4. Start the service</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start
+
+<span class="c1"># 5. Check status</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>status
+
+<span class="c1"># 6. View balance (after some attacks)</span>
+deceptgold<span class="w"> </span>user<span class="w"> </span>--show-balance
+</code></pre></div>
+<h3 id="testing-configuration">Testing Configuration</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Start in foreground to see logs</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start<span class="w"> </span><span class="nv">daemon</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="nv">debug</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># In another terminal, check status</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>status
+
+<span class="c1"># Stop when done testing</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>stop
+</code></pre></div>
+<h3 id="production-deployment">Production Deployment</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Configure wallet</span>
+deceptgold<span class="w"> </span>user<span class="w"> </span>--my-address<span class="w"> </span>0xYourProductionWallet
+
+<span class="c1"># Set custom node identifier</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>--node_id<span class="w"> </span><span class="s2">&quot;prod-dmz-honeypot-01&quot;</span>
+
+<span class="c1"># Enable all services</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>ssh
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>http
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>https
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>ftp
+deceptgold<span class="w"> </span>service<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>mysql
+
+<span class="c1"># Configure monitoring</span>
+deceptgold<span class="w"> </span>notify<span class="w"> </span>webhook<span class="w"> </span><span class="nv">custom</span><span class="o">=</span><span class="s2">&quot;https://monitoring.company.com/webhook&quot;</span>
+
+<span class="c1"># Start in daemon mode</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start
+
+<span class="c1"># Verify everything is running</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>status
+</code></pre></div>
+<h3 id="troubleshooting">Troubleshooting</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check if service is running</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>status
+
+<span class="c1"># View detailed status</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>list
+
+<span class="c1"># Restart service</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>restart
+
+<span class="c1"># Start with debug output</span>
+deceptgold<span class="w"> </span>service<span class="w"> </span>start<span class="w"> </span><span class="nv">daemon</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="nv">debug</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># Check balance to verify blockchain connection</span>
+deceptgold<span class="w"> </span>user<span class="w"> </span>--show-balance
+</code></pre></div>
+<h2 id="configuration-files">Configuration Files</h2>
+<h3 id="user-configuration">User Configuration</h3>
+<ul>
+<li><strong>Location</strong>: <code>~/.deceptgold/config.json</code></li>
+<li><strong>Contains</strong>: Wallet address, blockchain settings</li>
+</ul>
+<h3 id="service-configuration">Service Configuration</h3>
+<ul>
+<li><strong>Location</strong>: <code>~/.deceptgold/opencanary.conf</code></li>
+<li><strong>Contains</strong>: Enabled services, ports, banners</li>
+</ul>
+<h3 id="logs">Logs</h3>
+<ul>
+<li><strong>Attack Logs</strong>: <code>/var/log/deceptgold/attacks.log</code></li>
+<li><strong>Application Logs</strong>: <code>/var/log/deceptgold/deceptgold.log</code></li>
+<li><strong>PID File</strong>: <code>/tmp/deceptgold.pid</code> or <code>~/.deceptgold/deceptgold.pid</code></li>
+</ul>
+<h2 id="exit-codes">Exit Codes</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Success</td>
+</tr>
+<tr>
+<td>1</td>
+<td>General error (missing wallet, invalid arguments, etc.)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Service already running</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Permission denied</td>
+</tr>
+</tbody>
+</table>
+<h2 id="environment-variables">Environment Variables</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DECEPTGOLD_CONFIG_DIR</code></td>
+<td>Configuration directory</td>
+<td><code>~/.deceptgold</code></td>
+</tr>
+<tr>
+<td><code>DECEPTGOLD_LOG_LEVEL</code></td>
+<td>Logging verbosity</td>
+<td><code>INFO</code></td>
+</tr>
+<tr>
+<td><code>DECEPTGOLD_RPC_URL</code></td>
+<td>Custom blockchain RPC endpoint</td>
+<td>(uses config)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="../">index.md</a> - Quick start guide</li>
+<li><a href="../Development/">Development.md</a> - Development guide</li>
+<li><a href="../Testing/">Testing.md</a> - Testing procedures</li>
+<li><a href="../Blockchain/">Blockchain.md</a> - Blockchain details</li>
+</ul>
+<hr />
+<p><strong>Need help?</strong> Contact: contact@decept.gold</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>

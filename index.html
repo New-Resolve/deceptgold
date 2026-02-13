@@ -1,0 +1,1604 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.decept.gold/">
+      
+      
+      
+        <link rel="next" href="Commands/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>Deceptgold Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-with-deceptgold-development" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Deceptgold Documentation" class="md-header__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deceptgold Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Deceptgold Documentation" class="md-nav__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deceptgold Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-setup-5-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Setup (5 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Setup (5 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-clone-and-navigate" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Clone and Navigate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Install Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-run-your-first-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Run Your First Command
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Basics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding the Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-deceptgold" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Deceptgold?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Concepts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-development-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Development Task
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First Development Task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-view-system-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: View System Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-simulate-an-attack-for-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Simulate an Attack (for testing)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-run-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Run Tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Structure Quick Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-development-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Development Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Development Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the Application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-your-first-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      Making Your First Change
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Making Your First Change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-create-a-feature-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Create a Feature Branch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-make-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Make Changes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-test-your-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Test Your Changes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-commit-with-semantic-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Commit with Semantic Message
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Development Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding the Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development-mode-vs-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Mode vs Production
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-files-to-know" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Files to Know
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Tips
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Debugging Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-verbose-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable Verbose Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-if-in-developer-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check if in Developer Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inspect Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poetry-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry Not Found
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtual-environment-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual Environment Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-version-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python Version Error
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poetry-shell-not-available-poetry-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry Shell Not Available (Poetry 2.0+)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Errors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference Card
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Blockchain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Web3_Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="About/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Privacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Privacy Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Whitepaper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Whitepaper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Rewards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rewards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-setup-5-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Setup (5 minutes)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Setup (5 minutes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-clone-and-navigate" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Clone and Navigate
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-install-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Install Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-run-your-first-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Run Your First Command
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Basics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding the Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-deceptgold" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Deceptgold?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Concepts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-development-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Development Task
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First Development Task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-view-system-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: View System Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-simulate-an-attack-for-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Simulate an Attack (for testing)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-run-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Run Tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-structure-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project Structure Quick Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-development-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Development Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Development Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the Application
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-your-first-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      Making Your First Change
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Making Your First Change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-create-a-feature-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Create a Feature Branch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-make-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Make Changes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-test-your-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Test Your Changes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-commit-with-semantic-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Commit with Semantic Message
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Development Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding the Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development-mode-vs-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Mode vs Production
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-files-to-know" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Files to Know
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Tips
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Debugging Tips">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-verbose-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable Verbose Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-if-in-developer-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check if in Developer Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspect-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inspect Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poetry-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry Not Found
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtual-environment-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual Environment Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-version-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python Version Error
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poetry-shell-not-available-poetry-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      Poetry Shell Not Available (Poetry 2.0+)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Errors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference Card
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="getting-started-with-deceptgold-development">Getting Started with Deceptgold Development</h1>
+<p>Welcome to Deceptgold! This guide will help you get up and running with development in under 10 minutes.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><strong>Python 3.11+</strong> installed</li>
+<li><strong>Poetry</strong> for dependency management</li>
+<li><strong>Git</strong> for version control</li>
+<li>Basic knowledge of Python and command-line tools</li>
+</ul>
+<h2 id="quick-setup-5-minutes">Quick Setup (5 minutes)</h2>
+<h3 id="1-clone-and-navigate">1. Clone and Navigate</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/new-resolve/deceptgold.git
+<span class="nb">cd</span><span class="w"> </span>deceptgold/deceptgold
+</code></pre></div>
+<h3 id="2-install-dependencies">2. Install Dependencies</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install Poetry if you haven&#39;t already</span>
+curl<span class="w"> </span>-sSL<span class="w"> </span>https://install.python-poetry.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-
+
+<span class="c1"># Add Poetry to PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.local/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+
+<span class="c1"># If you need Python 3.12 (using pyenv)</span>
+pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.12
+pyenv<span class="w"> </span><span class="nb">local</span><span class="w"> </span><span class="m">3</span>.12
+
+<span class="c1"># Configure Poetry</span>
+poetry<span class="w"> </span>config<span class="w"> </span>virtualenvs.create<span class="w"> </span><span class="nb">true</span>
+poetry<span class="w"> </span>env<span class="w"> </span>use<span class="w"> </span>python
+
+<span class="c1"># Install project dependencies</span>
+poetry<span class="w"> </span>install
+</code></pre></div>
+<p><strong>For Poetry 2.0+</strong>, activate the environment:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Option 1: Manual activation (recommended)</span>
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+
+<span class="c1"># Option 2: Use poetry run (no activation needed)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>--version
+
+<span class="c1"># Option 3: Install shell plugin</span>
+poetry<span class="w"> </span>self<span class="w"> </span>add<span class="w"> </span>poetry-plugin-shell
+poetry<span class="w"> </span>shell
+</code></pre></div>
+<h3 id="3-run-your-first-command">3. Run Your First Command</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check version</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--<span class="w"> </span>--version
+
+<span class="c1"># View help</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--<span class="w"> </span>--help
+
+<span class="c1"># View available commands</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--<span class="w"> </span>user<span class="w"> </span>--help
+</code></pre></div>
+<h2 id="understanding-the-basics">Understanding the Basics</h2>
+<h3 id="what-is-deceptgold">What is Deceptgold?</h3>
+<p>Deceptgold transforms cyber attacks into digital assets through a multi-layered hybrid deception architecture:</p>
+<ol>
+<li><strong>Hybrid Honeypots</strong> - Decoys for both standard IT services (Web2) and decentralized infrastructure (Web3/Blockchain).</li>
+<li><strong>Real-time Simulation</strong> - Accurate emulation of protocols like JSON-RPC, IPFS, and DeFi logic.</li>
+<li><strong>Cryptographic Signing</strong> - Every interaction is signed to ensure authenticity and non-repudiation.</li>
+<li><strong>Blockchain Tokenization</strong> - Verified attacks generate ERC-20 tokens for the system's stakeholders.</li>
+<li><strong>Intelligence Generation</strong> - Aggregated attack data provides actionable threat intelligence.</li>
+</ol>
+<h3 id="core-concepts">Core Concepts</h3>
+<p><strong>Honeypot</strong>: A decoy system designed to attract and log cyber attacks.</p>
+<p><strong>Attack Log</strong>: A cryptographically signed record of an attack attempt.</p>
+<p><strong>Token</strong>: An ERC-20 token minted for each verified attack.</p>
+<p><strong>Fingerprint</strong>: A unique system identifier to prevent self-farming.</p>
+<p><strong>Smart Contract</strong>: On-chain code that validates attacks and mints tokens.</p>
+<h2 id="your-first-development-task">Your First Development Task</h2>
+<h3 id="example-view-system-configuration">Example: View System Configuration</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run the application</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--<span class="w"> </span>user<span class="w"> </span>config<span class="w"> </span>--show
+</code></pre></div>
+<h3 id="example-simulate-an-attack-for-testing">Example: Simulate an Attack (for testing)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Use the attack simulator</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/attack_simulate.py
+</code></pre></div>
+<h3 id="example-run-tests">Example: Run Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run all tests</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+
+<span class="c1"># Run specific test</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_signature.py<span class="w"> </span>-v
+</code></pre></div>
+<h2 id="project-structure-quick-reference">Project Structure Quick Reference</h2>
+<div class="highlight"><pre><span></span><code>deceptgold/
+├── src/deceptgold/           # Main source code
+│   ├── __main__.py           # Entry point
+│   ├── commands/             # CLI commands
+│   ├── helper/               # Core functionality
+│   │   ├── blockchain/       # Web3 integration
+│   │   ├── opencanary/       # Honeypot system
+│   │   └── signature.py      # Crypto signing
+│   └── resources/            # Config &amp; assets
+├── tests/                    # Test suite
+├── utils/                    # Dev utilities
+└── pyproject.toml            # Project config
+</code></pre></div>
+<h2 id="common-development-commands">Common Development Commands</h2>
+<h3 id="running-the-application">Running the Application</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Development mode (recommended)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--
+
+<span class="c1"># With specific command</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--<span class="w"> </span>service<span class="w"> </span>start
+
+<span class="c1"># Direct Python module</span>
+python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>--help
+</code></pre></div>
+<h3 id="testing">Testing</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># All tests</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+
+<span class="c1"># With coverage</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>deceptgold
+
+<span class="c1"># Specific test file</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_config_manager.py
+</code></pre></div>
+<h3 id="building">Building</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Full build (includes obfuscation)</span>
+sh<span class="w"> </span>utils/compile.sh
+
+<span class="c1"># Quick build (no obfuscation)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>build<span class="w"> </span>--target<span class="w"> </span>debian
+</code></pre></div>
+<h2 id="making-your-first-change">Making Your First Change</h2>
+<h3 id="1-create-a-feature-branch">1. Create a Feature Branch</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/my-first-feature
+</code></pre></div>
+<h3 id="2-make-changes">2. Make Changes</h3>
+<p>Edit files in <code>src/deceptgold/</code>. For example, add a new helper function:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/deceptgold/helper/helper.py</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">my_new_function</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;My first contribution to Deceptgold!&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello, Deceptgold!&quot;</span>
+</code></pre></div>
+<h3 id="3-test-your-changes">3. Test Your Changes</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run tests</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+
+<span class="c1"># Test manually</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--
+</code></pre></div>
+<h3 id="4-commit-with-semantic-message">4. Commit with Semantic Message</h3>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat(helper): add my_new_function&quot;</span>
+</code></pre></div>
+<h2 id="understanding-the-development-workflow">Understanding the Development Workflow</h2>
+<h3 id="development-mode-vs-production">Development Mode vs Production</h3>
+<p><strong>Development Mode</strong> (<code>sources = ["src/deceptgold"]</code>):
+- Unobfuscated code
+- Fast iteration
+- Full debugging
+- Local testing</p>
+<p><strong>Production Mode</strong> (<code>sources = ["src_obf/deceptgold"]</code>):
+- Obfuscated code (PyArmor)
+- Secure distribution
+- Platform-specific builds
+- Used in CI/CD pipeline</p>
+<p>⚠️ <strong>Important</strong>: Always use <code>src/deceptgold</code> for local development!</p>
+<h3 id="key-files-to-know">Key Files to Know</h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pyproject.toml</code></td>
+<td>Project configuration, dependencies</td>
+</tr>
+<tr>
+<td><code>__main__.py</code></td>
+<td>Application entry point</td>
+</tr>
+<tr>
+<td><code>commands/service.py</code></td>
+<td>Service control commands</td>
+</tr>
+<tr>
+<td><code>helper/signature.py</code></td>
+<td>Cryptographic signing</td>
+</tr>
+<tr>
+<td><code>helper/blockchain/</code></td>
+<td>Web3 integration</td>
+</tr>
+<tr>
+<td><code>utils/compile.sh</code></td>
+<td>Build script</td>
+</tr>
+</tbody>
+</table>
+<h2 id="debugging-tips">Debugging Tips</h2>
+<h3 id="enable-verbose-logging">Enable Verbose Logging</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="check-if-in-developer-mode">Check if in Developer Mode</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.helper.helper</span><span class="w"> </span><span class="kn">import</span> <span class="n">my_self_developer</span>
+
+<span class="k">if</span> <span class="n">my_self_developer</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running in developer mode&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="inspect-configuration">Inspect Configuration</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># View current config</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--<span class="w"> </span>user<span class="w"> </span>config<span class="w"> </span>--show
+
+<span class="c1"># Check logs</span>
+tail<span class="w"> </span>-f<span class="w"> </span>/var/log/deceptgold/attacks.log
+</code></pre></div>
+<h2 id="next-steps">Next Steps</h2>
+<p>Now that you're set up, explore:</p>
+<ol>
+<li><strong><a href="Development/">Development.md</a></strong> - Detailed development guide</li>
+<li><strong><a href="Architecture/">Architecture.md</a></strong> - System architecture</li>
+<li><strong><a href="Contributing/">Contributing.md</a></strong> - Contribution guidelines</li>
+<li><strong><a href="Commands/">Commands.md</a></strong> - Command reference</li>
+<li><strong><a href="Testing/">Testing.md</a></strong> - Testing guidelines</li>
+</ol>
+<h2 id="common-issues">Common Issues</h2>
+<h3 id="poetry-not-found">Poetry Not Found</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Add to PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.local/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</code></pre></div>
+<h3 id="virtual-environment-issues">Virtual Environment Issues</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Remove and recreate</span>
+poetry<span class="w"> </span>env<span class="w"> </span>remove<span class="w"> </span>python
+poetry<span class="w"> </span>install
+</code></pre></div>
+<h3 id="python-version-error">Python Version Error</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># If you get &quot;Current Python version (3.10.x) is not allowed&quot;</span>
+<span class="c1"># Install Python 3.12 with pyenv</span>
+pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.12
+pyenv<span class="w"> </span><span class="nb">local</span><span class="w"> </span><span class="m">3</span>.12
+
+<span class="c1"># Tell Poetry to use it</span>
+poetry<span class="w"> </span>env<span class="w"> </span>use<span class="w"> </span>python
+poetry<span class="w"> </span>install
+</code></pre></div>
+<h3 id="poetry-shell-not-available-poetry-20">Poetry Shell Not Available (Poetry 2.0+)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Option 1: Activate manually</span>
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+
+<span class="c1"># Option 2: Install shell plugin</span>
+poetry<span class="w"> </span>self<span class="w"> </span>add<span class="w"> </span>poetry-plugin-shell
+
+<span class="c1"># Option 3: Use poetry run</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>deceptgold<span class="w"> </span>--help
+</code></pre></div>
+<h3 id="permission-errors">Permission Errors</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fix log directory permissions</span>
+sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span><span class="nv">$USER</span>:<span class="nv">$USER</span><span class="w"> </span>/var/log/deceptgold/
+</code></pre></div>
+<h2 id="getting-help">Getting Help</h2>
+<ul>
+<li><strong>Documentation</strong>: Check <code>docs/</code> directory</li>
+<li><strong>Issues</strong>: <a href="https://github.com/new-resolve/deceptgold/issues">GitHub Issues</a></li>
+<li><strong>Email</strong>: contact@decept.gold</li>
+</ul>
+<h2 id="quick-reference-card">Quick Reference Card</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Setup</span>
+poetry<span class="w"> </span>install<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>poetry<span class="w"> </span>shell
+
+<span class="c1"># Run</span>
+poetry<span class="w"> </span>run<span class="w"> </span>briefcase<span class="w"> </span>dev<span class="w"> </span>--
+
+<span class="c1"># Test</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+
+<span class="c1"># Build</span>
+sh<span class="w"> </span>utils/compile.sh
+
+<span class="c1"># Commit</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: description&quot;</span>
+</code></pre></div>
+<hr />
+<p><strong>Ready to contribute?</strong> Check out <a href="Contributing/">Contributing.md</a> for guidelines! 🚀</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.copy", "content.tabs", "search.suggest"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>
