@@ -81,7 +81,7 @@ system_requires = []
 system_runtime_requires = ["libpython3.11", "python3.11"]
 
 [tool.briefcase.app.deceptgold.linux.system.fedora]
-system_requires = []
+system_requires = ["gcc-c++", "make", "cmake"]
 system_runtime_requires = ["python3.12", "python3.12-libs"]
 
 [tool.briefcase.app.deceptgold.linux.flatpak]
