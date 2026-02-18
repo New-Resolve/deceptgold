@@ -15,11 +15,74 @@ from deceptgold.helper.helper import parse_args, get_temp_log_path, NAME_FILE_LO
 from deceptgold.helper.helper import NAME_FILE_PID
 from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.ai_model import list_available_models, install_model_by_key, is_interactive
+from deceptgold.helper.message_formatter import MessageTemplates
 
 
 logger = logging.getLogger(__name__)
 
 ai_app = App(name="ai", help="Local AI agent commands")
+
+
+@ai_app.command(name="select-model", help="Select preferred AI model for threat analysis")
+def select_model():
+    """Interactive model selection for AI threat analysis"""
+    from deceptgold.helper.ai_model import list_installed_models_with_priority, set_preferred_model, get_preferred_model_key
+    from deceptgold.helper.message_formatter import MessageFormatter
+    
+    installed_models = list_installed_models_with_priority()
+    
+    if not installed_models:
+        print("No AI models are currently installed.")
+        print("Install a model first with: deceptgold ai install-model")
+        return
+    
+    current_preferred = get_preferred_model_key()
+    
+    # Build content lines for the box
+    content_lines = [
+        "Choose which AI model to use for threat intelligence analysis:",
+        ""
+    ]
+    
+    for i, model in enumerate(installed_models, 1):
+        key = model.get("key", "unknown")
+        specialty = model.get("specialty", "General AI analysis")
+        is_current = " (CURRENT)" if key == current_preferred else ""
+        
+        content_lines.append(f"{i}) {key.upper()}{is_current}")
+        content_lines.append(f"   {specialty}")
+        content_lines.append("")
+    
+    # Use MessageFormatter to create properly aligned box
+    box = MessageFormatter.create_box(
+        title="SELECT AI MODEL FOR ANALYSIS",
+        content_lines=content_lines
+    )
+    print(box)
+    
+    if not is_interactive():
+        print("Non-interactive mode detected. Cannot select model.")
+        return
+    
+    try:
+        choice = input(f"Select model [1-{len(installed_models)}]: ").strip()
+        choice_num = int(choice)
+        
+        if 1 <= choice_num <= len(installed_models):
+            selected_model = installed_models[choice_num - 1]
+            model_key = selected_model["key"]
+            
+            if set_preferred_model(model_key):
+                print(f"\n[OK] {model_key.upper()} selected as preferred AI model for threat analysis")
+                print(f"Specialty: {selected_model.get('specialty', 'General AI analysis')}")
+                print("\nThis model will now be used for all AI-powered threat notifications.")
+            else:
+                print("Failed to save model preference.")
+        else:
+            print("Invalid selection.")
+            
+    except (ValueError, KeyboardInterrupt):
+        print("Model selection cancelled.")
 
 
 def _user_models_dir() -> Path:
@@ -33,6 +96,17 @@ def _find_model_path(override: str | None = None) -> str:
     if override:
         return str(override)
 
+    # Try to find an available model automatically
+    from deceptgold.helper.ai_model import list_installed_models
+    
+    try:
+        installed_models = list_installed_models()
+        if installed_models:
+            # Return the path of the first installed model
+            return str(installed_models[0].get("path", ""))
+    except Exception:
+        pass
+    
     return ""
 
 
@@ -144,6 +218,117 @@ def _prompt_yes_no(question: str, default_yes: bool = True) -> bool:
             return True
         if ans in {"n", "no", "nao", "não"}:
             return False
+
+
+def _start_ai_onboarding():
+    """Start the AI onboarding flow after model installation"""
+    from deceptgold.helper.message_formatter import MessageTemplates
+    from deceptgold.configuration.config_manager import update_config, get_config
+    from deceptgold.helper.ai_model import list_installed_models, set_preferred_model, get_preferred_model_key
+    import sys
+    
+    # Show initial onboarding message
+    print(MessageTemplates.ai_model_installed_onboarding())
+    
+    # Check if running interactively
+    if not is_interactive():
+        print("\nNon-interactive mode detected. Skipping onboarding.")
+        print("To configure AI notifications manually, run:")
+        print("  deceptgold notify --mode=ai")
+        return
+    
+    # Check if multiple models are installed and let user choose
+    installed_models = list_installed_models()
+    if len(installed_models) > 1:
+        print("\n" + "="*60)
+        print("MULTIPLE AI MODELS DETECTED")
+        print("="*60)
+        print("You have multiple AI models installed. Choose which one to use for threat analysis:")
+        print()
+        
+        for i, model in enumerate(installed_models, 1):
+            key = model.get("key", "unknown")
+            specialty = model.get("specialty", "General AI analysis")
+            print(f"{i}) {key.upper()}")
+            print(f"   Specialty: {specialty}")
+            print()
+        
+        try:
+            choice = input(f"Select model [1-{len(installed_models)}]: ").strip()
+            choice_num = int(choice)
+            
+            if 1 <= choice_num <= len(installed_models):
+                selected_model = installed_models[choice_num - 1]
+                model_key = selected_model["key"]
+                
+                if set_preferred_model(model_key):
+                    print(f"[OK] {model_key.upper()} selected as your preferred AI model")
+                else:
+                    print("[WARNING] Failed to save model preference, using first available model")
+            else:
+                print("Invalid selection, using first available model")
+                
+        except (ValueError, KeyboardInterrupt):
+            print("Using first available model")
+    
+    # Ask if user wants to configure AI notifications
+    if _prompt_yes_no("Configure AI notifications now?", default_yes=True):
+        try:
+            # Automatically enable AI notification mode
+            update_config('notify_mode', 'ai', module_name='webhook')
+            print("\nAI notification mode enabled successfully!")
+            
+            # Stop the onboarding flow here as requested
+            return
+                
+        except Exception as e:
+            print(f"Error during onboarding: {e}")
+            print("You can configure AI notifications manually with:")
+            print("  deceptgold notify --mode=ai")
+    else:
+        print("\nOnboarding skipped. To configure AI notifications later, run:")
+        print("  deceptgold notify --mode=ai")
+        print("To select AI model, run:")
+        print("  deceptgold ai select-model")
+
+
+def _check_telegram_configured() -> bool:
+    """Check if Telegram notifications are configured"""
+    try:
+        from deceptgold.configuration.opecanary import get_config_value
+        token = get_config_value('telegram', 'bot_token')
+        chat_id = get_config_value('telegram', 'chat_id')
+        return bool(token and chat_id)
+    except Exception:
+        return False
+
+
+def _configure_telegram_interactive():
+    """Interactive Telegram configuration"""
+    try:
+        from deceptgold.configuration.config_manager import update_config
+        
+        print("\nTelegram Bot Configuration:")
+        token = input("Enter your Telegram bot token: ").strip()
+        if token:
+            update_config('bot_token', token, module_name='telegram')
+            print("[OK] Bot token saved")
+        
+        chat_id = input("Enter your Telegram chat ID: ").strip()
+        if chat_id:
+            update_config('chat_id', chat_id, module_name='telegram')
+            print("[OK] Chat ID saved")
+        
+        if token and chat_id:
+            print("[OK] Telegram notifications configured successfully!")
+            return True
+        else:
+            print("[WARNING] Incomplete Telegram configuration")
+            return False
+            
+    except Exception as e:
+        print(f"Error configuring Telegram: {e}")
+        return False
 
 
 def _wallet_configured() -> bool:
@@ -286,6 +471,12 @@ def _llm_analyze(llm, enriched: dict) -> dict:
 def start(*args):
     parsed_args = parse_args(args)
 
+    # Check if AI models are available
+    from deceptgold.helper.ai_model import check_ai_model_available_silent
+    if not check_ai_model_available_silent():
+        print(MessageTemplates.ai_models_not_installed())
+        raise SystemExit(1)
+
     log_file = parsed_args.get("log_file") or get_temp_log_path(NAME_FILE_LOG)
     out_file = parsed_args.get("out_file")
 
@@ -305,14 +496,7 @@ def start(*args):
     if llm_enabled:
         if not model_path:
             embedded = _embedded_models_dir()
-            print(
-                "Local AI is enabled, but no GGUF model was found.\n"
-                "To generate AI reports, you must install a local model.\n\n"
-                "Options:\n"
-                "  1) Pass model=/path/to/model.gguf\n"
-                "  2) Or install it to ~/.deceptgold/models manually\n\n"
-                f"Embedded model directory (if shipped): {embedded}"
-            )
+            print(MessageTemplates.ai_mode_model_not_found(str(embedded)))
             raise SystemExit(1)
         try:
             llm = _load_llm(model_path)
@@ -352,10 +536,7 @@ def start(*args):
                     _start_service_daemon(force_no_wallet=force_no_wallet)
                     started_service = True
                     service_running = True
-                    print(
-                        "AI log follower is running and will start streaming as soon as the honeypot writes events.\n"
-                        f"Waiting for: {log_path}"
-                    )
+                    print(MessageTemplates.ai_log_follower_ready(str(log_path)))
             else:
                 pass
 
@@ -458,36 +639,14 @@ def install_model(*args):
     if not filename:
         models = list_available_models()
         if not models:
-            print(
-                "No models are available for download/install.\n"
-                "If you built from source, ensure deceptgold/resources/models/model_manifest.json is packaged.\n"
-                "Or download a GGUF file manually and set ai.model_path."
-            )
+            print(MessageTemplates.ai_models_unavailable())
             raise SystemExit(1)
 
-        print("Available AI models:")
-
-        key_w = 0
-        fname_w = 0
-        for m in models:
-            key_w = max(key_w, len(str(m.get("key") or "").strip()))
-            fname_w = max(fname_w, len(str(m.get("filename") or "").strip()))
-        key_w = max(key_w, len("key"))
-        fname_w = max(fname_w, len("filename"))
-
-        for i, m in enumerate(models, start=1):
-            key = str(m.get("key") or "").strip()
-            fname = str(m.get("filename") or "").strip()
-            installed = bool(m.get("installed"))
-            status = "[installed]" if installed else "[download]"
-            print(f"  {i:>2}) {key:<{key_w}}  {fname:<{fname_w}}  {status}")
+        print(MessageTemplates.ai_models_list_and_selection(models))
 
         if not is_interactive():
-            print(
-                "\nNon-interactive mode: choose a model by passing filename=<model.gguf> (embedded) or set DECEPTGOLD_AI_MODEL and run again interactively."
-            )
+            print(MessageTemplates.non_interactive_mode_detected())
             raise SystemExit(1)
-
         print("Choose [1]: ", end="", flush=True)
         raw = (sys.stdin.readline() or "").strip()
         if not raw:
@@ -497,6 +656,13 @@ def install_model(*args):
                 chosen_idx = int(raw)
             except Exception:
                 chosen_idx = 1
+
+        # Check if user chose to skip (last option)
+        skip_option = len(models) + 1
+        if chosen_idx == skip_option:
+            print("\nSkipping AI model installation. You can install models later with:")
+            print("  deceptgold ai install-model")
+            return
 
         if chosen_idx < 1 or chosen_idx > len(models):
             chosen_idx = 1
@@ -513,11 +679,10 @@ def install_model(*args):
             print("Unable to install the selected model.")
             raise SystemExit(1)
 
-        print(
-            f"Installed model to: {path}\n\n"
-            "This local model enables AI reports. Generate a report with:\n"
-            "  deceptgold reports ai-report source=/path/to/log.jsonl dest=/path/to/report.md format=markdown"
-        )
+        print(f"Installed model to: {path}")
+        
+        # Start onboarding flow
+        _start_ai_onboarding()
         return
 
     src = _embedded_models_dir() / filename
@@ -543,8 +708,7 @@ def install_model(*args):
         return
 
     shutil.copy2(src, dst)
-    print(
-        f"Installed model to: {dst}\n\n"
-        "This local model enables AI reports. Generate a report with:\n"
-        "  deceptgold reports ai-report source=/path/to/log.jsonl dest=/path/to/report.md format=markdown"
-    )
+    print(f"Installed model to: {dst}")
+    
+    # Start onboarding flow
+    _start_ai_onboarding()

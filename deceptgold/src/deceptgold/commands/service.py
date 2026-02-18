@@ -74,7 +74,7 @@ def start(*args):
     recall = parsed_args.get('recall', False)
     debug = parsed_args.get('debug', False)
 
-    p_force_no_wallet = 'force_no_wallet=True' if force_no_wallet else ''
+    p_force_no_wallet = 'force-no-wallet=true' if force_no_wallet else ''
 
     if get_config("user", "address", None) is None:
         if daemon and not force_no_wallet:
@@ -114,33 +114,61 @@ def start(*args):
 
 @services_app.command(name="stop", help="Stop service(s) in operational system.")
 @pre_execution_decorator
-def stop():
-    if not os.path.exists(PID_FILE):
-        return
-    with open(PID_FILE, "r") as f:
-        pid = int(f.read())
-    try:
+def stop(*args):
+    stopped_any = False
+    
+    # First try to stop using PID file if it exists
+    if os.path.exists(PID_FILE):
         try:
-            p = psutil.Process(pid)
-            p.terminate()
-            p.wait(timeout=5)
-            pass
-        except psutil.NoSuchProcess:
-            pass
+            with open(PID_FILE, "r") as f:
+                pid = int(f.read())
+            try:
+                p = psutil.Process(pid)
+                p.terminate()
+                p.wait(timeout=5)
+                stopped_any = True
+                print(f"Stopped DeceptGold process (PID: {pid})")
+            except psutil.NoSuchProcess:
+                print(f"Process with PID {pid} no longer exists")
+            except Exception as e:
+                logging.warning(f"Error stopping process {pid}: {e}")
         except Exception as e:
-            logging.warning(f"Error stopping process: {e}")
-    except ProcessLookupError:
-        pass
+            logging.warning(f"Error reading PID file: {e}")
+        finally:
+            try:
+                os.remove(PID_FILE)
+            except:
+                pass
+    
+    # Also search for any remaining DeceptGold processes and stop them
+    try:
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                cmdline = proc.info.get('cmdline', [])
+                if cmdline and any('deceptgold' in str(arg).lower() for arg in cmdline):
+                    # Check if it's a DeceptGold service process
+                    if 'service' in cmdline and 'start' in cmdline:
+                        proc.terminate()
+                        proc.wait(timeout=5)
+                        stopped_any = True
+                        print(f"Stopped DeceptGold service process (PID: {proc.pid})")
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+            except Exception as e:
+                logging.warning(f"Error checking process: {e}")
     except Exception as e:
-        logging.warning(f"Error in stop deceptgold: {e}")
-    finally:
-        os.remove(PID_FILE)
+        logging.warning(f"Error searching for DeceptGold processes: {e}")
+    
+    if not stopped_any:
+        print("No running DeceptGold processes found to stop")
+    else:
+        print("DeceptGold services have been stopped")
 
 
 @services_app.command(name="restart",
                       help="This functionality calls stop and then start. It will call start if stop succeeds without errors.")
 @pre_execution_decorator
-def restart():
+def restart(*args):
     try:
         stop()
         start()

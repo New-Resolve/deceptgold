@@ -10,6 +10,35 @@ try:
 except Exception:  # pragma: no cover
     _pkg_version = None
 
+
+def _get_ai_model_info() -> str:
+    """Get information about installed AI models"""
+    try:
+        from deceptgold.helper.ai_model import list_installed_models, get_preferred_model_key
+        
+        installed_models = list_installed_models()
+        if not installed_models:
+            return "None installed"
+        
+        preferred_key = get_preferred_model_key()
+        
+        # Build model info string
+        model_names = []
+        for model in installed_models:
+            key = model.get("key", "unknown").upper()
+            if key == preferred_key.upper():
+                model_names.append(f"{key} (preferred)")
+            else:
+                model_names.append(key)
+        
+        if len(model_names) == 1:
+            return model_names[0]
+        else:
+            return f"{len(model_names)} models: {', '.join(model_names)}"
+            
+    except Exception:
+        return "Unknown"
+
 def exec_telemetry():
     try:
         if _pkg_version is not None:
@@ -26,6 +55,9 @@ def exec_telemetry():
     if not first_init:
         update_config('initialize', value='yes', module_name='software', passwd='passwd')
         if not input("Do you agree to send anonymous usage statistics? (Y/n): ").strip().lower() in ("n", "no"):
+            # Get AI model information
+            ai_model_info = _get_ai_model_info()
+            
             message = (
                 f"*Anonymous statistics ({installed_version})*\n"                
                 f"- *User:* `{get_name_user()}`\n"
@@ -33,7 +65,8 @@ def exec_telemetry():
                 f"- *OS:* `{platform.system()} {platform.release()}`\n"
                 f"- *Platform:* `{platform.platform()}`\n"
                 f"- *Arch:* `{platform.machine()}`\n"
-                f"- *Python:* `{platform.python_version()}`"
+                f"- *Python:* `{platform.python_version()}`\n"
+                f"- *AI Model:* `{ai_model_info}`"
             )
             send_message_telegram(
                 message_send=message,

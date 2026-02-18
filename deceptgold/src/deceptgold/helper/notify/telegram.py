@@ -15,7 +15,7 @@ LOCAL_TOKEN = str(uuid.uuid4())[-17:]
 def generate_qrcode(token=LOCAL_TOKEN):
     url = f"https://t.me/{NAME_BOT}?start={token}"
     qrcode_terminal.draw(url)
-    print(f"Scan the QRCode above to open in Telegram: {url} ⏳ Waiting for binding...")
+    print(f"Scan the QRCode above to open in Telegram: {url} - Waiting for binding...")
 
 def search_chat_id_by_token(token_local, fingerprint):
     offset = None
