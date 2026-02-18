@@ -48,6 +48,29 @@ def _installed_models(manifest: dict) -> list[tuple[str, Path]]:
     return out
 
 
+def check_ai_model_available_silent() -> bool:
+    """Silent check for AI models - no UI output"""
+    try:
+        from pathlib import Path
+        
+        # Check if we have a properly configured and usable model
+        manifest = _load_manifest()
+        installed = _installed_models(manifest)
+        
+        # If we have models from manifest, they are properly configured
+        if installed:
+            return True
+            
+        # The manifest system requires exact filename matches, but we might have
+        # models that aren't properly registered. For AI start command, we need
+        # models that can actually be loaded and used, not just any .gguf files.
+        # Return False to force proper model installation/configuration.
+        return False
+        
+    except Exception:
+        return False
+
+
 def list_installed_models() -> list[dict]:
     return [m for m in (list_available_models() or []) if bool(m.get("installed"))]
 
@@ -56,14 +79,13 @@ def list_available_models() -> list[dict]:
     manifest = _load_manifest() or {}
 
     keys = [k for k in manifest.keys() if isinstance(k, str) and k.strip()]
-    if "default" not in keys:
-        keys = ["default", *keys]
-
+    
+    # Order models with qwen first (as default), then others alphabetically
     ordered: list[str] = []
-    if "default" in keys:
-        ordered.append("default")
+    if "qwen" in keys:
+        ordered.append("qwen")
     for k in sorted(set(keys)):
-        if k != "default":
+        if k != "qwen":
             ordered.append(k)
 
     out: list[dict] = []
@@ -79,37 +101,108 @@ def list_available_models() -> list[dict]:
                 "url": url,
                 "path": path,
                 "installed": bool(filename and path.exists()),
+                "specialty": info.get("specialty", ""),
+                "use_case": info.get("use_case", ""),
+                "description": info.get("description", ""),
             }
         )
     return out
 
 
-def get_model_info(model_key: str = "default") -> dict:
+def get_model_info(model_key: str = "qwen") -> dict:
     manifest = _load_manifest()
     entry = manifest.get(model_key) or {}
 
     filename = str(entry.get("filename") or "").strip()
     url = str(entry.get("url") or "").strip()
+    specialty = str(entry.get("specialty") or "").strip()
+    use_case = str(entry.get("use_case") or "").strip()
+    description = str(entry.get("description") or "").strip()
 
-    if model_key == "default":
-        if not filename:
-            filename = "Qwen2.5-0.5B-Instruct-Q4_K_M.gguf"
-        if not url:
-            url = "https://huggingface.co/bartowski/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-0.5B-Instruct-Q4_K_M.gguf"
+    # Fallback for qwen model if not found in manifest
+    if model_key == "qwen" and not filename:
+        filename = "Qwen2.5-0.5B-Instruct-Q4_K_M.gguf"
+        url = "https://huggingface.co/bartowski/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-0.5B-Instruct-Q4_K_M.gguf"
 
-    return {"filename": filename, "url": url, "key": model_key}
+    return {
+        "filename": filename, 
+        "url": url, 
+        "key": model_key,
+        "specialty": specialty,
+        "use_case": use_case,
+        "description": description
+    }
 
 
 def get_default_model_info() -> dict:
-    return get_model_info("default")
+    """Get info for the preferred AI model based on user selection or priority"""
+    # First check if user has set a preferred model
+    preferred_model = get_preferred_model_key()
+    if preferred_model:
+        return get_model_info(preferred_model)
+    
+    # Fallback to first installed model
+    installed = list_installed_models()
+    if installed:
+        return get_model_info(installed[0]["key"])
+    
+    # Final fallback to qwen
+    return get_model_info("qwen")
 
 
 def get_default_model_target_path() -> Path:
+    """Get path to the preferred AI model"""
     info = get_default_model_info()
     filename = (info.get("filename") or "").strip()
     if not filename:
         return Path("")
-    return _user_models_dir() / filename
+    
+    model_path = _user_models_dir() / filename
+    
+    # If preferred model doesn't exist, try to find any installed model
+    if not model_path.exists():
+        installed = list_installed_models()
+        for model in installed:
+            if model.get("path") and Path(model["path"]).exists():
+                return Path(model["path"])
+    
+    return model_path
+
+
+def get_preferred_model_key() -> str:
+    """Get the user's preferred AI model key from configuration"""
+    try:
+        from deceptgold.configuration.config_manager import get_config
+        return get_config('ai_settings', 'preferred_model', '') or ''
+    except Exception:
+        return ''
+
+
+def set_preferred_model(model_key: str) -> bool:
+    """Set the user's preferred AI model"""
+    try:
+        from deceptgold.configuration.config_manager import update_config
+        update_config('preferred_model', model_key, module_name='ai_settings')
+        return True
+    except Exception:
+        return False
+
+
+def list_installed_models_with_priority() -> list[dict]:
+    """List installed models with preferred model first"""
+    installed = list_installed_models()
+    if not installed:
+        return []
+    
+    preferred_key = get_preferred_model_key()
+    if not preferred_key:
+        return installed
+    
+    # Move preferred model to front
+    preferred_models = [m for m in installed if m.get("key") == preferred_key]
+    other_models = [m for m in installed if m.get("key") != preferred_key]
+    
+    return preferred_models + other_models
 
 
 def is_interactive() -> bool:
@@ -134,42 +227,8 @@ def ensure_default_model_installed(interactive: bool = True) -> Path:
                 return p
         return installed[0][1]
 
-    if not interactive or not is_interactive():
-        return ensure_model_installed("default", interactive=interactive)
-
-    env_key = (os.environ.get("DECEPTGOLD_AI_MODEL") or "").strip()
-    if env_key:
-        return ensure_model_installed(env_key, interactive=interactive)
-
-    manifest = manifest or _load_manifest()
-    keys = [k for k in manifest.keys() if isinstance(k, str) and k.strip()]
-    if len(keys) <= 1:
-        return ensure_model_installed("default", interactive=interactive)
-
-    ordered = []
-    if "default" in manifest:
-        ordered.append("default")
-    for k in sorted(keys):
-        if k != "default":
-            ordered.append(k)
-
-    print("Select AI model to download/install:")
-    for i, k in enumerate(ordered, start=1):
-        info = get_model_info(k)
-        filename = str(info.get("filename") or "").strip()
-        print(f"  {i}) {k} - {filename}")
-    print("Choose [1]: ", end="", flush=True)
-    raw = (sys.stdin.readline() or "").strip()
-    if not raw:
-        chosen = ordered[0]
-    else:
-        try:
-            idx = int(raw)
-            chosen = ordered[idx - 1] if 1 <= idx <= len(ordered) else ordered[0]
-        except Exception:
-            chosen = ordered[0]
-
-    return ensure_model_installed(chosen, interactive=interactive)
+    # ALWAYS return empty path if no models installed - never show UI automatically
+    return Path("")
 
 
 def install_model_by_key(model_key: str, interactive: bool = True, assume_yes: bool = False) -> Path:
@@ -215,18 +274,53 @@ def install_model_by_key(model_key: str, interactive: bool = True, assume_yes: b
     _user_models_dir().mkdir(parents=True, exist_ok=True)
 
     tmp = target.with_suffix(target.suffix + ".part")
+    
+    # Check if partial download exists and get resume position
+    resume_pos = 0
+    if tmp.exists():
+        resume_pos = tmp.stat().st_size
+        if is_interactive():
+            mb_resume = resume_pos / (1024 * 1024)
+            print(f"Resuming download from {mb_resume:.1f} MB...")
 
-    with httpx.stream("GET", url, follow_redirects=True, timeout=None) as r:
+    # Set up headers for resume
+    headers = {}
+    if resume_pos > 0:
+        headers["Range"] = f"bytes={resume_pos}-"
+
+    with httpx.stream("GET", url, headers=headers, follow_redirects=True, timeout=None) as r:
         r.raise_for_status()
-        total = None
-        try:
-            if r.headers.get("Content-Length"):
-                total = int(r.headers["Content-Length"])
-        except Exception:
+        
+        # Handle partial content response
+        if r.status_code == 206:  # Partial Content
+            content_range = r.headers.get("Content-Range", "")
+            if content_range.startswith("bytes"):
+                # Extract total size from "bytes start-end/total"
+                try:
+                    total = int(content_range.split("/")[1])
+                except Exception:
+                    total = None
+            else:
+                total = None
+        else:
+            # Full download - server doesn't support resume or file doesn't exist
+            if resume_pos > 0:
+                if is_interactive():
+                    print("Server doesn't support resume, starting from beginning...")
+                resume_pos = 0
+                tmp.unlink(missing_ok=True)  # Remove partial file
+            
             total = None
+            try:
+                if r.headers.get("Content-Length"):
+                    total = int(r.headers["Content-Length"])
+            except Exception:
+                total = None
 
-        downloaded = 0
-        with tmp.open("wb") as f:
+        downloaded = resume_pos
+        mode = "ab" if resume_pos > 0 else "wb"
+        
+        with tmp.open(mode) as f:
             for chunk in r.iter_bytes(chunk_size=1024 * 1024):
                 if chunk:
                     f.write(chunk)
@@ -236,14 +330,14 @@ def install_model_by_key(model_key: str, interactive: bool = True, assume_yes: b
                         mb_done = downloaded / (1024 * 1024)
                         mb_total = total / (1024 * 1024)
                         print(
-                            f"Downloading model: {pct:5.1f}% ({mb_done:.1f}/{mb_total:.1f} MB)",
+                            f"loading model: {pct:5.1f}% ({mb_done:.1f}/{mb_total:.1f} MB)",
                             end="\r",
                             flush=True,
                         )
                     elif is_interactive():
                         mb_done = downloaded / (1024 * 1024)
                         print(
-                            f"Downloading model: {mb_done:.1f} MB", end="\r", flush=True
+                            f"loading model: {mb_done:.1f} MB", end="\r", flush=True
                         )
 
         if is_interactive():

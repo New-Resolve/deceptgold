@@ -7,6 +7,8 @@ from deceptgold.helper.notify.webhook import configure_custom_webhook
 from deceptgold.helper.notify.slack import configure_webhook_slack
 from deceptgold.helper.notify.discord import configure_webhook_discord
 from deceptgold.helper.helper import parse_args, is_valid_url
+from deceptgold.configuration.config_manager import get_config, update_config
+from deceptgold.helper.message_formatter import MessageTemplates
 
 
 logger = logging.getLogger(__name__)
@@ -22,6 +24,30 @@ def telegram():
 @notify_app.command(name="--telegram=true", help="Scan the QRCode or use a browser to read the URL. Synchronization will be automatic and you will be notified.")
 def telegram():
     configure_telegram()
+
+
+@notify_app.command(name="--mode=default", help="Use default notifications (system events only).")
+def mode_default():
+    update_config('notify_mode', 'default', module_name='webhook')
+    print(MessageTemplates.notify_default_mode())
+
+
+@notify_app.command(name="--mode=ai", help="Use AI-generated notifications (requires LLM model downloaded).")
+def mode_ai():
+    if not _check_ai_model_available():
+        print(MessageTemplates.notify_ai_mode_intelligence_required())
+        return
+    
+    update_config('notify_mode', 'ai', module_name='webhook')
+    print(MessageTemplates.notify_ai_mode_activated())
+
+
+def _check_ai_model_available():
+    try:
+        from deceptgold.helper.ai_model import check_ai_model_available_silent
+        return check_ai_model_available_silent()
+    except Exception:
+        return False
 
 
 @notify_app.command(name="webhook", help="Sending requests to your return address. e.g. custom=\"https://example.com/webhook\".\n\n"

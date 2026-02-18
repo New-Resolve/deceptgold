@@ -39,7 +39,7 @@ def init_app():
         from deceptgold.commands.reports import reports_app
         from deceptgold.configuration import log
         from deceptgold.helper.notify.telemetry.send import exec_telemetry
-        from deceptgold.helper.ai_model import ensure_default_model_installed
+        from deceptgold.helper.ai_model import ensure_default_model_installed, list_installed_models
 
 
         logger = logging.getLogger(__name__)
@@ -48,9 +48,19 @@ def init_app():
 
         app = App(name="DeceptGold", help=get_description(), version=_get_app_version())
 
-        exec_telemetry()
+        # Check if AI models are installed, if not show installation interface
+        installed_models = list_installed_models()
+        if not installed_models:
+            # Import and run the AI model installation command
+            from deceptgold.commands.ai import install_model
+            try:
+                install_model()
+            except SystemExit:
+                pass  # User may have cancelled installation
+        else:
+            ensure_default_model_installed(interactive=True)
 
-        ensure_default_model_installed(interactive=True)
+        exec_telemetry()
 
         app.command(users_app)
         app.command(services_app)
