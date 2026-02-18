@@ -54,6 +54,13 @@ def exec_telemetry():
     first_init = get_config(key='initialize', module_name_honeypot='software', passwd='passwd', default=None)
     if not first_init:
         update_config('initialize', value='yes', module_name='software', passwd='passwd')
+        
+        # Check if running in interactive mode
+        from deceptgold.helper.ai_model import is_interactive
+        if not is_interactive():
+            # Non-interactive mode: skip telemetry prompt
+            return
+        
         if not input("Do you agree to send anonymous usage statistics? (Y/n): ").strip().lower() in ("n", "no"):
             # Get AI model information
             ai_model_info = _get_ai_model_info()
