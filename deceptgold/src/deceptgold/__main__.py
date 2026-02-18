@@ -79,7 +79,10 @@ def init_app():
         print(f"Critical error in the application. Please contact us to report this situation. We do not collect any "
               f"information. It would be necessary for you to send us specific information about this specific "
               f"situation. Help us to constantly improve. https://decept.gold")
+        import os
         if callable(my_self_developer_fn) and my_self_developer_fn():
+            traceback.print_exc()
+        elif os.environ.get('DECEPTGOLD_DEBUG') == '1':
             traceback.print_exc()
 
     multiprocessing.set_start_method("spawn")
