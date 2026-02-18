@@ -56,6 +56,9 @@ RUN set -e && \
 
 EXPOSE 2121 2222 8090
 
+# Enable debug mode to show full tracebacks
+ENV DECEPTGOLD_DEBUG=1
+
 # Default command to start deceptgold in development mode
 # Developers can override with `docker run -it <image> bash` for interactive debugging
 # CMD ["deceptgold", "service", "start", "daemon=false", "force-no-wallet=true"]
