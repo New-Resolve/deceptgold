@@ -32,6 +32,7 @@ def init_app():
         from deceptgold.helper.descripton import get_description
         from deceptgold.helper.opencanary.proxy_logger import CustomFileHandler
         from deceptgold.helper.helper import my_self_developer as my_self_developer_fn
+        from deceptgold.helper.message_formatter import MessageFormatter, MessageTemplates
         from deceptgold.commands.user import users_app
         from deceptgold.commands.service import services_app
         from deceptgold.commands.notify import notify_app
