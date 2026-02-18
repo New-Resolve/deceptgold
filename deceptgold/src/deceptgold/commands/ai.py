@@ -81,7 +81,7 @@ def select_model():
         else:
             print("Invalid selection.")
             
-    except (ValueError, KeyboardInterrupt):
+    except (ValueError, KeyboardInterrupt, EOFError):
         print("Model selection cancelled.")
 
 
@@ -209,9 +209,15 @@ def _is_service_running() -> bool:
 
 
 def _prompt_yes_no(question: str, default_yes: bool = True) -> bool:
+    if not is_interactive():
+        return default_yes
+    
     suffix = "[Y/n]" if default_yes else "[y/N]"
     while True:
-        ans = input(f"{question} {suffix} ").strip().lower()
+        try:
+            ans = input(f"{question} {suffix} ").strip().lower()
+        except EOFError:
+            return default_yes
         if not ans:
             return default_yes
         if ans in {"y", "yes", "s", "sim"}:
@@ -268,7 +274,7 @@ def _start_ai_onboarding():
             else:
                 print("Invalid selection, using first available model")
                 
-        except (ValueError, KeyboardInterrupt):
+        except (ValueError, KeyboardInterrupt, EOFError):
             print("Using first available model")
     
     # Ask if user wants to configure AI notifications
@@ -308,13 +314,28 @@ def _configure_telegram_interactive():
     try:
         from deceptgold.configuration.config_manager import update_config
         
+        if not is_interactive():
+            print("\nNon-interactive mode: Telegram configuration skipped.")
+            print("Configure manually with: deceptgold notify telegram")
+            return False
+        
         print("\nTelegram Bot Configuration:")
-        token = input("Enter your Telegram bot token: ").strip()
+        try:
+            token = input("Enter your Telegram bot token: ").strip()
+        except EOFError:
+            print("\nInput cancelled.")
+            return False
+        
         if token:
             update_config('bot_token', token, module_name='telegram')
             print("[OK] Bot token saved")
         
-        chat_id = input("Enter your Telegram chat ID: ").strip()
+        try:
+            chat_id = input("Enter your Telegram chat ID: ").strip()
+        except EOFError:
+            print("\nInput cancelled.")
+            return False
+        
         if chat_id:
             update_config('chat_id', chat_id, module_name='telegram')
             print("[OK] Chat ID saved")
