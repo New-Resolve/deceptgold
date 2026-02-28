@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "deceptgold"
 bundle = "com.deceptgold"
-version = "0.1.138"
+version = "0.1.141"
 url = "https://deceptgold.com/deceptgold"
 license.file = "src/deceptgold/LICENSE"
 author = "Deceptgold"
@@ -10,7 +10,7 @@ author_email = "contact@decept.gold"
 
 [tool.poetry]
 name = "deceptgold"
-version = "0.1.138"
+version = "0.1.141"
 description = "Deceptgold is a next-gen deception platform that transforms cyber attacks into digital assets, featuring advanced Web2 and Web3/Blockchain honeypot simulations."
 authors = ["Developer <contact@decept.gold>"]
 license = "Apache-2.0"

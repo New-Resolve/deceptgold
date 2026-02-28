@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-KEEP="21356090750"
+KEEP="22520731003"
 
-# Lista explícita dos workflows (IDs)
+# Explicit list of workflows (IDs)
 WORKFLOWS=(
   154593920   # Build and Release Deceptgold
   158657684   # Dependabot Updates
@@ -14,28 +14,28 @@ while true; do
   FOUND=0
 
   for WF in "${WORKFLOWS[@]}"; do
-    echo ">>> Processando workflow $WF"
+    echo ">>> Processing workflow $WF"
 
-    # Busca até 100 por vez
+    # Fetch up to 100 at a time
     RUNS=$(gh run list --workflow "$WF" --limit 100 --json databaseId -q '.[].databaseId')
 
     for run_id in $RUNS; do
       if [ "$run_id" != "$KEEP" ]; then
         FOUND=1
-        echo "Deletando run $run_id (workflow $WF)"
+        echo "Deleting run $run_id (workflow $WF)"
         gh run delete "$run_id"
         sleep 0.3
       else
-        echo "Mantendo run $run_id (KEEP)"
+        echo "Keeping run $run_id (KEEP)"
       fi
     done
   done
 
   if [ "$FOUND" -eq 0 ]; then
-    echo "✅ Nenhuma run restante para deletar. Finalizado."
+    echo "No remaining runs to delete. Finished."
     break
   fi
 
-  echo "🔁 Novo ciclo para pegar próxima página..."
+  echo "New cycle to fetch next page..."
   sleep 2
 done
