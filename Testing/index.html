@@ -1,0 +1,1855 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.decept.gold/Testing/">
+      
+      
+        <link rel="prev" href="../Blockchain/">
+      
+      
+        <link rel="next" href="../Web3_Testing/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.36">
+    
+    
+      
+        <title>Testing - Deceptgold Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.06209087.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#testing-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deceptgold Documentation" class="md-header__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deceptgold Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deceptgold Documentation" class="md-nav__button md-logo" aria-label="Deceptgold Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Deceptgold Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Reference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Blockchain/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Testing
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Philosophy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-test-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Test Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#watch-mode-for-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Watch Mode (for development)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-file-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test File Naming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Test Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Fixtures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametrized-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mocking-external-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mocking External Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attack-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attack Simulation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-attack-simulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Attack Simulator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-attack-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Attack Simulation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual Attack Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ssh-brute-force-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH Brute Force Simulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-request-flood" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Request Flood
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftp-connection-attempts" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Connection Attempts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programmatic-attack-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Programmatic Attack Simulation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-full-attack-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Full Attack Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-configuration-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Configuration Persistence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-blockchain-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Blockchain Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-profiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Profiling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timing Tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Coverage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measuring-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Measuring Coverage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage Goals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-report-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage Report Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continuous Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitHub Actions Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#do" class="md-nav__link">
+    <span class="md-ellipsis">
+      DO:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dont" class="md-nav__link">
+    <span class="md-ellipsis">
+      DON'T:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-failed-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Failed Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Debugging Failed Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web3_Testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web3 Testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../About/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Privacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Privacy Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Whitepaper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Whitepaper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Rewards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rewards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Philosophy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-test-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Test Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#watch-mode-for-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Watch Mode (for development)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Writing Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-file-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test File Naming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Test Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-fixtures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Fixtures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametrized-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Tests
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mocking-external-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mocking External Dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attack-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attack Simulation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-attack-simulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Attack Simulator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manual-attack-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Attack Simulation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manual Attack Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ssh-brute-force-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH Brute Force Simulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-request-flood" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Request Flood
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftp-connection-attempts" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Connection Attempts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programmatic-attack-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Programmatic Attack Simulation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-full-attack-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Full Attack Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-configuration-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Configuration Persistence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-blockchain-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Blockchain Integration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-profiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Profiling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timing-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timing Tests
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#coverage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Coverage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measuring-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Measuring Coverage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage Goals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coverage-report-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coverage Report Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#continuous-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continuous Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#github-actions-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitHub Actions Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#do" class="md-nav__link">
+    <span class="md-ellipsis">
+      DO:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dont" class="md-nav__link">
+    <span class="md-ellipsis">
+      DON'T:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-failed-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Failed Tests
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Debugging Failed Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See Also
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="testing-guide">Testing Guide</h1>
+<p>Comprehensive testing guidelines for Deceptgold development.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#testing-philosophy">Testing Philosophy</a></li>
+<li><a href="#test-structure">Test Structure</a></li>
+<li><a href="#running-tests">Running Tests</a></li>
+<li><a href="#writing-tests">Writing Tests</a></li>
+<li><a href="#attack-simulation">Attack Simulation</a></li>
+<li><a href="#integration-testing">Integration Testing</a></li>
+<li><a href="#performance-testing">Performance Testing</a></li>
+<li><a href="#coverage">Coverage</a></li>
+</ul>
+<h2 id="testing-philosophy">Testing Philosophy</h2>
+<p>Deceptgold testing focuses on:</p>
+<ol>
+<li><strong>Cryptographic Integrity</strong> - Signature generation and validation</li>
+<li><strong>Configuration Management</strong> - Config loading and updates</li>
+<li><strong>Honeypot Functionality</strong> - Attack detection and logging</li>
+<li><strong>Blockchain Integration</strong> - Web3 interactions and smart contracts</li>
+<li><strong>Anti-Farming Mechanisms</strong> - Fingerprinting and rate limiting</li>
+</ol>
+<h2 id="test-structure">Test Structure</h2>
+<div class="highlight"><pre><span></span><code>tests/
+├── __init__.py
+├── deceptgold.py              # Test utilities and fixtures
+├── test_config_manager.py     # Configuration tests
+├── test_signature.py          # Cryptographic signature tests
+└── (future tests)
+    ├── test_blockchain.py     # Blockchain integration tests
+    ├── test_honeypot.py       # Honeypot functionality tests
+    └── test_fingerprint.py    # Anti-farming tests
+</code></pre></div>
+<h2 id="running-tests">Running Tests</h2>
+<h3 id="basic-test-execution">Basic Test Execution</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run all tests</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest
+
+<span class="c1"># Run with verbose output</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v
+
+<span class="c1"># Run specific test file</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_signature.py
+
+<span class="c1"># Run specific test function</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_signature.py::test_signature_validation
+
+<span class="c1"># Run with output (print statements)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-s
+</code></pre></div>
+<h3 id="test-options">Test Options</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Stop on first failure</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-x
+
+<span class="c1"># Show local variables on failure</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-l
+
+<span class="c1"># Run last failed tests only</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--lf
+
+<span class="c1"># Run tests in parallel (requires pytest-xdist)</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-n<span class="w"> </span>auto
+</code></pre></div>
+<h3 id="coverage">Coverage</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run with coverage</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>deceptgold
+
+<span class="c1"># Generate HTML coverage report</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>deceptgold<span class="w"> </span>--cov-report<span class="o">=</span>html
+
+<span class="c1"># View coverage report</span>
+open<span class="w"> </span>htmlcov/index.html<span class="w">  </span><span class="c1"># macOS</span>
+xdg-open<span class="w"> </span>htmlcov/index.html<span class="w">  </span><span class="c1"># Linux</span>
+</code></pre></div>
+<h3 id="watch-mode-for-development">Watch Mode (for development)</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install pytest-watch</span>
+poetry<span class="w"> </span>add<span class="w"> </span>--dev<span class="w"> </span>pytest-watch
+
+<span class="c1"># Run tests on file changes</span>
+poetry<span class="w"> </span>run<span class="w"> </span>ptw
+</code></pre></div>
+<h2 id="writing-tests">Writing Tests</h2>
+<h3 id="test-file-naming">Test File Naming</h3>
+<ul>
+<li>Test files: <code>test_*.py</code> or <code>*_test.py</code></li>
+<li>Test functions: <code>test_*</code></li>
+<li>Test classes: <code>Test*</code></li>
+</ul>
+<h3 id="basic-test-structure">Basic Test Structure</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.helper.signature</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_signature</span><span class="p">,</span> <span class="n">validate_signature</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_signature_generation</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that signatures are generated correctly.&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;test_attack_log&quot;</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="n">generate_signature</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">signature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signature</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_signature_validation</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that valid signatures pass validation.&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;test_attack_log&quot;</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="n">generate_signature</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">validate_signature</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">True</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_signature_rejection</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that invalid signatures are rejected.&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;test_attack_log&quot;</span>
+    <span class="n">invalid_signature</span> <span class="o">=</span> <span class="s2">&quot;0x1234567890abcdef&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">validate_signature</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">invalid_signature</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="using-fixtures">Using Fixtures</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.configuration.config_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigManager</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">config_manager</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide a clean ConfigManager instance for testing.&quot;&quot;&quot;</span>
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">()</span>
+    <span class="k">yield</span> <span class="n">manager</span>
+    <span class="c1"># Cleanup after test</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_config_update</span><span class="p">(</span><span class="n">config_manager</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test configuration updates.&quot;&quot;&quot;</span>
+    <span class="n">config_manager</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;0x123...&quot;</span><span class="p">)</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">config_manager</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;0x123...&quot;</span>
+</code></pre></div>
+<h3 id="parametrized-tests">Parametrized Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;service,port&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;ssh&quot;</span><span class="p">,</span> <span class="mi">22</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ftp&quot;</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;mysql&quot;</span><span class="p">,</span> <span class="mi">3306</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_service_ports</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that services use correct default ports.&quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">get_service_config</span><span class="p">(</span><span class="n">service</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">port</span>
+</code></pre></div>
+<h3 id="testing-exceptions">Testing Exceptions</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_wallet_address</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that invalid wallet addresses raise ValueError.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Invalid wallet address&quot;</span><span class="p">):</span>
+        <span class="n">validate_wallet_address</span><span class="p">(</span><span class="s2">&quot;invalid_address&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="mocking-external-dependencies">Mocking External Dependencies</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mock</span><span class="p">,</span> <span class="n">patch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="nd">@patch</span><span class="p">(</span><span class="s1">&#39;deceptgold.helper.blockchain.Web3&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_blockchain_connection</span><span class="p">(</span><span class="n">mock_web3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test blockchain connection without actual network call.&quot;&quot;&quot;</span>
+    <span class="c1"># Setup mock</span>
+    <span class="n">mock_web3</span><span class="o">.</span><span class="n">return_value</span><span class="o">.</span><span class="n">is_connected</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Test</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.helper.blockchain</span><span class="w"> </span><span class="kn">import</span> <span class="n">connect_to_network</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">connect_to_network</span><span class="p">(</span><span class="s2">&quot;https://rpc.example.com&quot;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">True</span>
+    <span class="n">mock_web3</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="attack-simulation">Attack Simulation</h2>
+<h3 id="using-the-attack-simulator">Using the Attack Simulator</h3>
+<p>Deceptgold includes a utility for simulating attacks during development:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run attack simulator</span>
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>utils/attack_simulate.py
+</code></pre></div>
+<h3 id="manual-attack-simulation">Manual Attack Simulation</h3>
+<h4 id="ssh-brute-force-simulation">SSH Brute Force Simulation</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install hydra (attack tool)</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>hydra<span class="w">  </span><span class="c1"># Ubuntu/Debian</span>
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>hydra<span class="w">  </span><span class="c1"># Fedora</span>
+
+<span class="c1"># Simulate SSH brute force</span>
+hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>localhost<span class="w"> </span>ssh<span class="w"> </span>-s<span class="w"> </span><span class="m">22</span><span class="w"> </span>-t<span class="w"> </span><span class="m">4</span>
+</code></pre></div>
+<h4 id="http-request-flood">HTTP Request Flood</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Using Apache Bench</span>
+ab<span class="w"> </span>-n<span class="w"> </span><span class="m">10000</span><span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span>http://localhost:80/
+
+<span class="c1"># Using curl in loop</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..1000<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>curl<span class="w"> </span>http://localhost:80/<span class="w"> </span><span class="p">&amp;</span>
+<span class="k">done</span>
+</code></pre></div>
+<h4 id="ftp-connection-attempts">FTP Connection Attempts</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Using ftp command</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..100<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;quit&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ftp<span class="w"> </span>localhost<span class="w"> </span><span class="m">21</span>
+<span class="k">done</span>
+</code></pre></div>
+<h3 id="programmatic-attack-simulation">Programmatic Attack Simulation</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># tests/test_honeypot.py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_ssh_attack_detection</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that SSH attacks are detected and logged.&quot;&quot;&quot;</span>
+    <span class="c1"># Connect to SSH honeypot</span>
+    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">22</span><span class="p">))</span>
+
+    <span class="c1"># Send invalid SSH handshake (simulates attack)</span>
+    <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;SSH-2.0-AttackClient</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Wait for logging</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Verify attack was logged</span>
+    <span class="n">logs</span> <span class="o">=</span> <span class="n">read_attack_logs</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">any</span><span class="p">(</span><span class="s1">&#39;ssh&#39;</span> <span class="ow">in</span> <span class="n">log</span><span class="p">[</span><span class="s1">&#39;service&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="n">logs</span><span class="p">)</span>
+
+    <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="integration-testing">Integration Testing</h2>
+<h3 id="testing-full-attack-flow">Testing Full Attack Flow</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.helper.opencanary</span><span class="w"> </span><span class="kn">import</span> <span class="n">start_honeypot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.helper.signature</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">deceptgold.helper.blockchain</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_token_minted</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">integration</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_end_to_end_attack_tokenization</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test complete flow from attack to token minting.&quot;&quot;&quot;</span>
+    <span class="c1"># 1. Start honeypot</span>
+    <span class="n">honeypot</span> <span class="o">=</span> <span class="n">start_honeypot</span><span class="p">(</span><span class="n">services</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ssh&#39;</span><span class="p">])</span>
+
+    <span class="c1"># 2. Simulate attack</span>
+    <span class="n">simulate_ssh_attack</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="n">attempts</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1"># 3. Wait for processing</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1"># 4. Verify attack was logged</span>
+    <span class="n">logs</span> <span class="o">=</span> <span class="n">read_attack_logs</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">logs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="c1"># 5. Verify signature</span>
+    <span class="n">latest_log</span> <span class="o">=</span> <span class="n">logs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">validate_signature</span><span class="p">(</span>
+        <span class="n">latest_log</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">],</span>
+        <span class="n">latest_log</span><span class="p">[</span><span class="s1">&#39;signature&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 6. Verify token was minted (requires testnet)</span>
+    <span class="c1"># This would be tested on testnet in CI/CD</span>
+    <span class="c1"># assert check_token_minted(latest_log[&#39;hash&#39;])</span>
+
+    <span class="c1"># Cleanup</span>
+    <span class="n">honeypot</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="testing-configuration-persistence">Testing Configuration Persistence</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_config_persistence</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that configuration persists across restarts.&quot;&quot;&quot;</span>
+    <span class="c1"># Set configuration</span>
+    <span class="n">update_config</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">,</span> <span class="s2">&quot;0xTest123&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Simulate restart by creating new config instance</span>
+    <span class="n">new_config</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">()</span>
+
+    <span class="c1"># Verify persistence</span>
+    <span class="k">assert</span> <span class="n">new_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;address&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;0xTest123&quot;</span>
+</code></pre></div>
+<h3 id="testing-blockchain-integration">Testing Blockchain Integration</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">blockchain</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_testnet_token_minting</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test actual token minting on testnet.&quot;&quot;&quot;</span>
+    <span class="c1"># This test requires testnet connection</span>
+    <span class="c1"># Should be run in CI/CD with testnet RPC</span>
+
+    <span class="n">attack_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-12-22T20:00:00Z&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;source_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;ssh&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;requests&quot;</span><span class="p">:</span> <span class="mi">1000</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Generate signature</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="n">sign_attack</span><span class="p">(</span><span class="n">attack_data</span><span class="p">)</span>
+
+    <span class="c1"># Submit to testnet</span>
+    <span class="n">tx_hash</span> <span class="o">=</span> <span class="n">submit_to_blockchain</span><span class="p">(</span><span class="n">attack_data</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+
+    <span class="c1"># Wait for confirmation</span>
+    <span class="n">receipt</span> <span class="o">=</span> <span class="n">wait_for_transaction</span><span class="p">(</span><span class="n">tx_hash</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">receipt</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># Success</span>
+    <span class="k">assert</span> <span class="s1">&#39;TokensMinted&#39;</span> <span class="ow">in</span> <span class="n">receipt</span><span class="p">[</span><span class="s1">&#39;logs&#39;</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="performance-testing">Performance Testing</h2>
+<h3 id="load-testing">Load Testing</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_concurrent_attack_handling</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test system handles multiple concurrent attacks.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">simulate_attack</span><span class="p">(</span><span class="n">attack_id</span><span class="p">):</span>
+        <span class="c1"># Simulate attack</span>
+        <span class="k">return</span> <span class="n">perform_attack</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;attacker_</span><span class="si">{</span><span class="n">attack_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Simulate 100 concurrent attacks</span>
+    <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">simulate_attack</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">result</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">]</span>
+
+    <span class="c1"># Verify all attacks were processed</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">==</span> <span class="mi">100</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;logged&#39;</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="memory-profiling">Memory Profiling</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">memory_profiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">profile</span>
+
+<span class="nd">@profile</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_memory_usage_during_attack_processing</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Profile memory usage during attack processing.&quot;&quot;&quot;</span>
+    <span class="c1"># Process 10000 attacks</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+        <span class="n">process_attack</span><span class="p">({</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-12-22T20:00:00Z&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;source_ip&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;192.168.1.</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">255</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;ssh&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;requests&quot;</span><span class="p">:</span> <span class="mi">100</span>
+        <span class="p">})</span>
+</code></pre></div>
+<h3 id="timing-tests">Timing Tests</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_signature_generation_performance</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that signature generation is fast enough.&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;test_attack_log_&quot;</span> <span class="o">*</span> <span class="mi">100</span>  <span class="c1"># Large message</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="n">generate_signature</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="c1"># Should generate 1000 signatures in under 1 second</span>
+    <span class="k">assert</span> <span class="n">duration</span> <span class="o">&lt;</span> <span class="mf">1.0</span>
+</code></pre></div>
+<h2 id="coverage_1">Coverage</h2>
+<h3 id="measuring-coverage">Measuring Coverage</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run tests with coverage</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>deceptgold<span class="w"> </span>--cov-report<span class="o">=</span>term-missing
+
+<span class="c1"># Generate detailed HTML report</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>deceptgold<span class="w"> </span>--cov-report<span class="o">=</span>html
+
+<span class="c1"># Show coverage for specific module</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>deceptgold.helper.signature<span class="w"> </span>--cov-report<span class="o">=</span>term
+</code></pre></div>
+<h3 id="coverage-goals">Coverage Goals</h3>
+<ul>
+<li><strong>Overall</strong>: Aim for 80%+ coverage</li>
+<li><strong>Critical modules</strong>: 90%+ coverage</li>
+<li><code>helper/signature.py</code></li>
+<li><code>helper/blockchain/</code></li>
+<li><code>configuration/</code></li>
+<li><strong>Less critical</strong>: 70%+ coverage</li>
+<li>CLI commands</li>
+<li>Utilities</li>
+</ul>
+<h3 id="coverage-report-example">Coverage Report Example</h3>
+<div class="highlight"><pre><span></span><code>Name                                    Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------
+deceptgold/__init__.py                      2      0   100%
+deceptgold/helper/signature.py             45      3    93%   78-80
+deceptgold/helper/blockchain/web3.py       67     12    82%   45-48, 89-95
+deceptgold/configuration/config.py         34      2    94%   67, 89
+---------------------------------------------------------------------
+TOTAL                                     148     17    89%
+</code></pre></div>
+<h2 id="continuous-integration">Continuous Integration</h2>
+<h3 id="github-actions-example">GitHub Actions Example</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># .github/workflows/test.yml</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Tests</span>
+
+<span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">pull_request</span><span class="p p-Indicator">]</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.12&#39;</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Poetry</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">curl -sSL https://install.python-poetry.org | python3 -</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry install</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run tests</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry run pytest --cov=deceptgold --cov-report=xml</span>
+
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upload coverage</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">codecov/codecov-action@v3</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="do">DO:</h3>
+<ul>
+<li>✅ Write tests for all new features</li>
+<li>✅ Test edge cases and error conditions</li>
+<li>✅ Use descriptive test names</li>
+<li>✅ Keep tests independent and isolated</li>
+<li>✅ Mock external dependencies</li>
+<li>✅ Test both success and failure paths</li>
+</ul>
+<h3 id="dont">DON'T:</h3>
+<ul>
+<li>❌ Test implementation details</li>
+<li>❌ Write tests that depend on external services (use mocks)</li>
+<li>❌ Share state between tests</li>
+<li>❌ Write tests that are flaky or non-deterministic</li>
+<li>❌ Ignore failing tests</li>
+</ul>
+<h2 id="debugging-failed-tests">Debugging Failed Tests</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run with debugger on failure</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--pdb
+
+<span class="c1"># Show full diff on assertion failures</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-vv
+
+<span class="c1"># Run specific test with maximum verbosity</span>
+poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_signature.py::test_validation<span class="w"> </span>-vvs
+</code></pre></div>
+<h3 id="see-also">See Also</h3>
+<ul>
+<li><a href="../">index.md</a> - Quick start guide</li>
+<li><a href="../Development/">Development.md</a> - Development workflow</li>
+<li><a href="../Commands/">Commands.md</a> - Command reference</li>
+<li><a href="../Contributing/">Contributing.md</a> - Contribution guidelines</li>
+</ul>
+<hr />
+<p><strong>Questions?</strong> Contact: contact@decept.gold</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.tabs", "search.suggest"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>
