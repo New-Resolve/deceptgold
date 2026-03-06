@@ -4,7 +4,7 @@ FROM ubuntu:noble
 
 RUN set -e && \
     DISTRO=$(grep "^ID=" /etc/os-release | cut -d= -f2 | tr -d '"' | tr '[:upper:]' '[:lower:]') && \
-    echo "🔍 Installing dependencies for distribution: $DISTRO" && \
+    echo "Installing dependencies for distribution: $DISTRO" && \
     case "$DISTRO" in \
       debian|ubuntu) \
         apt-get update && \
@@ -17,14 +17,14 @@ RUN set -e && \
         dnf clean all; \
         ;; \
       *) \
-        echo "❌ Unsupported distribution for package installation: $DISTRO"; \
+        echo "Unsupported distribution for package installation: $DISTRO"; \
         exit 1; \
         ;; \
     esac
 
 RUN set -e && \
     DISTRO=$(grep "^ID=" /etc/os-release | cut -d= -f2 | tr -d '"' | tr '[:upper:]' '[:lower:]') && \
-    echo "🔍 Detecting distribution for deceptgold installation: $DISTRO" && \
+    echo "Detecting distribution for deceptgold installation: $DISTRO" && \
     case "$DISTRO" in \
       debian) \
         ASSET=$(curl -s https://api.github.com/repos/New-Resolve/deceptgold/releases/latest | \
@@ -48,7 +48,7 @@ RUN set -e && \
         dnf install -y ./"$PACKAGE"; \
         ;; \
       *) \
-        echo "❌ Unsupported distribution for deceptgold: $DISTRO"; \
+        echo "Unsupported distribution for deceptgold: $DISTRO"; \
         exit 1; \
         ;; \
     esac && rm -f "$PACKAGE"
@@ -57,7 +57,7 @@ RUN set -e && \
 EXPOSE 2121 2222 8090
 
 # Enable debug mode to show full tracebacks
-ENV DECEPTGOLD_DEBUG=1
+# ENV DECEPTGOLD_DEBUG=1
 
 # Default command to start deceptgold in development mode
 # Developers can override with `docker run -it <image> bash` for interactive debugging

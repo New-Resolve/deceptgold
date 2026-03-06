@@ -1,0 +1,14 @@
+services:
+  deceptgold:
+    build:
+      context: .
+      dockerfile: deceptgold/resources/docker/Dockerfile
+    ports:
+      - "2121:2121"
+      - "2222:2222" 
+      - "8090:8090"
+    restart: unless-stopped
+    environment:
+      - DECEPTGOLD_DEBUG=0
+    stdin_open: true
+    tty: true

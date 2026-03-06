@@ -5,6 +5,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/new-resolve/deceptgold)
 [![Docs](https://img.shields.io/badge/docs-available-success)](https://github.com/New-Resolve/deceptgold/tree/master/docs/content)
 ![Python](https://img.shields.io/badge/python-3.12-blue?logo=python)
+![Docker](https://img.shields.io/badge/docker-ready-blue?logo=docker)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue)](LICENSE)
 
 ---
@@ -21,25 +22,44 @@ Deceptgold is ideal for cybersecurity teams, researchers, and critical infrastru
 
 ![Service list](docs/content/assets/deceptgold_service_list_new.jpeg)
 
-## 🌟 Features
+## Features
 
-- ✅ **Hybrid Web2 + Web3 Honeypots** - Traditional (Web2) and decentralized (Web3) service simulation
-- ✅ **Local AI Agent** - Real-time event enrichment and LLM analysis
-- ✅ **Real-Time Notifications** - Telegram, Slack, Discord, webhooks
-- ✅ **Cross-Platform** - Linux (all distros) and Windows versions
-- ✅ **Blockchain Tokenization** - ERC-20 tokens for verified attacks
-- ✅ **Cryptographic Integrity** - ECDSA signatures ensure authenticity
-- ✅ **Anti-Farming** - Sophisticated mechanisms prevent self-farming
-- ✅ **Threat Intelligence** - Convert tokens into actionable insights
+- **Hybrid Web2 + Web3 Honeypots** - Traditional (Web2) and decentralized (Web3) service simulation
+- **Local AI Agent** - Real-time event enrichment and LLM analysis
+- **Real-Time Notifications** - Telegram, Slack, Discord, webhooks
+- **Cross-Platform** - Linux (all distros) and Windows versions
+- **Blockchain Tokenization** - ERC-20 tokens for verified attacks
+- **Cryptographic Integrity** - ECDSA signatures ensure authenticity
+- **Anti-Farming** - Sophisticated mechanisms prevent self-farming
+- **Threat Intelligence** - Convert tokens into actionable insights
 
-## 📚 Documentation
+## Documentation
 
 - **[Whitepaper](docs/content/Whitepaper.md)** - Project vision and technical details
 - **[Architecture](ARCHITECTURE.md)** - System design and components
 - **[Getting Started](docs/content/Development.md)** - Quick start for developers
 - **[API Reference](docs/content/Commands.md)** - Complete command reference
 
-## 🚀 Quick Start
+## Quick Start
+
+### Docker Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/new-resolve/deceptgold.git
+cd deceptgold
+
+# Start the container
+docker-compose up -d
+
+# Enter the container interactively
+docker-compose exec -it deceptgold bash
+
+# Inside the container, run deceptgold commands
+root@container:/# deceptgold
+root@container:/# deceptgold service list
+root@container:/# exit  # return to host
+```
 
 ### Basic Usage
 
@@ -77,7 +97,7 @@ deceptgold user --show-balance
 deceptgold -h
 ```
 
-## 🛠️ For Developers
+## For Developers
 
 ### Contributing
 
@@ -93,7 +113,7 @@ We welcome contributions! Please read our guidelines:
 - **[Blockchain Integration](docs/content/Blockchain.md)** - Smart contracts and Web3
 - **[Testing Guide](docs/content/Testing.md)** - Test structure and examples
 
-## 💡 How It Works
+## How It Works
 
 ![attacks_revenue.png](docs/content/assets/attacks_revenue.png)
 
@@ -104,15 +124,15 @@ We welcome contributions! Please read our guidelines:
 5. **Gain Intelligence** - Use tokens to access threat intelligence
 
 
-## 🤝 Support the Project
+## Support the Project
     
 Help fund the project with crowdfunding: `0x99eF54CDe7EaD64Ed49E78086fCF2ea98Ec4e102` !
 
-## 📄 License
+## License
 
 This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
 
-## 📧 Contact
+## Contact
 
 - **Email**: contact@decept.gold
 - **Website**: https://decept.gold
