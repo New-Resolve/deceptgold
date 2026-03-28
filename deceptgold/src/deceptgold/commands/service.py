@@ -106,8 +106,13 @@ def start(*args):
             else:
                 print(f"[DEBUG - Unix cmd]: {' '.join(cmd)}")
 
+        # Set MALLOC_ARENA_MAX to prevent glibc malloc fragmentation (7GB memory spikes)
+        env = os.environ.copy()
+        if 'MALLOC_ARENA_MAX' not in env:
+            env['MALLOC_ARENA_MAX'] = '2'
+        
         with open(LOG_FILE, 'a') as log:
-            process = subprocess.Popen(cmd, stdout=log, stderr=log)
+            process = subprocess.Popen(cmd, stdout=log, stderr=log, env=env)
             with open(PID_FILE, "w") as f:
                 f.write(str(process.pid))
 

@@ -1,3 +1,7 @@
+import os
+import tracemalloc
+from functools import wraps
+
 from deceptgold.configuration.config_manager import get_config
 from deceptgold.helper.helper import parse_args
 from deceptgold.helper.notify.notify import check_send_notify
@@ -14,11 +18,199 @@ def global_twisted_error_handler(eventDict):
 
 
 
+_forwarded_patch_applied = False
+_trace_enabled = bool(int(os.environ.get("DECEPTGOLD_TRACE_ALLOC", "0") or 0))
+_trace_every = max(int(os.environ.get("DECEPTGOLD_TRACE_EVERY", "0") or 0), 0)
+_trace_top_n = max(int(os.environ.get("DECEPTGOLD_TRACE_TOP", "5") or 5), 1)
+_trace_counter = 0
+_trace_log_path = os.environ.get("DECEPTGOLD_TRACE_LOG", "/tmp/deceptgold_tracemalloc.log")
+
+
+def _normalize_header_value(value):
+    if value in (None, "", b""):
+        return "<not supplied>"
+    if isinstance(value, bytes):
+        try:
+            return value.decode('utf-8', errors='replace')
+        except Exception:
+            return repr(value)
+    return str(value)
+
+
+def _wrap_log_with_forwarded_headers(log_fn, request):
+    forwarded = _normalize_header_value(request.getHeader("x-forwarded-for"))
+    real_ip = _normalize_header_value(request.getHeader("x-real-ip"))
+
+    def patched(logdata, *args, **kwargs):
+        if isinstance(logdata, dict):
+            logdata.setdefault("X-Forwarded-For", forwarded)
+            logdata.setdefault("X-Real-IP", real_ip)
+
+        if _trace_enabled:
+            global _trace_counter
+            _trace_counter += 1
+            should_trace = (_trace_every == 0) or (_trace_counter % _trace_every == 0)
+            
+            if should_trace:
+                if not tracemalloc.is_tracing():
+                    tracemalloc.start()
+                snapshot = tracemalloc.take_snapshot()
+                top_stats = snapshot.statistics('lineno')[:_trace_top_n]
+                lines = []
+                lines.append(
+                    f"[DECEPTGOLD][MEM] request=#{_trace_counter} context={request.path.decode('utf-8', 'ignore')}\n"
+                )
+                current, peak = tracemalloc.get_traced_memory()
+                lines.append(
+                    f"[DECEPTGOLD][MEM] Current: {current / 1024 / 1024:.2f} MB | Peak: {peak / 1024 / 1024:.2f} MB\n"
+                )
+                for stat in top_stats:
+                    size_mb = stat.size / 1024 / 1024
+                    lines.append(
+                        f"[DECEPTGOLD][MEM] {stat.count} blocks | {size_mb:.2f} MB | {stat.traceback}\n"
+                    )
+                try:
+                    with open(_trace_log_path, 'a', encoding='utf-8') as fh:
+                        fh.writelines(lines)
+                except Exception:
+                    pass
+
+        return log_fn(logdata, *args, **kwargs)
+
+    return patched
+
+
+def _patch_http_logging():
+    global _forwarded_patch_applied
+    if _forwarded_patch_applied:
+        return
+
+    try:
+        from opencanary.modules import http as http_module
+    except Exception:
+        return
+
+    def wrap_method(method):
+        if getattr(method, "__dg_forwarded_patch__", False):
+            return method
+
+        @wraps(method)
+        def wrapper(self, request, *args, **kwargs):
+            # Always track memory for debugging
+            import gc
+            import time
+            import os
+            import resource
+            
+            mem_before = None
+            rss_before = 0
+            path_str = ''
+            
+            # Get RSS (actual process memory)
+            try:
+                rss_before = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            except Exception:
+                pass
+            
+            if tracemalloc.is_tracing():
+                mem_before, _ = tracemalloc.get_traced_memory()
+                try:
+                    path_str = request.path.decode('utf-8', 'ignore') if hasattr(request.path, 'decode') else str(request.path)
+                except Exception:
+                    path_str = 'unknown'
+            
+            original_bound_attr = self.factory.__dict__.get('log', None)
+            original_log = self.factory.log
+            self.factory.log = _wrap_log_with_forwarded_headers(original_log, request)
+            try:
+                # Capture memory DURING processing
+                if tracemalloc.is_tracing():
+                    mem_mid_start, _ = tracemalloc.get_traced_memory()
+                
+                result = method(self, request, *args, **kwargs)
+                
+                # Capture right after method execution (peak should be here)
+                rss_during = 0
+                try:
+                    rss_during = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+                except Exception:
+                    pass
+                
+                if tracemalloc.is_tracing():
+                    mem_mid_end, peak_mid = tracemalloc.get_traced_memory()
+                    delta_during = (mem_mid_end - mem_mid_start) / 1024 / 1024
+                    # RSS is in KB on Linux, bytes on macOS
+                    rss_delta_mb = (rss_during - rss_before) / 1024  # Assume Linux (KB)
+                    try:
+                        with open('/tmp/deceptgold_memory_peak.log', 'a', encoding='utf-8') as f:
+                            snapshot = tracemalloc.take_snapshot()
+                            top_stats = snapshot.statistics('lineno')[:10]
+                            f.write(f"\n=== [PEAK] {path_str} ===\n")
+                            f.write(f"Python heap delta: {delta_during:.2f} MB | Peak: {peak_mid/1024/1024:.2f} MB\n")
+                            f.write(f"RSS delta: {rss_delta_mb:.2f} MB | RSS total: {rss_during/1024:.2f} MB\n")
+                            f.write(f"Top Python allocations:\n")
+                            for stat in top_stats:
+                                f.write(f"  {stat.count} blocks | {stat.size/1024/1024:.2f} MB | {stat.traceback}\n")
+                    except Exception as e:
+                        pass
+                
+                return result
+            finally:
+                if original_bound_attr is None:
+                    self.factory.__dict__.pop('log', None)
+                else:
+                    self.factory.log = original_bound_attr
+                
+                # Log memory delta
+                rss_after = 0
+                try:
+                    rss_after = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+                except Exception:
+                    pass
+                
+                if tracemalloc.is_tracing() and mem_before is not None:
+                    mem_after, peak = tracemalloc.get_traced_memory()
+                    delta_mb = (mem_after - mem_before) / 1024 / 1024
+                    peak_mb = peak / 1024 / 1024
+                    rss_delta_mb = (rss_after - rss_before) / 1024
+                    try:
+                        with open('/tmp/deceptgold_memory_debug.log', 'a', encoding='utf-8') as f:
+                            f.write(f"[HTTP] {path_str} | Python: {delta_mb:.2f} MB | Peak: {peak_mb:.2f} MB | RSS: {rss_delta_mb:.2f} MB | Total RSS: {rss_after/1024:.2f} MB\n")
+                    except Exception:
+                        pass
+                gc.collect()
+
+        wrapper.__dg_forwarded_patch__ = True
+        return wrapper
+
+    targets = (
+        ("BasicLogin", "render_GET"),
+        ("BasicLogin", "render_POST"),
+        ("BasicLogin", "_log_unimplemented_method"),
+        ("RedirectCustomHeaders", "render"),
+    )
+
+    for cls_name, method_name in targets:
+        cls = getattr(http_module, cls_name, None)
+        if cls is None:
+            continue
+        original = getattr(cls, method_name, None)
+        if original is None:
+            continue
+        setattr(cls, method_name, wrap_method(original))
+
+    _forwarded_patch_applied = True
+
+
 def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=False):
     parsed_args = parse_args([force_no_wallet])
     force_no_wallet = parsed_args.get('force_no_wallet', False)
 
     from twisted.python import log
+
+    # Always start tracemalloc for memory debugging
+    if not tracemalloc.is_tracing():
+        tracemalloc.start()
 
     log.startLoggingWithObserver(global_twisted_error_handler, setStdout=False)
 
@@ -189,6 +381,8 @@ def start_opencanary_internal(force_no_wallet='force_no_wallet=False', debug=Fal
     # from opencanary.modules.example1 import CanaryExample1
 
     ENTRYPOINT = "canary.usermodule"
+    _patch_http_logging()
+
     MODULES = [
         CanaryFTP,
         CanaryGit,
