@@ -1,0 +1,3898 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deceptgold - Dashboard de Monitoramento</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-cloud@1"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .map-port-section {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(74, 85, 104, 0.35);
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .map-port-heading {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #E6E8EB;
+        }
+
+        .port-pie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.1rem;
+        }
+
+        @media (max-width: 1280px) {
+            .port-pie-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .port-pie-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 580px) {
+            .port-pie-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .port-pie-card {
+            background: rgba(26, 31, 46, 0.7);
+            border: 1px solid rgba(74, 85, 104, 0.3);
+            border-radius: 10px;
+            padding: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.65rem;
+            position: relative;
+            --pie-size: 220px;
+        }
+
+        .port-pie-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #E6E8EB;
+            text-align: center;
+        }
+
+        .port-pie-canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .port-pie-legend {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.45rem;
+            justify-content: center;
+        }
+
+        .port-pie-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.7rem;
+            color: #CBD5F5;
+            background: rgba(45, 55, 72, 0.45);
+            border-radius: 999px;
+            padding: 0.22rem 0.5rem;
+        }
+
+        .port-pie-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .port-pie-empty {
+            width: 100%;
+            padding: 1.25rem;
+            text-align: center;
+            color: #A0AEC0;
+            background: rgba(26, 31, 46, 0.55);
+            border: 1px dashed rgba(74, 85, 104, 0.5);
+            border-radius: 10px;
+        }
+
+        body {
+            font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0F1419;
+            color: #E6E8EB;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        .header {
+            background: #1A1F2E;
+            border-bottom: 1px solid #2D3748;
+            padding: 1.5rem 2rem 1.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 120;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .header-top {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .header-actions {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.75rem;
+        }
+
+        .branding h1 {
+            color: #F7FAFC;
+            font-size: 1.75rem;
+            font-weight: 600;
+            text-align: left;
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+
+        .branding .subtitle {
+            text-align: left;
+            color: #A0AEC0;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            font-weight: 400;
+        }
+
+        .ai-launcher {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            background: linear-gradient(135deg, rgba(99, 179, 237, 0.3), rgba(127, 156, 245, 0.4));
+            border: 1px solid rgba(99, 179, 237, 0.35);
+            color: #E9EEF8;
+            padding: 0.55rem 1.1rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .ai-launcher::before {
+            content: '';
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 50%;
+            background: #7F9CF5;
+            box-shadow: 0 0 12px rgba(127, 156, 245, 0.8);
+        }
+
+        .ai-launcher:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(99, 179, 237, 0.25);
+            background: linear-gradient(135deg, rgba(99, 179, 237, 0.4), rgba(127, 156, 245, 0.55));
+        }
+
+        .ai-launcher.is-active {
+            background: linear-gradient(135deg, rgba(99, 179, 237, 0.55), rgba(127, 156, 245, 0.65));
+            box-shadow: 0 12px 22px rgba(99, 179, 237, 0.28);
+        }
+
+        .ai-report-panel {
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            right: 0;
+            min-width: min(520px, calc(100vw - 2rem));
+            max-width: min(600px, calc(100vw - 2rem));
+            width: auto;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.9));
+            border: 1px solid rgba(76, 124, 202, 0.3);
+            border-radius: 14px;
+            padding: 1.2rem 1.4rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            overflow: visible;
+            box-shadow: 0 18px 34px rgba(15, 22, 36, 0.55);
+            transform: translateY(-8px) scale(0.98);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s ease;
+            z-index: 30;
+            max-height: calc(100vh - 8rem);
+            overflow-y: auto;
+        }
+
+        .ai-report-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(99, 179, 237, 0.25), transparent 55%);
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .ai-report-panel.is-open {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .ai-report-heading {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .ai-report-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #E9EEF8;
+            letter-spacing: 0.01em;
+        }
+
+        .ai-report-subtitle {
+            font-size: 0.85rem;
+            color: rgba(203, 213, 225, 0.85);
+        }
+
+        .ai-report-form {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+
+        .ai-report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .ai-field {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.78rem;
+            color: #CBD5F5;
+            gap: 0.45rem;
+        }
+
+        .ai-input-wrapper {
+            display: flex;
+            align-items: stretch;
+            background: rgba(13, 18, 28, 0.7);
+            border: 1px solid rgba(99, 179, 237, 0.18);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .ai-input-wrapper input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #E6E8EB;
+            padding: 0.65rem 0.85rem;
+            font-size: 0.88rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            letter-spacing: -0.01em;
+        }
+
+        .ai-input-wrapper input::placeholder {
+            color: rgba(148, 163, 184, 0.7);
+        }
+
+        .ai-input-wrapper button {
+            background: linear-gradient(135deg, rgba(99, 179, 237, 0.25), rgba(99, 179, 237, 0.4));
+            border: none;
+            color: #E6F0FF;
+            padding: 0 0.85rem;
+            font-size: 0.74rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            white-space: nowrap;
+        }
+
+        .ai-input-wrapper button + button {
+            border-left: 1px solid rgba(99, 179, 237, 0.25);
+        }
+
+        .ai-input-wrapper button:hover {
+            background: linear-gradient(135deg, rgba(99, 179, 237, 0.4), rgba(99, 179, 237, 0.55));
+        }
+
+        .ai-field select {
+            background: rgba(13, 18, 28, 0.7);
+            border: 1px solid rgba(99, 179, 237, 0.2);
+            border-radius: 10px;
+            color: #E6E8EB;
+            padding: 0.65rem 0.8rem;
+            font-size: 0.88rem;
+            font-weight: 500;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ai-field select:focus,
+        .ai-input-wrapper input:focus {
+            border-color: rgba(129, 199, 245, 0.55);
+            box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.25);
+        }
+
+        .ai-report-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ai-status {
+            font-size: 0.82rem;
+            color: #A0AEC0;
+            min-height: 3rem;
+            word-wrap: break-word;
+            max-width: 100%;
+            display: block;
+            overflow-wrap: break-word;
+        }
+
+        .ai-status.success {
+            color: #63D297;
+        }
+
+        .ai-status.error {
+            color: #F78CA0;
+        }
+
+        .ai-report-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #63B3ED, #7F9CF5);
+            color: #0B1220;
+            border: none;
+            border-radius: 999px;
+            padding: 0.65rem 1.8rem;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 14px rgba(99, 179, 237, 0.3);
+            min-width: 240px;
+            white-space: nowrap;
+        }
+
+        .ai-report-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(99, 179, 237, 0.25);
+        }
+
+        .ai-report-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .ai-report-progress {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            background: rgba(11, 18, 32, 0.2);
+            border-radius: 999px;
+            padding: 0.25rem 0.55rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #0B1220;
+        }
+
+        .ai-report-progress-text {
+            font-size: 0.72rem;
+            color: #0B1220;
+            min-width: 2.2rem;
+            text-align: right;
+        }
+
+        .ai-report-progress-bar {
+            position: relative;
+            width: 70px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(10, 16, 28, 0.35);
+            overflow: hidden;
+        }
+
+        .ai-report-progress-bar-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            background: linear-gradient(135deg, #63B3ED, #7F9CF5);
+            transition: width 0.25s ease;
+        }
+
+        .dashboard-progress {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            background: rgba(12, 16, 27, 0.94);
+            border: 1px solid rgba(99, 179, 237, 0.25);
+            border-radius: 999px;
+            padding: 0.5rem 1.1rem 0.5rem 0.75rem;
+            box-shadow: 0 16px 24px rgba(9, 15, 26, 0.45);
+            color: #E6F0FF;
+            font-size: 0.78rem;
+            line-height: 1;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            pointer-events: none;
+        }
+
+        .dashboard-progress.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .dashboard-progress-label {
+            white-space: nowrap;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dashboard-progress-bar {
+            position: relative;
+            width: 160px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(99, 179, 237, 0.18);
+            overflow: hidden;
+        }
+
+        .dashboard-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: var(--progress, 0%);
+            border-radius: inherit;
+            background: linear-gradient(135deg, #63B3ED, #7F9CF5);
+            transition: width 0.2s ease;
+        }
+
+        .dashboard-progress-dot {
+            width: 0.3rem;
+            height: 0.3rem;
+            border-radius: 50%;
+            background: #7F9CF5;
+            box-shadow: 0 0 10px rgba(127, 156, 245, 0.8);
+        }
+
+        .dashboard-progress-percent {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #B7C9FF;
+            min-width: 2.5rem;
+            text-align: right;
+        }
+
+
+        .ai-directory-dialog {
+            position: absolute;
+            top: 1.2rem;
+            left: 1.2rem;
+            right: 1.2rem;
+            background: rgba(12, 16, 27, 0.95);
+            border: 1px solid rgba(99, 179, 237, 0.28);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.65rem;
+            box-shadow: 0 22px 38px rgba(9, 15, 26, 0.6);
+            z-index: 50;
+        }
+
+        .ai-directory-dialog.is-visible {
+            display: flex;
+        }
+
+        .ai-directory-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .ai-directory-path {
+            flex: 1;
+            min-width: 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.72rem;
+            color: #A0AEC0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ai-directory-actions {
+            display: inline-flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .ai-directory-button {
+            background: rgba(99, 179, 237, 0.18);
+            border: 1px solid rgba(99, 179, 237, 0.3);
+            color: #E6F0FF;
+            padding: 0.4rem 0.7rem;
+            border-radius: 7px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ai-directory-button:hover {
+            background: rgba(127, 156, 245, 0.35);
+        }
+
+        .ai-directory-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .ai-directory-close {
+            background: transparent;
+            border: none;
+            color: #A0AEC0;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .ai-directory-close:hover {
+            background: rgba(99, 179, 237, 0.15);
+            color: #E2E8F0;
+        }
+
+        .ai-directory-list {
+            max-height: 220px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            padding-right: 0.2rem;
+        }
+
+        .ai-directory-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.6rem;
+            background: rgba(31, 45, 68, 0.45);
+            border: 1px solid rgba(99, 179, 237, 0.18);
+            border-radius: 8px;
+            padding: 0.55rem 0.75rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .ai-directory-item:hover {
+            border-color: rgba(127, 156, 245, 0.45);
+            background: rgba(45, 64, 94, 0.55);
+        }
+
+        .ai-directory-item.is-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .ai-directory-item.is-disabled:hover {
+            border-color: rgba(99, 179, 237, 0.18);
+            background: rgba(31, 45, 68, 0.45);
+        }
+
+        .ai-directory-name {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: #E9EEF8;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .ai-directory-meta {
+            font-size: 0.7rem;
+            color: rgba(203, 213, 225, 0.72);
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        .ai-directory-hint {
+            font-size: 0.68rem;
+            color: rgba(203, 213, 225, 0.6);
+            text-align: right;
+        }
+
+        @media (max-width: 720px) {
+            .ai-directory-dialog {
+                position: fixed;
+                top: 15vh;
+                left: 1.2rem;
+                right: 1.2rem;
+                bottom: 15vh;
+                overflow: hidden;
+            }
+
+            .ai-directory-list {
+                max-height: none;
+                flex: 1;
+            }
+
+            .ai-directory-hint {
+                text-align: left;
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .header-top {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+            }
+
+            .branding {
+                max-width: 420px;
+            }
+
+            .ai-report-panel {
+                max-width: 540px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .header {
+                padding: 1.25rem 1.4rem 1.5rem;
+            }
+
+            .header-actions {
+                align-items: stretch;
+            }
+
+            .ai-report-panel {
+                position: static;
+                width: 100%;
+                max-height: 0;
+                opacity: 0;
+                transform: translateY(-8px);
+                pointer-events: none;
+                visibility: hidden;
+                padding: 0;
+                margin-top: 0;
+                box-shadow: none;
+            }
+
+            .ai-report-panel.is-open {
+                max-height: 540px;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                transform: translateY(0);
+                margin-top: 0.5rem;
+                padding: 1.05rem 1.1rem 1.2rem;
+                box-shadow: 0 12px 30px rgba(15, 22, 36, 0.55);
+            }
+
+            .ai-report-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-report-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .ai-status {
+                order: 2;
+                text-align: center;
+            }
+
+            .ai-report-button {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+
+        .dashboard {
+            padding: 2rem;
+            max-width: none;
+            margin: 0;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 1200px) {
+            .dashboard {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: auto auto auto 1fr;
+                grid-template-areas: 
+                    "metric1 metric2 metric3 metric4"
+                    "chart1 chart2 chart3 chart4"
+                    "chart5 chart5 chart6 chart6"
+                    "chart7 chart7 chart7 chart7"
+                    "events events events events";
+                gap: 1.5rem;
+                align-items: stretch;
+            }
+            
+            .metrics-grid {
+                display: contents;
+            }
+            
+            .metric-card:nth-child(1) { grid-area: metric1; }
+            .metric-card:nth-child(2) { grid-area: metric2; }
+            .metric-card:nth-child(3) { grid-area: metric3; }
+            .metric-card:nth-child(4) { grid-area: metric4; }
+        }
+
+        .metric-card {
+            background: #1A1F2E;
+            border: 1px solid #2D3748;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .metric-card:hover {
+            border-color: #4A5568;
+        }
+
+        .metric-icon {
+            display: none;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #F7FAFC;
+            margin-bottom: 0.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-label {
+            color: #A0AEC0;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 1200px) {
+            .charts-grid {
+                display: contents;
+            }
+            
+            .chart-container:nth-child(1) { grid-area: chart1; }
+            .chart-container:nth-child(2) { grid-area: chart2; }
+            .chart-container:nth-child(3) { grid-area: chart3; }
+            .chart-container:nth-child(4) { grid-area: chart4; }
+            .chart-container:nth-child(5) { grid-area: chart5; }
+            .chart-container:nth-child(6) { grid-area: chart6; }
+            .chart-container:nth-child(7) { grid-area: chart7; }
+        }
+
+        .chart-container {
+            background: #1A1F2E;
+            border: 1px solid #2D3748;
+            border-radius: 8px;
+            padding: 1.5rem;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .chart-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-body canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-body-hourly {
+            height: clamp(240px, 38vh, 380px);
+        }
+
+
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.75rem 0.75rem 0.5rem 0.75rem !important;
+        }
+
+        .map-container .chart-title {
+            margin-bottom: 0.5rem;
+        }
+
+        .map-container .map-legend {
+            margin-bottom: 0;
+        }
+
+        .world-map-wrapper {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background: #1A1F2E;
+            border: 1px solid rgba(45, 55, 72, 0.65);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        #worldMap {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .leaflet-container {
+            background: #1A1F2E !important;
+        }
+
+        .leaflet-tile-pane {
+            filter: brightness(0.3) contrast(1.2) saturate(0.3) grayscale(0.4);
+        }
+
+        .leaflet-control-zoom {
+            border: 1px solid rgba(45, 55, 72, 0.8) !important;
+            background: rgba(26, 31, 46, 0.95) !important;
+        }
+
+        .leaflet-control-zoom a {
+            background: rgba(26, 31, 46, 0.95) !important;
+            color: #cbd5e0 !important;
+            border-bottom: 1px solid rgba(45, 55, 72, 0.6) !important;
+        }
+
+        .leaflet-control-zoom a:hover {
+            background: rgba(45, 55, 72, 0.95) !important;
+        }
+
+        @media (min-width: 1200px) {
+            .map-container .world-map-wrapper {
+                height: 420px;
+            }
+        }
+
+        .country-trend-container {
+            padding: 0.9rem 1rem 0.8rem;
+        }
+
+        .country-trend-container .chart-title {
+            margin-bottom: 0.5rem;
+        }
+
+        .country-trend-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.8rem;
+            align-items: center;
+            margin-bottom: 0.45rem;
+            font-size: 0.72rem;
+            color: #CBD5E0;
+        }
+
+        .country-trend-filter-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+            transition: opacity 0.2s ease;
+        }
+
+        .country-trend-filter-item:hover {
+            opacity: 0.8;
+        }
+
+        .country-trend-filter-item.inactive {
+            opacity: 0.35;
+        }
+
+        .country-trend-filter-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .country-trend-filter-item.inactive .country-trend-filter-dot {
+            border-color: rgba(160, 174, 192, 0.4);
+            opacity: 0.5;
+        }
+
+        .country-trend-filter-dot:hover {
+            transform: scale(1.15);
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: #1a1f2e !important;
+            color: #e6e8eb !important;
+            border: 1px solid #2d3748 !important;
+            border-radius: 6px !important;
+        }
+
+        .leaflet-popup-tip {
+            background: #1a1f2e !important;
+        }
+
+        .leaflet-popup-content {
+            margin: 10px 12px !important;
+            font-size: 13px !important;
+        }
+
+        .map-marker-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .map-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.6rem;
+            margin: 0;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .map-legend::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .map-legend::-webkit-scrollbar-track {
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 3px;
+        }
+
+        .map-legend::-webkit-scrollbar-thumb {
+            background: rgba(113, 128, 150, 0.5);
+            border-radius: 3px;
+        }
+
+        .map-legend::-webkit-scrollbar-thumb:hover {
+            background: rgba(113, 128, 150, 0.7);
+        }
+
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.5rem;
+            background: rgba(45, 55, 72, 0.55);
+            border-radius: 6px;
+            border: 1px solid rgba(113, 128, 150, 0.25);
+            font-size: 0.75rem;
+            color: #CBD5F5;
+        }
+
+        .map-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #F6AD55;
+            flex-shrink: 0;
+        }
+
+        .map-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #718096;
+            font-size: 0.72rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .chart-container > canvas {
+            display: block;
+            width: 100% !important;
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        .chart-doughnut-body {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 340px;
+            margin: 0 auto;
+        }
+
+        .credentials-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+        }
+
+        .credential-item {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 0.9rem;
+            background: rgba(26, 31, 46, 0.55);
+            border: 1px solid rgba(74, 85, 104, 0.35);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: #CBD5F5;
+        }
+
+        .credential-item span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .credential-item .credential-count {
+            font-weight: 600;
+            color: #63B3ED;
+        }
+
+        .credential-empty {
+            text-align: center;
+            padding: 1.2rem;
+            color: #A0AEC0;
+            background: rgba(26, 31, 46, 0.45);
+            border: 1px dashed rgba(74, 85, 104, 0.35);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .credential-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .credential-view-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .credential-view-select select {
+            appearance: none;
+            background: rgba(26, 31, 46, 0.8);
+            border: 1px solid rgba(74, 85, 104, 0.5);
+            border-radius: 6px;
+            color: #CBD5F5;
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .credential-view-select select:hover {
+            background: rgba(45, 55, 72, 0.9);
+            border-color: #4A5568;
+        }
+
+        .credential-view-select select:focus {
+            border-color: #3182CE;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .credential-view-select::after {
+            content: '▼';
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #A0AEC0;
+            font-size: 0.65rem;
+        }
+
+        .credential-cloud-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .credential-cloud-section {
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26, 31, 46, 0.35);
+            border: 1px solid rgba(74, 85, 104, 0.25);
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 0.75rem;
+        }
+
+        .credential-cloud-section svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .credential-word text {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .credential-word rect {
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .credential-word:hover rect {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .credential-cloud-fallback {
+            display: flex !important;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1.25rem;
+        }
+
+        .credential-word-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            background: rgba(99, 179, 237, 0.14);
+            color: #63B3ED;
+            border: 1px solid rgba(99, 179, 237, 0.45);
+            transition: transform 0.2s ease, filter 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .credential-word-chip:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        @media (max-width: 900px) {
+            .credential-cloud-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-doughnut-body canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-title {
+            color: #F7FAFC;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .incidents-container {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 1200px) {
+            .incidents-container {
+                grid-area: events;
+            }
+        }
+
+        .incidents-table {
+            background: #1A1F2E;
+            border: 1px solid #2D3748;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 100%;
+        }
+
+        .table-title {
+            color: #F7FAFC;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .incidents-counter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 0.875rem;
+        }
+
+        .severity-counter {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            padding: 0;
+            color: #A0AEC0;
+            background: transparent;
+        }
+
+        .severity-counter.high {
+            color: #E53E3E;
+        }
+
+        .severity-counter.medium {
+            color: #DD6B20;
+        }
+
+        .severity-counter.low {
+            color: #38A169;
+        }
+
+        .severity-counter.info {
+            color: #3182CE;
+        }
+
+        .severity-counter-label {
+            color: #718096;
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .severity-counter-value {
+            color: inherit;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .severity-filter {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #2D3748;
+            color: #A0AEC0;
+            border: 1px solid #4A5568;
+            border-radius: 4px;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: #4A5568;
+            border-color: #718096;
+        }
+
+        .filter-btn.active {
+            background: #3182CE;
+            border-color: #3182CE;
+            color: #F7FAFC;
+        }
+
+        .filter-btn.severity-high.active {
+            background: #E53E3E;
+            border-color: #E53E3E;
+        }
+
+        .filter-btn.severity-medium.active {
+            background: #DD6B20;
+            border-color: #DD6B20;
+        }
+
+        .filter-btn.severity-low.active {
+            background: #38A169;
+            border-color: #38A169;
+        }
+
+        .filter-btn.severity-info.active {
+            background: #3182CE;
+            border-color: #3182CE;
+        }
+
+        .incidents-list {
+            max-height: 600px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .incident-item {
+            background: #0F1419;
+            border: 1px solid #2D3748;
+            border-left: 3px solid #718096;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            transition: border-color 0.2s ease;
+        }
+
+        .incident-item:hover {
+            border-color: #4A5568;
+        }
+
+        .incident-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .incident-type {
+            font-weight: 600;
+            color: #F7FAFC;
+            font-size: 0.875rem;
+        }
+
+        .incident-time {
+            color: #718096;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .incident-details {
+            color: #A0AEC0;
+            font-size: 0.8125rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        .severity-high { border-left-color: #E53E3E; }
+        .severity-medium { border-left-color: #DD6B20; }
+        .severity-low { border-left-color: #38A169; }
+        .severity-info { border-left-color: #3182CE; }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-active { background-color: #38A169; }
+        .status-warning { background-color: #DD6B20; }
+        .status-error { background-color: #E53E3E; }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #2D3748;
+            color: #F7FAFC;
+            border: 1px solid #4A5568;
+            border-radius: 6px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #4A5568;
+            border-color: #718096;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #A0AEC0;
+            font-size: 0.875rem;
+            margin: 2rem 0;
+        }
+
+        .spinner {
+            border: 2px solid #2D3748;
+            border-top: 2px solid #718096;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+            .ai-report-panel {
+                right: 1rem;
+                left: 1rem;
+                min-width: auto;
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header,
+            .dashboard,
+            .metrics-grid,
+            .charts-grid,
+            .chart-container,
+            .incidents-container,
+            .incidents-table {
+                min-width: 0;
+                max-width: 100%;
+            }
+
+            .header {
+                padding: 1rem;
+                position: static;
+            }
+
+            .header h1 {
+                font-size: 1rem;
+                line-height: 1.3;
+            }
+
+            .header .subtitle {
+                font-size: 0.75rem;
+                margin-top: 0.5rem;
+            }
+
+            .dashboard {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .chart-container {
+                padding: 1rem;
+            }
+
+            .chart-container > canvas {
+                width: 100% !important;
+                max-width: 100%;
+            }
+
+            .credential-item {
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+
+            .chart-doughnut-body {
+                height: 260px;
+            }
+
+            .refresh-btn {
+                position: static;
+                display: block;
+                width: calc(100% - 2rem);
+                margin: 0 1rem 1rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            <div class="branding">
+                <h1>Deceptgold Security Dashboard</h1>
+                <div class="subtitle">Real-time Threat Detection and Analysis Platform</div>
+            </div>
+            <div class="header-actions">
+                <div class="dashboard-progress" id="dashboardProgress" aria-hidden="true">
+                    <span class="dashboard-progress-dot"></span>
+                    <span class="dashboard-progress-label" id="dashboardProgressLabel">Loading telemetry…</span>
+                    <div class="dashboard-progress-bar" id="dashboardProgressBar"></div>
+                    <span class="dashboard-progress-percent" id="dashboardProgressPercent">0%</span>
+                </div>
+                <button type="button" class="ai-launcher" id="aiReportLauncher">AI Incident Report</button>
+                <div class="ai-report-panel" id="aiReportPanel" aria-hidden="true">
+                    <div class="ai-report-heading">
+                        <div class="ai-report-title">AI Incident Report</div>
+                        <div class="ai-report-subtitle">Generate a tailored briefing using installed intelligence models.</div>
+                    </div>
+                    <form class="ai-report-form" id="aiReportForm">
+                        <div class="ai-report-grid">
+                            <label class="ai-field">
+                                <span>Format</span>
+                                <select id="aiReportFormat" name="format">
+                                    <option value="pdf" selected>PDF (.pdf)</option>
+                                    <option value="markdown">Markdown (.md)</option>
+                                </select>
+                            </label>
+                            <label class="ai-field">
+                                <span>Model</span>
+                                <select id="aiReportModel" name="model">
+                                    <option value="">Default installed model</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="ai-report-actions">
+                            <div class="ai-status" id="aiReportStatus" aria-live="polite"></div>
+                            <button type="submit" class="ai-report-button" id="aiReportSubmit">
+                                <span class="ai-report-button-label" id="aiReportButtonLabel">Generate Report</span>
+                                <span class="ai-report-progress" id="aiReportProgress" hidden>
+                                    <span class="ai-report-progress-text" id="aiReportProgressText">0%</span>
+                                    <span class="ai-report-progress-bar">
+                                        <span class="ai-report-progress-bar-inner" id="aiReportProgressBar"></span>
+                                    </span>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="ai-directory-dialog" id="aiDirectoryDialog" aria-hidden="true">
+                        <div class="ai-directory-header">
+                            <div class="ai-directory-path" id="aiDirectoryPath"></div>
+                            <div class="ai-directory-actions">
+                                <button type="button" class="ai-directory-button" id="aiDirectorySelect">Select here</button>
+                                <button type="button" class="ai-directory-button" id="aiDirectoryUp">Up</button>
+                                <button type="button" class="ai-directory-close" id="aiDirectoryClose" aria-label="Close">×</button>
+                            </div>
+                        </div>
+                        <div class="ai-directory-list" id="aiDirectoryList" role="listbox"></div>
+                        <div class="ai-directory-hint">Only directories inside your home folder are listed.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Loading dashboard data...
+        </div>
+
+        <div class="metrics-grid" id="metricsGrid">
+            <div class="metric-card">
+                <div class="metric-value" id="totalEvents">0</div>
+                <div class="metric-label">Total Events</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="connectionEvents">0</div>
+                <div class="metric-label">Connection Events</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="loginAttempts">0</div>
+                <div class="metric-label">Login Attempts</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="uniqueIPs">0</div>
+                <div class="metric-label">Unique IPs</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">Hourly Activity Distribution</div>
+                <div class="chart-body chart-body-hourly">
+                    <canvas id="hourlyChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container chart-doughnut">
+                <div class="chart-title">Event Types</div>
+                <div class="chart-doughnut-body">
+                    <canvas id="logtypeChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Attack Vectors</div>
+                <canvas id="attackChart" width="400" height="200"></canvas>
+            </div>
+            <div class="chart-container">
+                <div class="credential-header">
+                    <div class="chart-title" style="margin-bottom: 0;">Top HTTP Credentials</div>
+                    <div class="credential-view-select">
+                        <select id="credentialViewSelect">
+                            <option value="cloud">Cloud</option>
+                            <option value="list">List</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="credentialCloud" class="credential-cloud-container">
+                    <div class="credential-cloud-section">
+                        <div id="usernameCloud" style="width: 100%; height: 100%; min-height: 320px;"></div>
+                    </div>
+                    <div class="credential-cloud-section">
+                        <div id="passwordCloud" style="width: 100%; height: 100%; min-height: 320px;"></div>
+                    </div>
+                </div>
+                <div id="credentialList" class="credentials-list" style="display: none;"></div>
+            </div>
+            <div class="chart-container map-container">
+                <div class="chart-title">Traffic Origin (World Map)</div>
+                <div class="world-map-wrapper">
+                    <div id="worldMap"></div>
+                    <div class="map-placeholder" id="mapPlaceholder">Insufficient geolocation data.</div>
+                </div>
+                <div class="map-legend" id="mapLegend"></div>
+                <div class="map-port-section" id="mapPortSection">
+                    <div class="map-port-heading">Distribution of Doors by Country</div>
+                    <div id="portPieGrid" class="port-pie-grid"></div>
+                </div>
+            </div>
+            <div class="chart-container country-trend-container">
+                <div class="chart-title">Top Countries by Requests</div>
+                <div class="country-trend-filters" id="countryTrendFilters"></div>
+                <canvas id="countryTrendChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="incidents-container">
+            <div class="incidents-table">
+                <div class="table-header">
+                    <div class="table-title">Recent Security Events</div>
+                    <div class="incidents-counter" id="incidentsCounter">
+                        <span class="severity-counter high" id="incidentsHigh"><span class="severity-counter-label">High</span><span class="severity-counter-value">0</span></span>
+                        <span class="severity-counter medium" id="incidentsMedium"><span class="severity-counter-label">Medium</span><span class="severity-counter-value">0</span></span>
+                        <span class="severity-counter low" id="incidentsLow"><span class="severity-counter-label">Low</span><span class="severity-counter-value">0</span></span>
+                        <span class="severity-counter info" id="incidentsInfo"><span class="severity-counter-label">Info</span><span class="severity-counter-value">0</span></span>
+                    </div>
+                </div>
+                <div class="severity-filter">
+                    <button class="filter-btn active" data-severity="all">All</button>
+                    <button class="filter-btn severity-high" data-severity="high">High</button>
+                    <button class="filter-btn severity-medium" data-severity="medium">Medium</button>
+                    <button class="filter-btn severity-low" data-severity="low">Low</button>
+                    <button class="filter-btn severity-info" data-severity="info">Info</button>
+                </div>
+                <div class="incidents-list" id="incidentsList">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        Chart.defaults.color = '#A0AEC0';
+        Chart.defaults.backgroundColor = 'rgba(113, 128, 150, 0.1)';
+        Chart.defaults.borderColor = '#718096';
+
+        let charts = {};
+        let activeSeverityFilters = ['all'];
+        let allIncidents = [];
+        let countryTrendVisibility = {};
+        const portPieCharts = new Map();
+        const aiReportProgress = {
+            container: null,
+            text: null,
+            bar: null,
+            ensure() {
+                if (!this.container) {
+                    this.container = document.getElementById('aiReportProgress');
+                    this.text = document.getElementById('aiReportProgressText');
+                    this.bar = document.getElementById('aiReportProgressBar');
+                }
+            },
+            reset() {
+                this.ensure();
+                if (this.bar) {
+                    this.bar.style.width = '0%';
+                }
+                if (this.text) {
+                    this.text.textContent = '0%';
+                }
+            },
+            show(initialPercent = 5) {
+                this.ensure();
+                if (this.container) {
+                    this.container.hidden = false;
+                }
+                this.update(initialPercent);
+            },
+            hide() {
+                this.ensure();
+                if (this.container) {
+                    this.container.hidden = true;
+                }
+                this.reset();
+            },
+            update(percent, statusMessage) {
+                this.ensure();
+                if (typeof percent === 'number' && this.bar && this.text) {
+                    const clamped = Math.max(0, Math.min(100, percent));
+                    this.bar.style.width = `${clamped}%`;
+                    this.text.textContent = `${Math.round(clamped)}%`;
+                }
+                if (statusMessage) {
+                    const statusEl = document.getElementById('aiReportStatus');
+                    if (statusEl) {
+                        statusEl.textContent = statusMessage;
+                    }
+                }
+            }
+        };
+        const dashboardLoadProgress = {
+            container: null,
+            label: null,
+            bar: null,
+            percentEl: null,
+            active: false,
+            hideTimeout: null,
+            pendingCompletion: false,
+            ensure() {
+                if (!this.container) {
+                    this.container = document.getElementById('dashboardProgress');
+                    this.label = document.getElementById('dashboardProgressLabel');
+                    this.bar = document.getElementById('dashboardProgressBar');
+                    this.percentEl = document.getElementById('dashboardProgressPercent');
+                }
+            },
+            show(initialLabel = 'Loading telemetry…', initialPercent = 8) {
+                this.ensure();
+                if (!this.container) {
+                    return;
+                }
+                if (this.hideTimeout) {
+                    clearTimeout(this.hideTimeout);
+                    this.hideTimeout = null;
+                }
+                this.pendingCompletion = false;
+                this.active = true;
+                this.container.style.display = 'inline-flex';
+                this.container.setAttribute('aria-hidden', 'false');
+                requestAnimationFrame(() => {
+                    this.container.classList.add('is-visible');
+                    this.update(initialLabel, initialPercent);
+                });
+            },
+            update(label, percent) {
+                this.ensure();
+                if (!this.container) {
+                    return;
+                }
+                if (typeof label === 'string' && label.length > 0 && this.label) {
+                    this.label.textContent = label;
+                }
+                if (typeof percent === 'number' && Number.isFinite(percent) && this.bar) {
+                    const clamped = Math.max(0, Math.min(100, percent));
+                    this.bar.style.setProperty('--progress', `${clamped}%`);
+                    if (this.percentEl) {
+                        this.percentEl.textContent = `${Math.round(clamped)}%`;
+                    }
+                    if (clamped >= 100) {
+                        if (!this.pendingCompletion && this.active) {
+                            console.log('[Progress] Reached 100%, scheduling hide');
+                            this.pendingCompletion = true;
+                            this.hide();
+                        }
+                    } else if (clamped < 100 && this.hideTimeout) {
+                        console.log('[Progress] Below 100%, canceling hide');
+                        clearTimeout(this.hideTimeout);
+                        this.hideTimeout = null;
+                        this.pendingCompletion = false;
+                    }
+                }
+            },
+            hide(delayMs = 5000) {
+                this.ensure();
+                if (!this.container) {
+                    console.log('[Progress] hide() - no container');
+                    return;
+                }
+                if (this.hideTimeout) {
+                    console.log('[Progress] Clearing existing timeout');
+                    clearTimeout(this.hideTimeout);
+                }
+                console.log(`[Progress] Setting timeout for ${delayMs}ms`);
+                const scheduleFade = () => {
+                    console.log('[Progress] EXECUTING FADE NOW');
+                    this.active = false;
+                    this.hideTimeout = null;
+                    this.container.classList.remove('is-visible');
+                    this.container.setAttribute('aria-hidden', 'true');
+                    setTimeout(() => {
+                        console.log('[Progress] Removing display');
+                        this.container.style.display = 'none';
+                        this.bar?.style.setProperty('--progress', '0%');
+                        this.percentEl && (this.percentEl.textContent = '0%');
+                        this.label && (this.label.textContent = 'Loading telemetry…');
+                        this.pendingCompletion = false;
+                    }, 400);
+                };
+                this.hideTimeout = setTimeout(scheduleFade, delayMs);
+                console.log('[Progress] Timeout set, ID:', this.hideTimeout);
+            }
+        };
+        let dashboardLoadInFlight = false;
+
+        function waitAnimationFrame() {
+            return new Promise(resolve => requestAnimationFrame(resolve));
+        }
+        const dashboardToken = (() => {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const t = params.get('token');
+                if (t && t.length > 0) return t;
+                const parts = document.cookie.split(';').map(s => s.trim());
+                const found = parts.find(s => s.startsWith('dg_dashboard_token='));
+                if (found) return decodeURIComponent(found.split('=')[1] || '');
+            } catch (e) {}
+            return '';
+        })();
+
+        let dashboardData = {
+            totalEvents: 0,
+            web3Connections: 0,
+            sshAttempts: 0,
+            uniqueIPs: 0,
+            hourlyActivity: {},
+            hourlyActivityWindow: {
+                labels: [],
+                values: []
+            },
+            logtypeCounts: {},
+            attackCounts: {},
+            attackSeverityDistribution: {},
+            severityCounts: {},
+            recentIncidents: [],
+            countryCounts: {},
+            countryLocations: [],
+            countryHourlyActivity: {},
+            countryRolling12h: {
+                labels: [],
+                series: {}
+            },
+            countryRolling24h: {
+                labels: [],
+                series: {}
+            },
+            geoPoints: [],
+            portCountryDistribution: {
+                ports: [],
+                series: {}
+            }
+        };
+
+        let worldMap = null;
+        let mapMarkers = [];
+        let pendingCountryLocations = [];
+
+        function initializeWorldMap() {
+            const mapContainer = document.getElementById('worldMap');
+            if (!mapContainer) {
+                console.error('Map container #worldMap not found');
+                return;
+            }
+            
+            if (worldMap) {
+                console.log('Map already initialized');
+                return;
+            }
+
+            if (typeof L === 'undefined') {
+                console.error('Leaflet library not loaded');
+                setTimeout(initializeWorldMap, 200);
+                return;
+            }
+
+            try {
+                console.log('Initializing Leaflet map...');
+                setTimeout(() => {
+                    try {
+                        worldMap = L.map('worldMap', {
+                            center: [20, 0],
+                            zoom: 2,
+                            minZoom: 2,
+                            maxZoom: 6,
+                            zoomControl: true,
+                            attributionControl: false,
+                            preferCanvas: true
+                        });
+
+                        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 19,
+                            attribution: ''
+                        });
+                        
+                        tileLayer.on('tileerror', (error) => {
+                            console.error('Tile loading error:', error);
+                        });
+                        
+                        tileLayer.addTo(worldMap);
+
+                        setTimeout(() => {
+                            if (worldMap) {
+                                worldMap.invalidateSize();
+                                console.log('Map initialized successfully');
+                            }
+                        }, 200);
+
+                        if (pendingCountryLocations.length > 0) {
+                            updateWorldMap(pendingCountryLocations);
+                        }
+                    } catch (innerError) {
+                        console.error('Error in map initialization:', innerError);
+                    }
+                }, 150);
+            } catch (error) {
+                console.error('Error initializing Leaflet map:', error);
+            }
+        }
+
+        async function loadLogData() {
+            try {
+                const url = dashboardToken ? `/api/dashboard-data?token=${encodeURIComponent(dashboardToken)}` : '/api/dashboard-data';
+                const headers = {};
+                if (dashboardToken) {
+                    headers['Authorization'] = `Bearer ${dashboardToken}`;
+                    headers['X-Dashboard-Token'] = dashboardToken;
+                }
+                const response = await fetch(url, {
+                    headers,
+                    cache: 'no-store'
+                });
+                if (response.ok) {
+                    return await response.json();
+                }
+            } catch (error) {
+                console.log('Using fallback dashboard data');
+            }
+            
+            return {
+                totalEvents: 0,
+                connectionEvents: 0,
+                loginAttempts: 0,
+                web3Connections: 0,
+                sshAttempts: 0,
+                uniqueIPs: 0,
+                hourlyActivity: {},
+                hourlyActivityWindow: {
+                    labels: Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}h`),
+                    values: Array(24).fill(0)
+                },
+                logtypeCounts: {},
+                attackCounts: {},
+                severityCounts: {
+                    high: 0,
+                    medium: 0,
+                    low: 0,
+                    info: 0
+                },
+                attackSeverityDistribution: {},
+                recentIncidents: [],
+                countryCounts: {},
+                countryLocations: [],
+                countryHourlyActivity: {},
+                countryRolling12h: {
+                    labels: Array.from({ length: 12 }, (_, i) => `${String(i).padStart(2, '0')}h`),
+                    series: {}
+                },
+                countryRolling24h: {
+                    labels: Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}h`),
+                    series: {}
+                },
+                geoPoints: [],
+                portCountryDistribution: {
+                    ports: [],
+                    series: {}
+                }
+            };
+        }
+
+        function updateMetrics(data) {
+            updateMetricValue('totalEvents', data.totalEvents);
+            updateMetricValue('connectionEvents', data.connectionEvents);
+            updateMetricValue('loginAttempts', data.loginAttempts);
+            updateMetricValue('uniqueIPs', data.uniqueIPs);
+        }
+
+        function updateMetricValue(elementId, newValue) {
+            const element = document.getElementById(elementId);
+            const currentValue = parseInt(element.textContent) || 0;
+            
+            if (currentValue !== newValue) {
+                element.style.transform = 'scale(1.1)';
+                element.style.color = '#4CAF50';
+                
+                setTimeout(() => {
+                    element.textContent = newValue;
+                    element.style.transform = 'scale(1)';
+                    element.style.color = '#D4A64C';
+                }, 200);
+            }
+        }
+
+        function createHourlyChart(data, isInitialLoad = false) {
+            const canvas = document.getElementById('hourlyChart');
+            if (!canvas) {
+                return;
+            }
+
+            const ctx = canvas.getContext('2d');
+            const fallbackLabels = Array.from({ length: 24 }, (_, i) => `${i}h`);
+            const hourlyWindow = data.hourlyActivityWindow || {};
+            const baseLabels = Array.isArray(hourlyWindow.labels) && hourlyWindow.labels.length === 24
+                ? hourlyWindow.labels
+                : fallbackLabels;
+            const baseActivity = Array.isArray(hourlyWindow.values) && hourlyWindow.values.length === baseLabels.length
+                ? hourlyWindow.values.map(value => Number(value || 0))
+                : Array.from({ length: baseLabels.length }, (_, i) => Number((data.hourlyActivity || {})[i] || 0));
+
+            const serviceWindow = data.hourlyServiceActivity || {};
+            const serviceLabels = Array.isArray(serviceWindow.labels) && serviceWindow.labels.length === baseLabels.length
+                ? serviceWindow.labels
+                : baseLabels;
+            const serviceSeries = serviceWindow.series && typeof serviceWindow.series === 'object'
+                ? Object.entries(serviceWindow.series)
+                : [];
+
+            const palette = ['#63B3ED', '#F6AD55', '#68D391', '#FC8181', '#B794F4', '#4FD1C5', '#F6E05E'];
+            const datasets = serviceSeries.length > 0
+                ? serviceSeries.map(([service, values], index) => {
+                    const normalized = Array.isArray(values)
+                        ? Array.from({ length: serviceLabels.length }, (_, idx) => Number(values[idx] || 0))
+                        : Array(serviceLabels.length).fill(0);
+                    return {
+                        label: service,
+                        data: normalized,
+                        backgroundColor: palette[index % palette.length],
+                        borderColor: palette[index % palette.length],
+                        borderWidth: 1,
+                        stack: 'services',
+                        borderSkipped: false
+                    };
+                })
+                : [{
+                    label: 'Eventos',
+                    data: baseActivity,
+                    backgroundColor: '#718096',
+                    borderColor: '#4A5568',
+                    borderWidth: 1,
+                    borderSkipped: false
+                }];
+
+            const labels = serviceLabels;
+            const isStacked = serviceSeries.length > 0;
+
+            const options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: isInitialLoad ? 1000 : 0
+                },
+                layout: {
+                    padding: {
+                        top: 8,
+                        right: 16,
+                        bottom: 16,
+                        left: 12
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: datasets.length > 1,
+                        labels: {
+                            color: '#CBD5F5'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            footer(items) {
+                                if (!items || items.length === 0) {
+                                    return '';
+                                }
+                                const total = items.reduce((sum, item) => sum + (item.parsed.y || 0), 0);
+                                return `Total: ${total}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        stacked: isStacked,
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(74, 85, 104, 0.2)'
+                        },
+                        ticks: {
+                            color: '#A0AEC0'
+                        }
+                    },
+                    x: {
+                        stacked: isStacked,
+                        grid: {
+                            color: 'rgba(74, 85, 104, 0.2)'
+                        },
+                        ticks: {
+                            color: '#A0AEC0'
+                        },
+                        categoryPercentage: 0.55,
+                        barPercentage: 0.65,
+                        maxBarThickness: 36
+                    }
+                }
+            };
+
+            if (charts.hourly) {
+                charts.hourly.destroy();
+            }
+
+            charts.hourly = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets
+                },
+                options
+            });
+        }
+
+        function renderPortDistribution(data, isInitialLoad = false) {
+            const container = document.getElementById('portPieGrid');
+            const section = document.getElementById('mapPortSection');
+            if (!container) {
+                return;
+            }
+
+            portPieCharts.forEach(chart => chart.destroy());
+            portPieCharts.clear();
+            container.innerHTML = '';
+
+            const distribution = data.portCountryDistribution || {};
+            const ports = Array.isArray(distribution.ports) ? distribution.ports.slice(0, 6) : [];
+            const series = distribution.series && typeof distribution.series === 'object' ? distribution.series : {};
+
+            const activePorts = ports.filter(port => {
+                const countryMap = series[port] || {};
+                const total = Object.values(countryMap).reduce((sum, value) => sum + Number(value || 0), 0);
+                return total > 0;
+            });
+
+            if (activePorts.length === 0) {
+                if (section) {
+                    section.style.display = 'none';
+                }
+                portPieCharts.forEach(chart => chart.destroy());
+                portPieCharts.clear();
+                return;
+            }
+
+            if (section) {
+                section.style.display = '';
+            }
+
+            const palette = ['#63B3ED', '#F6AD55', '#68D391', '#FC8181', '#B794F4', '#4FD1C5', '#F6E05E', '#F687B3'];
+
+            activePorts.forEach(portLabel => {
+                const countryCounts = series[portLabel] || {};
+                const entries = Object.entries(countryCounts)
+                    .map(([country, value]) => [country, Number(value || 0)])
+                    .filter(([, value]) => value > 0);
+
+                if (entries.length === 0) {
+                    return;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'port-pie-card';
+
+                const title = document.createElement('div');
+                title.className = 'port-pie-title';
+                title.textContent = portLabel;
+                card.appendChild(title);
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'port-pie-canvas';
+                const canvasId = `portPie-${portLabel.replace(/[^a-z0-9]+/gi, '-')}`;
+                canvas.id = canvasId;
+                card.appendChild(canvas);
+
+                const legend = document.createElement('div');
+                legend.className = 'port-pie-legend';
+                card.appendChild(legend);
+
+                container.appendChild(card);
+
+                const labels = entries.map(([country]) => country);
+                const values = entries.map(([, count]) => count);
+                const colors = labels.map((_, index) => palette[index % palette.length]);
+
+                const computedSize = Math.max(160, Math.min(220, Math.floor(card.clientWidth)));
+                canvas.width = computedSize;
+                canvas.height = computedSize;
+                canvas.style.width = `${computedSize}px`;
+                canvas.style.height = `${computedSize}px`;
+
+                const ctx = canvas.getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: colors,
+                            borderWidth: 1,
+                            borderColor: '#0F1419'
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: true,
+                        aspectRatio: 1,
+                        layout: {
+                            padding: 0
+                        },
+                        animation: false,
+                        cutout: '55%',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed;
+                                        const dataset = context.chart.data.datasets?.[context.datasetIndex];
+                                        const dataArray = Array.isArray(dataset?.data) ? dataset.data : values;
+                                        const total = dataArray.reduce((sum, v) => sum + Number(v || 0), 0);
+                                        const percent = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0';
+                                        return `${label}: ${value} (${percent}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                portPieCharts.set(portLabel, chart);
+
+                legend.innerHTML = '';
+                labels.forEach((country, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'port-pie-legend-item';
+                    const dot = document.createElement('span');
+                    dot.className = 'port-pie-dot';
+                    dot.style.backgroundColor = colors[index % colors.length];
+                    item.appendChild(dot);
+                    const text = document.createElement('span');
+                    text.textContent = `${country} (${values[index]})`;
+                    item.appendChild(text);
+                    legend.appendChild(item);
+                });
+            });
+        }
+
+        function updateWorldMap(locations) {
+            const mapPlaceholder = document.getElementById('mapPlaceholder');
+            const mapLegend = document.getElementById('mapLegend');
+            if (!mapPlaceholder || !mapLegend) {
+                return;
+            }
+
+            const normalizedLocations = normalizeLocationsForMap(locations);
+            pendingCountryLocations = normalizedLocations;
+            mapLegend.innerHTML = '';
+
+            if (normalizedLocations.length === 0) {
+                mapPlaceholder.style.display = 'block';
+                return;
+            }
+
+            if (!worldMap) {
+                mapPlaceholder.style.display = 'none';
+                return;
+            }
+
+            mapPlaceholder.style.display = 'none';
+
+            mapMarkers.forEach(marker => worldMap.removeLayer(marker));
+            mapMarkers = [];
+
+            const maxCount = Math.max(...normalizedLocations.map(loc => loc.count));
+            const mapPalette = ['#F6AD55', '#63B3ED', '#68D391', '#FC8181', '#B794F4', '#4FD1C5', '#F6E05E', '#F687B3', '#90CDF4', '#A0AEC0'];
+            const colorMap = new Map();
+            normalizedLocations.forEach(loc => {
+                const key = loc.label;
+                if (!colorMap.has(key)) {
+                    colorMap.set(key, mapPalette[colorMap.size % mapPalette.length]);
+                }
+            });
+
+            normalizedLocations.forEach(loc => {
+                const color = colorMap.get(loc.label) || mapPalette[0];
+                const intensity = maxCount > 0 ? (loc.count / maxCount) : 0;
+                const radius = 6 + intensity * 14;
+
+                const marker = L.circleMarker([loc.lat, loc.lon], {
+                    radius,
+                    fillColor: color,
+                    color: '#1a1f2e',
+                    weight: 2,
+                    opacity: 0.9,
+                    fillOpacity: 0.6 + intensity * 0.3,
+                    className: 'map-marker-pulse'
+                });
+
+                const popupContent = `
+                    <div style="text-align:center;">
+                        <strong style="color:${color};font-size:14px;">${loc.label}</strong><br>
+                        <span style="color:#cbd5e0;font-size:12px;">${loc.countryName}</span><br>
+                        <span style="color:${color};font-weight:600;font-size:15px;margin-top:4px;display:inline-block;">${loc.count} eventos</span>
+                    </div>
+                `;
+                marker.bindPopup(popupContent);
+                marker.addTo(worldMap);
+                mapMarkers.push(marker);
+            });
+
+            const countriesWithCity = new Set();
+            normalizedLocations.forEach(loc => {
+                const countryName = loc.countryName || loc.country || 'Unknown';
+                const cityLabel = (loc.label || '').trim();
+                if (cityLabel && cityLabel !== countryName) {
+                    countriesWithCity.add(countryName);
+                }
+            });
+
+            const legendGroups = new Map();
+            normalizedLocations.forEach(loc => {
+                const countryName = loc.countryName || loc.country || 'Unknown';
+                const cityLabel = (loc.label || '').trim();
+                const hasCity = cityLabel && cityLabel !== countryName;
+
+                if (!hasCity && countriesWithCity.has(countryName)) {
+                    return;
+                }
+
+                const displayLabel = hasCity ? `${cityLabel}, ${countryName}` : countryName;
+                const key = hasCity ? `${countryName}::${cityLabel}` : `${countryName}::country`;
+                const current = legendGroups.get(key) || {
+                    label: displayLabel,
+                    count: 0,
+                };
+                current.count += Number(loc.count) || 0;
+                legendGroups.set(key, current);
+            });
+
+            const sortedLegendItems = Array.from(legendGroups.values())
+                .sort((a, b) => b.count - a.count);
+
+            sortedLegendItems.forEach((item, index) => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'map-legend-item';
+                const color = mapPalette[index % mapPalette.length];
+                legendItem.innerHTML = `<span class="map-legend-dot" style="background:${color};"></span><span>${item.label}</span><span style="margin-left:auto;color:${color};font-weight:600;">${item.count}</span>`;
+                mapLegend.appendChild(legendItem);
+            });
+        }
+
+        function aggregateGeoLocations(geoPoints, countryLocations) {
+            const toEntries = (value) => Array.isArray(value) ? value : [];
+            const aggregated = new Map();
+
+            const accumulate = (entry) => {
+                if (!entry || typeof entry !== 'object') {
+                    return;
+                }
+
+                const lat = Number(entry.lat ?? entry.latitude ?? (Array.isArray(entry.coords) ? entry.coords[0] : undefined));
+                const lon = Number(entry.lon ?? entry.longitude ?? (Array.isArray(entry.coords) ? entry.coords[1] : undefined));
+                if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+                    return;
+                }
+
+                const countryName = entry.country || entry.name || entry.label || 'Unknown';
+                const region = entry.region || entry.state || '';
+                const city = entry.city || '';
+                const label = city || region || countryName;
+                const countValue = Number(entry.count ?? entry.total ?? entry.value ?? 1);
+                const safeCount = Number.isFinite(countValue) && countValue > 0 ? countValue : 1;
+
+                const key = `${lat.toFixed(4)}:${lon.toFixed(4)}:${countryName || ''}:${label}`;
+                const current = aggregated.get(key) || {
+                    lat,
+                    lon,
+                    country: countryName,
+                    name: countryName,
+                    region,
+                    city,
+                    count: 0,
+                    label,
+                };
+                current.count += safeCount;
+                aggregated.set(key, current);
+            };
+
+            toEntries(geoPoints).forEach(accumulate);
+            toEntries(countryLocations).forEach(accumulate);
+
+            return Array.from(aggregated.values());
+        }
+
+        function normalizeLocationsForMap(rawLocations) {
+            if (!rawLocations) {
+                return [];
+            }
+
+            const toArray = (value) => {
+                if (Array.isArray(value)) {
+                    return value;
+                }
+                if (value && typeof value === 'object') {
+                    return Object.values(value);
+                }
+                return [];
+            };
+
+            const aggregated = new Map();
+
+            toArray(rawLocations).forEach(candidate => {
+                if (!candidate || typeof candidate !== 'object') {
+                    return;
+                }
+
+                const lat = Number(candidate.lat ?? candidate.latitude ?? (Array.isArray(candidate.coords) ? candidate.coords[0] : undefined));
+                const lon = Number(candidate.lon ?? candidate.longitude ?? (Array.isArray(candidate.coords) ? candidate.coords[1] : undefined));
+                if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+                    return;
+                }
+
+                const countryName = candidate.country || candidate.name || candidate.label || 'Unknown';
+                const region = candidate.region || candidate.state || '';
+                const city = candidate.city || '';
+                const label = city || region || countryName;
+                const legendText = countryName && label !== countryName ? `${label}, ${countryName}` : label;
+
+                const countValue = Number(candidate.count ?? candidate.total ?? candidate.value ?? 1);
+                const safeCount = Number.isFinite(countValue) && countValue > 0 ? countValue : 1;
+
+                const key = `${lat.toFixed(4)}:${lon.toFixed(4)}:${countryName || ''}:${label}`;
+                const existing = aggregated.get(key);
+                if (existing) {
+                    existing.count += safeCount;
+                } else {
+                    aggregated.set(key, {
+                        lat,
+                        lon,
+                        count: safeCount,
+                        label: label || countryName,
+                        countryName,
+                        legendText,
+                    });
+                }
+            });
+
+            return Array.from(aggregated.values()).sort((a, b) => b.count - a.count);
+        }
+
+        function createCountryTrendChart(data, isInitialLoad = false) {
+            const ctx = document.getElementById('countryTrendChart');
+            if (!ctx) {
+                return;
+            }
+
+            const palette = ['#F6AD55', '#63B3ED', '#68D391', '#FC8181', '#B794F4', '#4FD1C5', '#F6E05E', '#F687B3', '#90CDF4', '#A0AEC0'];
+            const rolling24 = data.countryRolling24h || {};
+            const useRolling24 = Array.isArray(rolling24.labels) && rolling24.labels.length === 24;
+            const rolling = useRolling24 ? rolling24 : (data.countryRolling12h || {});
+            const rollingLabels = Array.isArray(rolling.labels) ? rolling.labels : [];
+            const rollingSeries = rolling.series && typeof rolling.series === 'object' ? rolling.series : {};
+            const useRollingWindow = rollingLabels.length > 0;
+
+            const labels = useRollingWindow
+                ? rollingLabels
+                : Array.from({ length: 24 }, (_, i) => `${i}h`);
+
+            const sourceSeries = useRollingWindow ? rollingSeries : (data.countryHourlyActivity || {});
+
+            const entries = Object.entries(sourceSeries)
+                .map(([country, values]) => {
+                    const normalized = Array.isArray(values)
+                        ? Array.from({ length: labels.length }, (_, index) => Number(values[index] || 0))
+                        : Array(labels.length).fill(0);
+                    return [country, normalized, normalized.reduce((sum, value) => sum + value, 0)];
+                })
+                .filter(([, , total]) => total > 0)
+                .sort((a, b) => b[2] - a[2])
+                .slice(0, 10);
+
+            const activeCountries = new Set(entries.map(([country]) => country));
+            Object.keys(countryTrendVisibility).forEach(country => {
+                if (!activeCountries.has(country)) {
+                    delete countryTrendVisibility[country];
+                }
+            });
+
+            const datasets = entries.map(([country, values], index) => {
+                if (!(country in countryTrendVisibility)) {
+                    countryTrendVisibility[country] = true;
+                }
+                return {
+                    label: country,
+                    countryKey: country,
+                    data: values,
+                    fill: false,
+                    borderColor: palette[index % palette.length],
+                    backgroundColor: palette[index % palette.length],
+                    tension: 0.15,
+                    borderWidth: 2,
+                    pointRadius: 2,
+                    pointHoverRadius: 4,
+                    hidden: countryTrendVisibility[country] === false
+                };
+            });
+
+            renderCountryTrendFilters(entries, palette);
+
+            if (charts.countryTrend) {
+                charts.countryTrend.data.labels = labels;
+                charts.countryTrend.data.datasets = datasets;
+                charts.countryTrend.update('none');
+                return;
+            }
+
+            charts.countryTrend = new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets
+                },
+                options: {
+                    responsive: true,
+                    animation: {
+                        duration: isInitialLoad ? 1000 : 0
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(74, 85, 104, 0.2)'
+                            },
+                            ticks: {
+                                color: '#A0AEC0',
+                                precision: 0,
+                                stepSize: 1
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(74, 85, 104, 0.15)'
+                            },
+                            ticks: {
+                                color: '#A0AEC0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderCountryTrendFilters(entries, palette) {
+            const container = document.getElementById('countryTrendFilters');
+            if (!container) {
+                return;
+            }
+            container.innerHTML = '';
+
+            entries.forEach(([country], index) => {
+                const color = palette[index % palette.length];
+                const isActive = countryTrendVisibility[country] !== false;
+                const item = document.createElement('div');
+                item.className = `country-trend-filter-item${isActive ? '' : ' inactive'}`;
+                item.dataset.country = country;
+                item.innerHTML = `
+                    <span class="country-trend-filter-dot" style="background:${color};"></span>
+                    <span>${country}</span>
+                `;
+
+                item.addEventListener('click', () => {
+                    const currentlyActive = countryTrendVisibility[country] !== false;
+                    countryTrendVisibility[country] = !currentlyActive;
+                    
+                    if (countryTrendVisibility[country]) {
+                        item.classList.remove('inactive');
+                    } else {
+                        item.classList.add('inactive');
+                    }
+
+                    if (!charts.countryTrend) {
+                        return;
+                    }
+                    charts.countryTrend.data.datasets.forEach(dataset => {
+                        if (dataset.countryKey === country) {
+                            dataset.hidden = !countryTrendVisibility[country];
+                        }
+                    });
+                    charts.countryTrend.update('none');
+                });
+                container.appendChild(item);
+            });
+        }
+
+        function createLogtypeChart(data, isInitialLoad = false) {
+            const ctx = document.getElementById('logtypeChart').getContext('2d');
+            
+            const labels = Object.keys(data.logtypeCounts);
+            const values = Object.values(data.logtypeCounts);
+            const colors = ['#8F7AEC', '#4FB3BF', '#E49B4C', '#5CC8A1', '#F26D7D', '#7AD9F0'];
+
+            if (charts.logtype) {
+                charts.logtype.data.labels = labels;
+                charts.logtype.data.datasets[0].data = values;
+                charts.logtype.data.datasets[0].backgroundColor = labels.map((_, index) => colors[index % colors.length]);
+                charts.logtype.update('none');
+                return;
+            }
+
+            charts.logtype = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: labels.map((_, index) => colors[index % colors.length]),
+                        borderColor: '#0F1419',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '52%',
+                    layout: {
+                        padding: {
+                            top: 8,
+                            right: 8,
+                            bottom: 8,
+                            left: 8
+                        }
+                    },
+                    animation: {
+                        duration: isInitialLoad ? 1000 : 0
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#A0AEC0',
+                                boxWidth: 14,
+                                boxHeight: 14,
+                                padding: 12,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createAttackChart(data, isInitialLoad = false) {
+            const canvas = document.getElementById('attackChart');
+            if (!canvas) {
+                return;
+            }
+
+            const ctx = canvas.getContext('2d');
+            const severityOrder = ['high', 'medium', 'low', 'info'];
+            const severityColors = {
+                high: '#E53E3E',
+                medium: '#DD6B20',
+                low: '#38A169',
+                info: '#3182CE'
+            };
+
+            const attackCounts = data.attackCounts || {};
+            const severityMap = data.attackSeverityDistribution || {};
+            const labels = Object.keys(attackCounts);
+
+            const hasSeverityBreakdown = Object.keys(severityMap).length > 0 && labels.length > 0;
+            const datasets = hasSeverityBreakdown
+                ? severityOrder
+                    .map(severity => {
+                        const dataPoints = labels.map(label => {
+                            const bucket = severityMap[label] || severityMap[label.toLowerCase()] || {};
+                            return Number(bucket[severity] || 0);
+                        });
+                        const total = dataPoints.reduce((sum, value) => sum + value, 0);
+                        return total > 0
+                            ? {
+                                label: severity.toUpperCase(),
+                                data: dataPoints,
+                                backgroundColor: severityColors[severity] || '#718096',
+                                borderColor: severityColors[severity] || '#4A5568',
+                                borderWidth: 1,
+                                stack: 'severity',
+                                borderSkipped: false
+                            }
+                            : null;
+                    })
+                    .filter(Boolean)
+                : [{
+                    label: 'Eventos',
+                    data: labels.map(label => Number(attackCounts[label] || 0)),
+                    backgroundColor: '#718096',
+                    borderColor: '#4A5568',
+                    borderWidth: 1,
+                    borderSkipped: false
+                }];
+
+            if (charts.attack) {
+                charts.attack.data.labels = labels;
+                charts.attack.data.datasets = datasets;
+                charts.attack.options.plugins.legend.display = datasets.length > 1;
+                charts.attack.options.scales.x.stacked = datasets.length > 1;
+                charts.attack.options.scales.y.stacked = datasets.length > 1;
+                charts.attack.update('none');
+                return;
+            }
+
+            charts.attack = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y',
+                    animation: {
+                        duration: isInitialLoad ? 1000 : 0
+                    },
+                    plugins: {
+                        legend: {
+                            display: datasets.length > 1,
+                            labels: {
+                                color: '#CBD5F5'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                footer(items) {
+                                    if (!items || items.length === 0) {
+                                        return '';
+                                    }
+                                    const total = items.reduce((sum, item) => sum + (item.parsed.x || 0), 0);
+                                    return `Total: ${total}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            stacked: datasets.length > 1,
+                            grid: {
+                                color: 'rgba(74, 85, 104, 0.2)'
+                            },
+                            ticks: {
+                                color: '#A0AEC0'
+                            }
+                        },
+                        y: {
+                            stacked: datasets.length > 1,
+                            grid: {
+                                color: 'rgba(74, 85, 104, 0.2)'
+                            },
+                            ticks: {
+                                color: '#A0AEC0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        let credentialViewMode = 'cloud';
+
+        function renderCredentialCloud(data) {
+            const usernameContainer = document.getElementById('usernameCloud');
+            const passwordContainer = document.getElementById('passwordCloud');
+            
+            if (!usernameContainer || !passwordContainer) {
+                return;
+            }
+
+            const cloudContainer = document.getElementById('credentialCloud');
+            
+            usernameContainer.innerHTML = '';
+            passwordContainer.innerHTML = '';
+            usernameContainer.classList.remove('credential-cloud-fallback');
+            passwordContainer.classList.remove('credential-cloud-fallback');
+            
+            const attempts = Array.isArray(data.httpCredentialAttempts) ? data.httpCredentialAttempts : [];
+            console.log('[Cloud] Rendering credentials, count:', attempts.length);
+
+            if (attempts.length === 0) {
+                // Clear any existing content in the main container
+                Array.from(cloudContainer.children).forEach(child => {
+                    if (child.className === 'credential-empty') {
+                        child.remove();
+                    }
+                });
+                
+                const empty = document.createElement('div');
+                empty.className = 'credential-empty';
+                empty.textContent = 'No HTTP/HTTPS attacks with credentials captured in the last 24 hours.';
+                empty.style.gridColumn = '1 / -1';
+                cloudContainer.appendChild(empty);
+                return;
+            }
+            
+            // Remove empty message if it exists
+            Array.from(cloudContainer.children).forEach(child => {
+                if (child.className === 'credential-empty') {
+                    child.remove();
+                }
+            });
+
+            const usernameCounts = new Map();
+            const passwordCounts = new Map();
+
+            attempts.forEach((entry) => {
+                const rawUser = entry && entry.username ? String(entry.username) : '';
+                const rawPass = entry && entry.password ? String(entry.password) : '';
+                const username = rawUser.trim() !== '' ? rawUser : '(no user)';
+                const password = rawPass.trim() !== '' ? rawPass : '(no password)';
+                const count = Number(entry && entry.count ? entry.count : 0);
+                
+                usernameCounts.set(username, (usernameCounts.get(username) || 0) + count);
+                passwordCounts.set(password, (passwordCounts.get(password) || 0) + count);
+            });
+
+            // Sort and limit to top 50 to prevent overcrowding
+            const topUsernames = Array.from(usernameCounts.entries())
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 50);
+            
+            const topPasswords = Array.from(passwordCounts.entries())
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 50);
+
+            const usernameWords = topUsernames.map(([text, count]) => ({
+                text,
+                size: Math.max(14, Math.min(60, 14 + count * 2)),
+                count
+            }));
+
+            const passwordWords = topPasswords.map(([text, count]) => ({
+                text,
+                size: Math.max(14, Math.min(60, 14 + count * 2)),
+                count
+            }));
+
+            renderCloud(usernameContainer, usernameWords, '#63B3ED');
+            renderCloud(passwordContainer, passwordWords, '#F6AD55');
+        }
+
+        function renderCloud(container, words, baseColor) {
+            container.innerHTML = '';
+            container.classList.remove('credential-cloud-fallback');
+
+            if (words.length === 0) {
+                return;
+            }
+            
+            const width = container.clientWidth || 300;
+            const height = container.clientHeight || 320;
+
+            // Sort words by text alphabetically to ensure consistent placement
+            const sortedWords = [...words].sort((a, b) => {
+                // First by size descending, then by text alphabetically for determinism
+                if (b.size !== a.size) return b.size - a.size;
+                return a.text.localeCompare(b.text);
+            });
+
+            // Create deterministic random function based on word index
+            let seedIndex = 0;
+            const deterministicRandom = () => {
+                const seed = seedIndex++;
+                return (Math.sin(seed) + 1) / 2;
+            };
+
+            const expectedCount = sortedWords.length;
+
+            const layout = d3.layout.cloud()
+                .size([width, height])
+                .words(sortedWords)
+                .padding(20)
+                .rotate(() => 0)
+                .fontSize(d => d.size)
+                .spiral('rectangular')
+                .random(deterministicRandom)
+                .on('end', placedWords => {
+                    const normalizedWords = Array.isArray(placedWords)
+                        ? placedWords.filter(word => Number.isFinite(word.x) && Number.isFinite(word.y))
+                        : [];
+                    const minimumVisible = expectedCount <= 3 ? expectedCount : Math.ceil(expectedCount * 0.6);
+
+                    if (normalizedWords.length < minimumVisible) {
+                        console.warn('[Cloud] Falling back to chip layout, visible:', normalizedWords.length, 'expected:', expectedCount);
+                        renderCloudFallback(sortedWords);
+                        return;
+                    }
+
+                    draw(normalizedWords);
+                });
+
+            layout.start();
+
+            function draw(words) {
+                container.innerHTML = '';
+                const svg = d3.select(container)
+                    .append('svg')
+                    .attr('width', width)
+                    .attr('height', height)
+                    .append('g')
+                    .attr('transform', `translate(${width / 2},${height / 2})`);
+
+                const base = d3.rgb(baseColor);
+                const colorVariations = [
+                    base.brighter(0.5).toString(),
+                    base.toString(),
+                    base.darker(0.25).toString(),
+                    base.brighter(0.9).toString(),
+                    base.darker(0.5).toString()
+                ];
+
+                const chipVariations = [
+                    base.brighter(1.1).toString(),
+                    base.brighter(0.4).toString(),
+                    base.darker(0.1).toString(),
+                    base.darker(0.35).toString(),
+                    base.darker(0.6).toString()
+                ];
+
+                const groups = svg.selectAll('g.credential-word')
+                    .data(words)
+                    .enter()
+                    .append('g')
+                    .attr('class', 'credential-word')
+                    .attr('transform', d => `translate(${d.x},${d.y})`)
+                    .style('cursor', 'pointer');
+
+                groups.append('text')
+                    .attr('text-anchor', 'middle')
+                    .attr('dominant-baseline', 'central')
+                    .style('font-size', d => `${d.size}px`)
+                    .text(d => d.text);
+
+                groups.each(function(d, index) {
+                    const node = d3.select(this).select('text').node();
+                    if (!node) {
+                        return;
+                    }
+                    const bbox = node.getBBox();
+                    const paddingX = Math.max(18, d.size * 0.55);
+                    const paddingY = Math.max(10, d.size * 0.35);
+                    const rectWidth = bbox.width + paddingX;
+                    const rectHeight = bbox.height + paddingY;
+                    const rect = d3.select(this).insert('rect', 'text')
+                        .attr('x', -rectWidth / 2)
+                        .attr('y', -rectHeight / 2)
+                        .attr('width', rectWidth)
+                        .attr('height', rectHeight)
+                        .attr('rx', Math.min(22, rectHeight / 2 + 6))
+                        .attr('ry', Math.min(22, rectHeight / 2 + 6));
+
+                    const textColor = colorVariations[index % colorVariations.length];
+                    const chipColor = d3.color(chipVariations[index % chipVariations.length]);
+                    if (chipColor) {
+                        const baseOpacity = 0.16;
+                        rect
+                            .attr('fill', `rgba(${chipColor.r}, ${chipColor.g}, ${chipColor.b}, ${baseOpacity})`)
+                            .attr('stroke', `rgba(${chipColor.r}, ${chipColor.g}, ${chipColor.b}, 0.55)`)
+                            .attr('stroke-width', 1.4);
+                    } else {
+                        rect.attr('fill', 'rgba(255,255,255,0.12)').attr('stroke', '#2D3748').attr('stroke-width', 1.2);
+                    }
+
+                    d3.select(this).select('text')
+                        .style('fill', textColor);
+
+                    d3.select(this).append('title')
+                        .text(`${d.text} - ${d.count}x`);
+                });
+            }
+
+            function renderCloudFallback(wordData) {
+                if (!Array.isArray(wordData) || wordData.length === 0) {
+                    return;
+                }
+
+                container.classList.add('credential-cloud-fallback');
+                container.innerHTML = '';
+
+                const palette = [
+                    d3.rgb(baseColor).brighter(0.6),
+                    d3.rgb(baseColor).brighter(0.2),
+                    d3.rgb(baseColor),
+                    d3.rgb(baseColor).darker(0.25),
+                    d3.rgb(baseColor).darker(0.5)
+                ];
+
+                const counts = wordData.map(item => Number(item.count) || 0);
+                const maxCount = counts.length ? Math.max(...counts) : 0;
+                const minCount = counts.length ? Math.min(...counts) : 0;
+                const spread = Math.max(1, maxCount - minCount);
+
+                wordData.forEach((item, index) => {
+                    const chip = document.createElement('span');
+                    chip.className = 'credential-word-chip';
+                    chip.textContent = item.text;
+                    chip.title = `${item.text} - ${item.count}x`;
+
+                    const intensity = (Number(item.count) || 0) - minCount;
+                    const normalized = Math.max(0, intensity / spread);
+                    const chipColor = palette[index % palette.length];
+                    chip.style.color = chipColor.toString();
+                    chip.style.backgroundColor = `rgba(${chipColor.r}, ${chipColor.g}, ${chipColor.b}, ${0.12 + normalized * 0.18})`;
+                    const fontSize = 14 + normalized * 18;
+                    chip.style.fontSize = `${Math.round(fontSize)}px`;
+
+                    container.appendChild(chip);
+                });
+            }
+        }
+
+        function renderCredentialList(data) {
+            const listContainer = document.getElementById('credentialList');
+            if (!listContainer) {
+                return;
+            }
+
+            listContainer.innerHTML = '';
+            const attempts = Array.isArray(data.httpCredentialAttempts) ? data.httpCredentialAttempts : [];
+
+            if (attempts.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'credential-empty';
+                empty.textContent = 'No HTTP/HTTPS attacks with credentials captured in the last 24 hours.';
+                listContainer.appendChild(empty);
+                return;
+            }
+
+            attempts.slice(0, 8).forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.className = 'credential-item';
+                const rawUser = entry && entry.username ? String(entry.username) : '';
+                const rawPass = entry && entry.password ? String(entry.password) : '';
+                const username = rawUser.trim() !== '' ? rawUser : '(no user)';
+                const password = rawPass.trim() !== '' ? rawPass : '(no password)';
+                const count = Number(entry && entry.count ? entry.count : 0);
+
+                const rank = document.createElement('span');
+                rank.textContent = `${index + 1}. ${username}`;
+                const passEl = document.createElement('span');
+                passEl.textContent = password;
+                const countEl = document.createElement('span');
+                countEl.className = 'credential-count';
+                countEl.textContent = `${count}x`;
+
+                item.appendChild(rank);
+                item.appendChild(passEl);
+                item.appendChild(countEl);
+                listContainer.appendChild(item);
+            });
+        }
+
+        function renderCredentials(data) {
+            if (credentialViewMode === 'cloud') {
+                renderCredentialCloud(data);
+            } else {
+                renderCredentialList(data);
+            }
+        }
+
+        function setupCredentialToggle() {
+            const selectElement = document.getElementById('credentialViewSelect');
+            const cloudContainer = document.getElementById('credentialCloud');
+            const listContainer = document.getElementById('credentialList');
+
+            if (!selectElement) {
+                return;
+            }
+
+            selectElement.addEventListener('change', (e) => {
+                credentialViewMode = e.target.value;
+                
+                if (credentialViewMode === 'cloud') {
+                    cloudContainer.style.display = 'grid';
+                    listContainer.style.display = 'none';
+                    if (dashboardData) {
+                        renderCredentialCloud(dashboardData);
+                    }
+                } else {
+                    cloudContainer.style.display = 'none';
+                    listContainer.style.display = 'flex';
+                    if (dashboardData) {
+                        renderCredentialList(dashboardData);
+                    }
+                }
+            });
+        }
+
+
+        function setupSeverityFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const severity = btn.dataset.severity;
+                    
+                    if (severity === 'all') {
+                        filterButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        activeSeverityFilters = ['all'];
+                    } else {
+                        document.querySelector('[data-severity="all"]').classList.remove('active');
+                        
+                        btn.classList.toggle('active');
+                        
+                        if (btn.classList.contains('active')) {
+                            if (!activeSeverityFilters.includes(severity)) {
+                                activeSeverityFilters.push(severity);
+                            }
+                            activeSeverityFilters = activeSeverityFilters.filter(f => f !== 'all');
+                        } else {
+                            activeSeverityFilters = activeSeverityFilters.filter(f => f !== severity);
+                        }
+                        
+                        if (activeSeverityFilters.length === 0) {
+                            document.querySelector('[data-severity="all"]').classList.add('active');
+                            activeSeverityFilters = ['all'];
+                        }
+                    }
+                    
+                    filterIncidents();
+                });
+            });
+        }
+
+        function filterIncidents() {
+            const container = document.getElementById('incidentsList');
+            const incidents = container.children;
+            const severityCounts = {
+                high: 0,
+                medium: 0,
+                low: 0,
+                info: 0
+            };
+            
+            Array.from(incidents).forEach(incident => {
+                const severity = incident.dataset.severity;
+                const shouldShow = activeSeverityFilters.includes('all') || 
+                                 activeSeverityFilters.includes(severity);
+                
+                incident.style.display = shouldShow ? 'block' : 'none';
+                if (shouldShow && severityCounts[severity] !== undefined) {
+                    severityCounts[severity] += 1;
+                }
+            });
+
+            updateIncidentsCounter(severityCounts);
+        }
+
+        function updateIncidentsCounter(severityCounts) {
+            document.querySelector('#incidentsHigh .severity-counter-value').textContent = severityCounts.high;
+            document.querySelector('#incidentsMedium .severity-counter-value').textContent = severityCounts.medium;
+            document.querySelector('#incidentsLow .severity-counter-value').textContent = severityCounts.low;
+            document.querySelector('#incidentsInfo .severity-counter-value').textContent = severityCounts.info;
+        }
+
+        function updateIncidents(incidents) {
+            const container = document.getElementById('incidentsList');
+            allIncidents = incidents;
+            
+            const currentIncidents = Array.from(container.children).map(item => 
+                item.dataset.timestamp
+            );
+            
+            incidents.forEach(incident => {
+                if (!currentIncidents.includes(incident.timestamp)) {
+                    const item = document.createElement('div');
+                    item.className = `incident-item severity-${incident.severity}`;
+                    item.dataset.timestamp = incident.timestamp;
+                    item.dataset.severity = incident.severity;
+                    
+                    const time = new Date(incident.timestamp).toLocaleString('en-US');
+                    
+                    item.innerHTML = `
+                        <div class="incident-header">
+                            <span class="incident-type">
+                                <span class="status-indicator status-${incident.severity === 'high' ? 'error' : incident.severity === 'medium' ? 'warning' : 'active'}"></span>
+                                ${incident.type} - ${incident.attack}
+                            </span>
+                            <span class="incident-time">${time}</span>
+                        </div>
+                        <div class="incident-details">
+                            IP: ${incident.srcHost} | Severity: ${incident.severity.toUpperCase()}${incident.credentials || ''}${incident.extraInfo || ''}
+                        </div>
+                    `;
+                    
+                    container.insertBefore(item, container.firstChild);
+                    
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        item.style.transition = 'all 0.3s ease';
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateX(0)';
+                    }, 100);
+                }
+            });
+            
+            while (container.children.length > 10000) {
+                container.removeChild(container.lastChild);
+            }
+            
+            filterIncidents();
+        }
+
+        async function loadDashboardData(isInitialLoad = false) {
+            if (dashboardLoadInFlight) {
+                return;
+            }
+            if (dashboardLoadProgress.pendingCompletion) {
+                return;
+            }
+            dashboardLoadInFlight = true;
+
+            const loadingOverlay = document.getElementById('loading');
+            let progressEngaged = false;
+            if (isInitialLoad && loadingOverlay) {
+                loadingOverlay.style.display = 'block';
+            }
+
+            if (isInitialLoad) {
+                dashboardLoadProgress.show('Loading telemetry…', 10);
+                progressEngaged = true;
+            }
+
+            try {
+                const data = await loadLogData();
+                if (progressEngaged) {
+                    dashboardLoadProgress.update('Normalizing readings…', 32);
+                    await waitAnimationFrame();
+                }
+
+                const safeData = data && typeof data === 'object' ? data : {
+                    totalEvents: 0,
+                    connectionEvents: 0,
+                    loginAttempts: 0,
+                    web3Connections: 0,
+                    sshAttempts: 0,
+                    uniqueIPs: 0,
+                    hourlyActivity: {},
+                    hourlyActivityWindow: {
+                        labels: Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}h`),
+                        values: Array(24).fill(0)
+                    },
+                    logtypeCounts: {},
+                    attackCounts: {},
+                    severityCounts: {
+                        high: 0,
+                        medium: 0,
+                        low: 0,
+                        info: 0
+                    },
+                    attackSeverityDistribution: {},
+                    recentIncidents: [],
+                    countryCounts: {},
+                    countryLocations: [],
+                    countryHourlyActivity: {},
+                    countryRolling12h: {
+                        labels: Array.from({ length: 12 }, (_, i) => `${String(i).padStart(2, '0')}h`),
+                        series: {}
+                    },
+                    countryRolling24h: {
+                        labels: Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}h`),
+                        series: {}
+                    },
+                    geoPoints: [],
+                    portCountryDistribution: {
+                        ports: [],
+                        series: {}
+                    }
+                };
+
+                const dataChanged = !dashboardData ||
+                    dashboardData.totalEvents !== safeData.totalEvents ||
+                    JSON.stringify(dashboardData.recentIncidents) !== JSON.stringify(safeData.recentIncidents);
+
+                if (!isInitialLoad && dataChanged && !dashboardLoadProgress.active) {
+                    dashboardLoadProgress.show('Refreshing dashboard…', 18);
+                    progressEngaged = true;
+                }
+
+                if (dataChanged) {
+
+                    if (progressEngaged) {
+                        dashboardLoadProgress.update('Syncing incidents…', 45);
+                    }
+                    updateIncidents(safeData.recentIncidents);
+                    if (progressEngaged) {
+                        await waitAnimationFrame();
+                    }
+
+                    if (progressEngaged) {
+                        dashboardLoadProgress.update('Rendering analytic charts…', 58);
+                    }
+                    createLogtypeChart(safeData, isInitialLoad);
+                    createAttackChart(safeData, isInitialLoad);
+                    if (progressEngaged) {
+                        await waitAnimationFrame();
+                    }
+                }
+
+                createHourlyChart(safeData, isInitialLoad);
+                if (progressEngaged) {
+                    dashboardLoadProgress.update('Updating time series…', 70);
+                    await waitAnimationFrame();
+                }
+
+                const geoPoints = Array.isArray(safeData.geoPoints) ? safeData.geoPoints : [];
+                const countryLocations = Array.isArray(safeData.countryLocations) ? safeData.countryLocations : [];
+                const combinedLocations = aggregateGeoLocations(geoPoints, countryLocations);
+                updateWorldMap(combinedLocations);
+                if (progressEngaged) {
+                    dashboardLoadProgress.update('Mapping global trends…', 78);
+                    await waitAnimationFrame();
+                }
+
+                createCountryTrendChart(safeData, isInitialLoad);
+                if (progressEngaged) {
+                    dashboardLoadProgress.update('Distributing port activity…', 84);
+                    await waitAnimationFrame();
+                }
+
+                renderPortDistribution(safeData, isInitialLoad);
+                if (progressEngaged) {
+                    dashboardLoadProgress.update('Applying captured credentials…', 90);
+                    await waitAnimationFrame();
+                }
+
+                renderCredentials(safeData);
+                if (progressEngaged) {
+                    await waitAnimationFrame();
+                }
+
+                dashboardData = safeData;
+
+                if (progressEngaged) {
+                    dashboardLoadProgress.update('Dashboard ready', 100);
+                    await waitAnimationFrame();
+                }
+                
+                updateMetrics(safeData);
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                if (progressEngaged) {
+                    dashboardLoadProgress.update('Failed to load data', 100);
+                }
+            } finally {
+                if (isInitialLoad && loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                dashboardLoadInFlight = false;
+            }
+        }
+
+        const aiDirectoryState = {
+            currentPath: '',
+            parentPath: '',
+            defaultFilename: '',
+            defaultDest: ''
+        };
+
+        async function fetchAiReportOptions() {
+            const statusEl = document.getElementById('aiReportStatus');
+            const formatSelect = document.getElementById('aiReportFormat');
+            const modelSelect = document.getElementById('aiReportModel');
+
+            if (!statusEl || !formatSelect || !modelSelect) {
+                return;
+            }
+
+            try {
+                let url = '/api/ai-report/options';
+                if (dashboardToken) {
+                    const delimiter = url.includes('?') ? '&' : '?';
+                    url = `${url}${delimiter}token=${encodeURIComponent(dashboardToken)}`;
+                }
+
+                const headers = {};
+                if (dashboardToken) {
+                    headers['Authorization'] = `Bearer ${dashboardToken}`;
+                    headers['X-Dashboard-Token'] = dashboardToken;
+                }
+
+                const response = await fetch(url, { headers, cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`Status ${response.status}`);
+                }
+                const payload = await response.json();
+
+                const formats = Array.isArray(payload.formats) ? payload.formats : [];
+                formatSelect.innerHTML = '';
+                formats.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.value || '';
+                    opt.textContent = option.label || option.value || '';
+                    formatSelect.appendChild(opt);
+                });
+
+                const models = Array.isArray(payload.models) ? payload.models : [];
+                modelSelect.innerHTML = '';
+                if (models.length === 0) {
+                    const placeholder = document.createElement('option');
+                    placeholder.value = '';
+                    placeholder.textContent = 'No installed models found';
+                    modelSelect.appendChild(placeholder);
+                    modelSelect.disabled = true;
+                } else {
+                    modelSelect.disabled = false;
+                    models.forEach(model => {
+                        const opt = document.createElement('option');
+                        opt.value = model.key || '';
+                        opt.textContent = model.label || model.key || '';
+                        if (model.description) {
+                            opt.title = model.description;
+                        }
+                        if (model.specialty) {
+                            opt.dataset.specialty = model.specialty;
+                        }
+                        modelSelect.appendChild(opt);
+                    });
+                }
+
+                const defaultModel = payload.defaultModel || '';
+                if (!modelSelect.disabled) {
+                    const foundModel = models.find(model => model.key === defaultModel) || models[0];
+                    if (foundModel) {
+                        modelSelect.value = foundModel.key || '';
+                    }
+                }
+
+                const defaultFormat = (payload.defaultFormat || payload.default || '').toLowerCase();
+                if (defaultFormat && formats.some(format => format.value === defaultFormat)) {
+                    formatSelect.value = defaultFormat;
+                } else if (formats.length > 0) {
+                    formatSelect.value = formats[0].value;
+                }
+
+                statusEl.textContent = '';
+                statusEl.classList.remove('error');
+            } catch (error) {
+                if (statusEl) {
+                    statusEl.textContent = 'Unable to fetch AI report options.';
+                    statusEl.classList.add('error');
+                }
+            }
+        }
+
+        async function loadDirectoryListing(path) {
+            const dialog = document.getElementById('aiDirectoryDialog');
+            const list = document.getElementById('aiDirectoryList');
+            const pathLabel = document.getElementById('aiDirectoryPath');
+            const selectBtn = document.getElementById('aiDirectorySelect');
+            const upBtn = document.getElementById('aiDirectoryUp');
+
+            if (!dialog || !list || !pathLabel || !selectBtn || !upBtn) {
+                return;
+            }
+
+            list.innerHTML = '<div class="ai-directory-meta">Loading directories...</div>';
+            selectBtn.disabled = true;
+
+            try {
+                let url = '/api/ai-report/directories';
+                const params = new URLSearchParams();
+                if (path) {
+                    params.set('path', path);
+                }
+                if (dashboardToken) {
+                    params.set('token', dashboardToken);
+                }
+                const queryString = params.toString();
+                if (queryString) {
+                    url += `?${queryString}`;
+                }
+
+                const headers = {};
+                if (dashboardToken) {
+                    headers['Authorization'] = `Bearer ${dashboardToken}`;
+                    headers['X-Dashboard-Token'] = dashboardToken;
+                }
+
+                const response = await fetch(url, { headers, cache: 'no-store' });
+                if (!response.ok) {
+                    throw new Error(`Status ${response.status}`);
+                }
+                const payload = await response.json();
+
+                aiDirectoryState.currentPath = payload.path || '';
+                aiDirectoryState.parentPath = payload.parent || '';
+
+                pathLabel.textContent = payload.path || '';
+                selectBtn.disabled = !(payload.path);
+                upBtn.disabled = !payload.parent;
+
+                list.innerHTML = '';
+                const entries = Array.isArray(payload.entries) ? payload.entries : [];
+                if (entries.length === 0) {
+                    const empty = document.createElement('div');
+                    empty.className = 'ai-directory-meta';
+                    empty.textContent = 'No subdirectories here.';
+                    list.appendChild(empty);
+                } else {
+                    entries.forEach(entry => {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'ai-directory-item';
+                        if (entry.selectable === false) {
+                            button.classList.add('is-disabled');
+                            button.disabled = true;
+                        }
+                        button.dataset.path = entry.path || '';
+
+                        const name = document.createElement('span');
+                        name.className = 'ai-directory-name';
+                        name.textContent = entry.name || '(unnamed)';
+
+                        const meta = document.createElement('span');
+                        meta.className = 'ai-directory-meta';
+                        meta.textContent = entry.hasChildren ? 'Has folders' : '';
+
+                        button.appendChild(name);
+                        button.appendChild(meta);
+                        button.addEventListener('click', () => {
+                            const nextPath = button.dataset.path;
+                            if (nextPath) {
+                                loadDirectoryListing(nextPath);
+                            }
+                        });
+
+                        list.appendChild(button);
+                    });
+                }
+            } catch (error) {
+                list.innerHTML = '';
+                const errorEl = document.createElement('div');
+                errorEl.className = 'ai-directory-meta';
+                errorEl.textContent = 'Unable to load directories.';
+                list.appendChild(errorEl);
+            }
+        }
+
+        function openDirectoryDialog(initialPath) {
+            const dialog = document.getElementById('aiDirectoryDialog');
+            if (!dialog) {
+                return;
+            }
+            dialog.classList.add('is-visible');
+            dialog.setAttribute('aria-hidden', 'false');
+            const path = initialPath || aiDirectoryState.currentPath || aiDirectoryState.defaultDest;
+            loadDirectoryListing(path);
+        }
+
+        function closeDirectoryDialog() {
+            const dialog = document.getElementById('aiDirectoryDialog');
+            if (!dialog) {
+                return;
+            }
+            dialog.classList.remove('is-visible');
+            dialog.setAttribute('aria-hidden', 'true');
+        }
+
+        async function submitAiReport(event) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const statusEl = document.getElementById('aiReportStatus');
+            const submitBtn = document.getElementById('aiReportSubmit');
+            const buttonLabel = document.getElementById('aiReportButtonLabel');
+
+            if (!statusEl || !submitBtn || !buttonLabel) {
+                return;
+            }
+
+            const formData = new FormData(form);
+            const payload = {
+                format: (formData.get('format') || 'pdf').toString().trim(),
+                model: (formData.get('model') || '').toString().trim(),
+            };
+
+            statusEl.textContent = 'Generating AI report…';
+            statusEl.classList.remove('success', 'error');
+            submitBtn.disabled = true;
+            buttonLabel.textContent = 'Generating…';
+            aiReportProgress.show(5);
+
+            try {
+                let url = '/api/ai-report';
+                if (dashboardToken) {
+                    url += `?token=${encodeURIComponent(dashboardToken)}`;
+                }
+
+                const headers = {
+                    'Content-Type': 'application/json',
+                };
+                if (dashboardToken) {
+                    headers['Authorization'] = `Bearer ${dashboardToken}`;
+                    headers['X-Dashboard-Token'] = dashboardToken;
+                }
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify(payload),
+                });
+
+                aiReportProgress.update(45, 'Processing telemetry data…');
+                const result = await response.json().catch(() => ({}));
+                aiReportProgress.update(75, 'Finalizing report…');
+                const success = response.ok && result.success !== false;
+
+                if (success && result.fileContent) {
+                    aiReportProgress.update(100);
+                    
+                    const byteCharacters = atob(result.fileContent);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const mimeType = result.format === 'pdf' ? 'application/pdf' : 'text/markdown';
+                    const blob = new Blob([byteArray], { type: mimeType });
+                    
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = downloadUrl;
+                    link.download = result.filename || 'deceptgold-report.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(downloadUrl);
+                    
+                    statusEl.textContent = `Report downloaded: ${result.filename}`;
+                    statusEl.classList.add('success');
+                } else {
+                    const errorOutput = result.output || 'Report generation failed.';
+                    aiReportProgress.update(100);
+                    statusEl.textContent = errorOutput;
+                    statusEl.classList.add('error');
+                }
+            } catch (error) {
+                aiReportProgress.update(100);
+                statusEl.textContent = 'Error generating report.';
+                statusEl.classList.add('error');
+            } finally {
+                aiReportProgress.hide();
+                submitBtn.disabled = false;
+                buttonLabel.textContent = 'Generate Report';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupSeverityFilters();
+            setupCredentialToggle();
+            initializeWorldMap();
+            loadDashboardData(true);
+            fetchAiReportOptions();
+
+            const aiForm = document.getElementById('aiReportForm');
+            if (aiForm) {
+                aiForm.addEventListener('submit', submitAiReport);
+            }
+
+            const useSuggestedBtn = document.getElementById('aiReportUseSuggested');
+            if (useSuggestedBtn) {
+                useSuggestedBtn.addEventListener('click', () => {
+                    const suggested = useSuggestedBtn.dataset.suggested;
+                    const destInput = document.getElementById('aiReportDest');
+                    if (suggested && destInput) {
+                        destInput.value = suggested;
+                        destInput.reportValidity();
+                    }
+                });
+            }
+
+            const browseBtn = document.getElementById('aiReportBrowse');
+            if (browseBtn) {
+                browseBtn.addEventListener('click', () => {
+                    const destInput = document.getElementById('aiReportDest');
+                    const currentValue = destInput?.value || aiDirectoryState.defaultDest;
+                    openDirectoryDialog(currentValue);
+                });
+            }
+
+            const directorySelectBtn = document.getElementById('aiDirectorySelect');
+            if (directorySelectBtn) {
+                directorySelectBtn.addEventListener('click', () => {
+                    const destInput = document.getElementById('aiReportDest');
+                    if (!destInput || !aiDirectoryState.currentPath) {
+                        return;
+                    }
+                    const filename = aiDirectoryState.defaultFilename || (destInput.value.split('/').pop() || 'deceptgold-report.pdf');
+                    const sanitizedFilename = filename.trim() || 'deceptgold-report.pdf';
+                    const separator = aiDirectoryState.currentPath.endsWith('/') ? '' : '/';
+                    destInput.value = `${aiDirectoryState.currentPath}${separator}${sanitizedFilename}`;
+                    closeDirectoryDialog();
+                    destInput.reportValidity();
+                });
+            }
+
+            const directoryUpBtn = document.getElementById('aiDirectoryUp');
+            if (directoryUpBtn) {
+                directoryUpBtn.addEventListener('click', () => {
+                    if (aiDirectoryState.parentPath) {
+                        loadDirectoryListing(aiDirectoryState.parentPath);
+                    }
+                });
+            }
+
+            const directoryCloseBtn = document.getElementById('aiDirectoryClose');
+            if (directoryCloseBtn) {
+                directoryCloseBtn.addEventListener('click', () => {
+                    closeDirectoryDialog();
+                });
+            }
+
+            const launcher = document.getElementById('aiReportLauncher');
+            const panel = document.getElementById('aiReportPanel');
+            if (launcher && panel) {
+                const closePanel = () => {
+                    launcher.classList.remove('is-active');
+                    panel.classList.remove('is-open');
+                    panel.setAttribute('aria-hidden', 'true');
+                    launcher.setAttribute('aria-expanded', 'false');
+                };
+
+                const openPanel = () => {
+                    launcher.classList.add('is-active');
+                    panel.classList.add('is-open');
+                    panel.setAttribute('aria-hidden', 'false');
+                    launcher.setAttribute('aria-expanded', 'true');
+                };
+
+                launcher.setAttribute('aria-controls', 'aiReportPanel');
+                launcher.setAttribute('aria-expanded', 'false');
+                launcher.addEventListener('click', () => {
+                    const isOpen = panel.classList.contains('is-open');
+                    if (isOpen) {
+                        closePanel();
+                    } else {
+                        openPanel();
+                    }
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (!panel.classList.contains('is-open')) {
+                        return;
+                    }
+                    const target = event.target;
+                    if (target === panel || target === launcher || panel.contains(target) || launcher.contains(target)) {
+                        return;
+                    }
+                    closePanel();
+                });
+
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape' && panel.classList.contains('is-open')) {
+                        const dialog = document.getElementById('aiDirectoryDialog');
+                        if (dialog && dialog.classList.contains('is-visible')) {
+                            closeDirectoryDialog();
+                        } else {
+                            closePanel();
+                            launcher.focus({ preventScroll: true });
+                        }
+                    }
+                });
+            }
+
+            setInterval(() => loadDashboardData(false), 10000);
+        });
+    </script>
+</body>
+</html>

@@ -90,6 +90,11 @@ class Web3HoneypotBase:
         self.attack_log = []
         self.request_history = defaultdict(list)
         self.start_time = None
+
+        self._cached_public_ip = None
+        self._public_ip_last_update = 0
+        self._public_ip_cache_ttl = 10  # 10 segundos
+        self._update_public_ip_cache()
         
     def start(self):
         """Satisfy tests and log start-up (deprecated in favor of getService)"""
@@ -107,8 +112,22 @@ class Web3HoneypotBase:
         """Stop the honeypot service"""
         self.logger.log({"logdata": f"{self.service_name} honeypot stopped"})
     
+    def _update_public_ip_cache(self):
+        now = time.time()
+        if now - self._public_ip_last_update >= self._public_ip_cache_ttl:
+            try:
+                from deceptgold.commands.dashboard import _get_machine_public_ip
+                new_ip = _get_machine_public_ip()
+                if new_ip:
+                    self._cached_public_ip = new_ip
+                    self._public_ip_last_update = now
+            except Exception:
+                pass
+    
     def log_attack(self, attack_type: str, details: Dict[str, Any], severity: str = "medium"):
         """Log an attack attempt"""
+        self._update_public_ip_cache()
+        
         log_entry = {
             "timestamp": datetime.now().isoformat(),
             "logtype": 5000,  # Web3 attack logtype
@@ -118,6 +137,9 @@ class Web3HoneypotBase:
             "severity": severity,
             "src_host": details.get("src_host", "unknown")
         }
+
+        if self._cached_public_ip:
+            log_entry["public_ip"] = self._cached_public_ip
         
         self.attack_log.append(log_entry)
         

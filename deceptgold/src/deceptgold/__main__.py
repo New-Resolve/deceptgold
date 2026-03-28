@@ -38,6 +38,7 @@ def init_app():
         from deceptgold.commands.notify import notify_app
         from deceptgold.commands.ai import ai_app
         from deceptgold.commands.reports import reports_app
+        from deceptgold.commands.dashboard import dashboard_app
         from deceptgold.configuration import log
         from deceptgold.helper.notify.telemetry.send import exec_telemetry
         from deceptgold.helper.ai_model import ensure_default_model_installed, list_installed_models
@@ -68,6 +69,7 @@ def init_app():
         app.command(notify_app)
         app.command(ai_app)
         app.command(reports_app)
+        app.command(dashboard_app)
 
         app()
 

@@ -22,6 +22,9 @@ Deceptgold is ideal for cybersecurity teams, researchers, and critical infrastru
 
 ![Service list](docs/content/assets/deceptgold_service_list_new.jpeg)
 
+## Dashboard
+![Service list](docs/content/assets/dashboard.png)
+
 ## Features
 
 - **Hybrid Web2 + Web3 Honeypots** - Traditional (Web2) and decentralized (Web3) service simulation
