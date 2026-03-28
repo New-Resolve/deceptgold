@@ -69,15 +69,15 @@ universal_build = true
 requires = []
 
 [tool.briefcase.app.deceptgold.linux]
-requires = []
+requires = ["llama-cpp-python"]
 
 [tool.briefcase.app.deceptgold.linux.system.ubuntu]
-system_requires = []
+system_requires = ["build-essential", "cmake"]
 system_runtime_requires = ["libpython3.12"]
 
 [tool.briefcase.app.deceptgold.linux.system.debian]
 docker_base_image = "debian:bookworm"
-system_requires = []
+system_requires = ["build-essential", "cmake"]
 system_runtime_requires = ["libpython3.11", "python3.11"]
 
 [tool.briefcase.app.deceptgold.linux.system.fedora]

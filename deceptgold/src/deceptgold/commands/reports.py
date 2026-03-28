@@ -38,7 +38,11 @@ reports_app = App(name="reports", help="Reports commands")
 
 
 def _load_llm(model_path: str):
-    from llama_cpp import Llama
+    try:
+        from llama_cpp import Llama
+    except ModuleNotFoundError:
+        print("\nError: IA resource ot found.")
+        raise SystemExit(1)
 
     n_ctx = 4096
     n_threads = 0
@@ -87,6 +91,9 @@ def _build_prompt_payload(aggregates: dict, sample_limit: int):
         "time_range": aggregates.get("time_range"),
         "top_logtypes": _top("top_logtypes", 10),
         "top_sources": _top("top_sources", 10),
+        "top_countries": _top("top_countries", 10),
+        "top_cities": _top("top_cities", 12),
+        "top_city_country": _top("top_city_country", 12),
         "top_dst_ports": _top("top_dst_ports", 10),
         "top_services": _top("top_services", 10),
         "top_usernames": _top("top_usernames", 10),
@@ -106,6 +113,9 @@ def _build_prompt_payload(aggregates: dict, sample_limit: int):
                     "logtype": _truncate_any(s.get("logtype"), 32),
                     "service": _truncate_any(s.get("service"), 64),
                     "src_host": _truncate_any(s.get("src_host"), 64),
+                    "public_ip": _truncate_any(s.get("public_ip"), 64),
+                    "country": _truncate_any(s.get("country"), 64),
+                    "city": _truncate_any(s.get("city"), 64),
                     "dst_port": _truncate_any(s.get("dst_port"), 32),
                     "attack_type": _truncate_any(s.get("attack_type"), 64),
                     "logdata": _truncate_any(s.get("logdata"), 400),
@@ -146,6 +156,9 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
     usernames = Counter()
     paths = Counter()
     useragents = Counter()
+    country_counter = Counter()
+    city_counter = Counter()
+    city_country_counter = Counter()
 
     samples: list[dict] = []
     seen_events = 0
@@ -179,6 +192,7 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
         )
 
     def _add_sample(evt: dict):
+        geo = _extract_geo(evt)
         sample = {
             "timestamp": evt.get("timestamp")
             or evt.get("local_time_adjusted")
@@ -192,6 +206,9 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
             "dst_port": evt.get("dst_port"),
             "severity": evt.get("severity"),
             "attack_type": evt.get("attack_type"),
+            "public_ip": evt.get("public_ip"),
+            "country": geo.get("country"),
+            "city": geo.get("city"),
             "logdata": evt.get("logdata"),
             "details": evt.get("details"),
         }
@@ -204,6 +221,9 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
                     "logtype": sample.get("logtype"),
                     "service": sample.get("service"),
                     "src_host": sample.get("src_host"),
+                    "public_ip": sample.get("public_ip"),
+                    "country": sample.get("country"),
+                    "city": sample.get("city"),
                     "dst_port": sample.get("dst_port"),
                     "attack_type": sample.get("attack_type"),
                     "logdata": sample.get("logdata"),
@@ -214,6 +234,9 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
                 "logtype": evt.get("logtype"),
                 "service": evt.get("service"),
                 "src_host": evt.get("src_host"),
+                "public_ip": evt.get("public_ip"),
+                "country": geo.get("country"),
+                "city": geo.get("city"),
                 "dst_port": evt.get("dst_port"),
                 "attack_type": evt.get("attack_type"),
             }
@@ -227,6 +250,42 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
         j = random.randrange(seen_events)
         if j < _SAMPLE_LIMIT:
             samples[j] = sample
+
+    def _extract_geo(evt: dict) -> dict:
+        def _pick(*values):
+            for value in values:
+                if value is None:
+                    continue
+                text = str(value).strip()
+                if text:
+                    return text
+            return None
+
+        details = evt.get("details")
+        details = details if isinstance(details, dict) else {}
+        logdata = evt.get("logdata")
+        logdata = logdata if isinstance(logdata, dict) else {}
+
+        country = _pick(
+            evt.get("country"),
+            evt.get("country_name"),
+            evt.get("geo_country"),
+            details.get("country"),
+            details.get("country_name"),
+            details.get("geo_country"),
+            logdata.get("country"),
+            logdata.get("country_name"),
+            logdata.get("geo_country"),
+        )
+        city = _pick(
+            evt.get("city"),
+            evt.get("geo_city"),
+            details.get("city"),
+            details.get("geo_city"),
+            logdata.get("city"),
+            logdata.get("geo_city"),
+        )
+        return {"country": country, "city": city}
 
     total_bytes = 0
     try:
@@ -263,6 +322,16 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
         if dst_port not in (None, -1, "-1"):
             _bump(dst_port_counter, dst_port)
         _bump(service_counter, evt.get("service"))
+
+        geo = _extract_geo(evt)
+        country = geo.get("country")
+        city = geo.get("city")
+        if country:
+            _bump(country_counter, country)
+        if city:
+            _bump(city_counter, city)
+        if city and country:
+            _bump(city_country_counter, f"{city}, {country}")
 
         logdata = evt.get("logdata")
         if isinstance(logdata, dict):
@@ -310,6 +379,9 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
         },
         "top_logtypes": _as_items(logtype_counter, 15),
         "top_sources": _as_items(src_counter, 30),
+        "top_countries": _as_items(country_counter, 20),
+        "top_cities": _as_items(city_counter, 25),
+        "top_city_country": _as_items(city_country_counter, 25),
         "top_dst_ports": _as_items(dst_port_counter, 15),
         "top_services": _as_items(service_counter, 15),
         "top_usernames": _as_items(usernames, 20),
@@ -319,6 +391,9 @@ def _aggregate_jsonl(source_path: Path, max_events: int | None = None):
         "schema_notes": {
             "top_logtypes": "Tipos de evento (evt.logtype).",
             "top_sources": "Valores de evt.src_host (podem ser IPs, vazios ou outros identificadores dependendo do evento).",
+            "top_countries": "Países de origem quando presentes nos eventos.",
+            "top_cities": "Cidades de origem quando presentes nos eventos.",
+            "top_city_country": "Combinação cidade, país para distribuição geográfica de origem.",
             "event_samples": "Amostra limitada de eventos brutos (campos principais) para que a IA infira técnicas e recomendações sem heurísticas no código.",
         },
     }
@@ -332,6 +407,7 @@ def _prompt_report(aggregates: dict) -> dict:
         "- Saída SOMENTE em Markdown (sem JSON, sem blocos de código).\n"
         "- Não invente fatos. Todas as afirmações devem ser baseadas EXCLUSIVAMENTE nos dados fornecidos.\n"
         "- Sempre que fizer uma afirmação, cite a evidência usando os campos e contagens do agregado (ex.: top_dst_ports, top_services, top_sources, total_events, time_range).\n"
+        "- Use explicitamente o contexto geográfico quando disponível (top_countries, top_cities, top_city_country, event_samples.country/city).\n"
         "- Se algo não estiver nos dados, escreva explicitamente: \"Não é possível determinar a partir do agregado\".\n"
         "- Evite frases genéricas como \"implementar segurança\". Seja específico: controles, configurações, playbooks e políticas.\n"
         "- Priorize por impacto e frequência (use as contagens para justificar).\n"
@@ -364,6 +440,10 @@ def _prompt_report(aggregates: dict) -> dict:
         "| Origem | Eventos |\n"
         "|---|---:|\n"
         "| <value> | <count> |\n\n"
+        "Origem geográfica por cidade e país (top_city_country)\n"
+        "| Localização | Eventos |\n"
+        "|---|---:|\n"
+        "| <city, country> | <count> |\n\n"
         "Portas destino (top_dst_ports)\n"
         "| Porta | Eventos |\n"
         "|---:|---:|\n"
@@ -389,6 +469,7 @@ def _prompt_report(aggregates: dict) -> dict:
         "| Risco | Evidência (campo + value + count) | Impacto | Probabilidade | Severidade |\n"
         "|---|---|---|---|---|\n"
         "| <texto> | <texto> | <texto> | alta/média/baixa | alta/média/baixa |\n\n"
+        "Inclua pelo menos 2 riscos que usem evidência geográfica (origem por cidade/país) quando esses dados existirem.\n\n"
         "## 5) Remediações Priorizadas (plano de ação)\n"
         "Crie uma tabela Markdown com colunas:\n"
         "- Prioridade (P0/P1/P2)\n"
@@ -406,6 +487,7 @@ def _prompt_report(aggregates: dict) -> dict:
         "| Regra/Detecção | Fonte (logs/campo) | Condição | Severidade | Evidência |\n"
         "|---|---|---|---|---|\n"
         "| <texto> | <texto> | <texto> | alta/média/baixa | <texto> |\n\n"
+        "Inclua pelo menos 2 regras com critério geográfico (cidade/país) quando houver dados geográficos no agregado.\n\n"
         "## 7) Controles de Compliance (mapeamento)\n"
         "Mapeie recomendações para frameworks (sem inventar auditoria):\n"
         "- ISO 27001: A.5, A.8, A.12, A.13, A.16 (cite o porquê)\n"
@@ -420,7 +502,7 @@ def _prompt_report(aggregates: dict) -> dict:
         "## 9) Lacunas e Próximos Passos (para melhorar a detecção e o host)\n"
         "- O que o agregado não permite concluir.\n"
         "- Quais campos/dados adicionais deveriam ser coletados.\n"
-        "- Sugestão de alertas (regras simples) derivadas dos top ports/sources/services.\n\n"
+        "- Sugestão de alertas (regras simples) derivadas dos top ports/sources/services e distribuição geográfica.\n\n"
         "DADOS (AGREGADO JSON):\n"
         f"{json.dumps(_build_prompt_payload(aggregates, sample_limit=12), ensure_ascii=False)}\n"
     )
@@ -587,7 +669,7 @@ def ai_report(*args):
         else:
             model_key = (os.environ.get("DECEPTGOLD_AI_MODEL") or "default").strip() or "default"
 
-    installed = ensure_model_installed(model_key, interactive=True)
+    installed = ensure_model_installed(model_key, interactive=_is_interactive())
     if not installed:
         print(
             "AI-Report requires a local GGUF model.\n\n"

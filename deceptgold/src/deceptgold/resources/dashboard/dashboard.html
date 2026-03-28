@@ -1009,10 +1009,30 @@
 
         .map-legend {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 0.4rem;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.6rem;
             margin: 0;
             padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .map-legend::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .map-legend::-webkit-scrollbar-track {
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 3px;
+        }
+
+        .map-legend::-webkit-scrollbar-thumb {
+            background: rgba(113, 128, 150, 0.5);
+            border-radius: 3px;
+        }
+
+        .map-legend::-webkit-scrollbar-thumb:hover {
+            background: rgba(113, 128, 150, 0.7);
         }
 
         .map-legend-item {
@@ -2400,11 +2420,43 @@
                 mapMarkers.push(marker);
             });
 
-            normalizedLocations.slice(0, 10).forEach(loc => {
+            const countriesWithCity = new Set();
+            normalizedLocations.forEach(loc => {
+                const countryName = loc.countryName || loc.country || 'Unknown';
+                const cityLabel = (loc.label || '').trim();
+                if (cityLabel && cityLabel !== countryName) {
+                    countriesWithCity.add(countryName);
+                }
+            });
+
+            const legendGroups = new Map();
+            normalizedLocations.forEach(loc => {
+                const countryName = loc.countryName || loc.country || 'Unknown';
+                const cityLabel = (loc.label || '').trim();
+                const hasCity = cityLabel && cityLabel !== countryName;
+
+                if (!hasCity && countriesWithCity.has(countryName)) {
+                    return;
+                }
+
+                const displayLabel = hasCity ? `${cityLabel}, ${countryName}` : countryName;
+                const key = hasCity ? `${countryName}::${cityLabel}` : `${countryName}::country`;
+                const current = legendGroups.get(key) || {
+                    label: displayLabel,
+                    count: 0,
+                };
+                current.count += Number(loc.count) || 0;
+                legendGroups.set(key, current);
+            });
+
+            const sortedLegendItems = Array.from(legendGroups.values())
+                .sort((a, b) => b.count - a.count);
+
+            sortedLegendItems.forEach((item, index) => {
                 const legendItem = document.createElement('div');
                 legendItem.className = 'map-legend-item';
-                const color = colorMap.get(loc.label) || mapPalette[0];
-                legendItem.innerHTML = `<span class="map-legend-dot" style="background:${color};"></span><span>${loc.legendText}</span><span style="margin-left:auto;color:${color};font-weight:600;">${loc.count}</span>`;
+                const color = mapPalette[index % mapPalette.length];
+                legendItem.innerHTML = `<span class="map-legend-dot" style="background:${color};"></span><span>${item.label}</span><span style="margin-left:auto;color:${color};font-weight:600;">${item.count}</span>`;
                 mapLegend.appendChild(legendItem);
             });
         }

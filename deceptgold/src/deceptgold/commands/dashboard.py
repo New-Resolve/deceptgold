@@ -38,7 +38,7 @@ GEO_CACHE_FILE = RUNTIME_DIR / "geo_cache.json"
 GEO_CACHE_TTL = 60 * 60 * 24 * 14  # 14 days
 MAX_GEO_CACHE_SIZE = 2000
 MAX_GEO_LOOKUPS_PER_REQUEST = 200
-PUBLIC_IP_CACHE_TTL = 60 * 10  # 10 minutes
+PUBLIC_IP_CACHE_TTL = 10  # 10 sec
 _geo_cache = {}
 _geo_cache_loaded = False
 _geo_cache_lock = threading.Lock()
@@ -237,7 +237,8 @@ def _lookup_geo_info(src_host, lookup_state):
     _load_geo_cache()
     cached = _geo_cache.get(ip_text)
     now = time.time()
-    if cached and (now - cached.get('cached_at', 0)) < GEO_CACHE_TTL:
+
+    if cached:
         return cached
 
     if lookup_state is not None and lookup_state.get('remaining', 0) <= 0:
@@ -791,7 +792,19 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 label += ' (agora)'
             rolling24_labels.append(label)
 
+        cached_public_ip = {'ip': None, 'fetched': False}
+        
+        def get_cached_public_ip():
+            if not cached_public_ip['fetched']:
+                cached_public_ip['ip'] = _get_machine_public_ip()
+                cached_public_ip['fetched'] = True
+            return cached_public_ip['ip']
+        
         def resolve_event_src_host(event):
+            public_ip_from_log = event.get('public_ip')
+            if public_ip_from_log:
+                return public_ip_from_log
+
             forwarded_ip = _extract_forwarded_ip(event)
             if forwarded_ip:
                 return forwarded_ip
@@ -813,12 +826,20 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                     pass
 
             selected_src = primary_src or details_src
-            if _is_loopback_source(selected_src):
-                if forwarded_ip:
-                    return forwarded_ip
-                machine_public_ip = _get_machine_public_ip()
-                if machine_public_ip:
-                    return machine_public_ip
+
+            if selected_src:
+                try:
+                    selected_ip = _extract_ip(selected_src)
+                    if selected_ip:
+                        ip_obj = ipaddress.ip_address(selected_ip)
+                        if _should_skip_geo(ip_obj):
+                            # IP local/privado - usar IP público atual em cache
+                            public_ip = get_cached_public_ip()
+                            if public_ip:
+                                return public_ip
+                except ValueError:
+                    pass
+            
             return selected_src
 
         def resolve_geo(src_host):
@@ -827,6 +848,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
                 return None
             if ip_text in request_geo_cache:
                 return request_geo_cache[ip_text]
+            
             geo_info = _lookup_geo_info(ip_text, lookup_state)
             request_geo_cache[ip_text] = geo_info
             return geo_info
