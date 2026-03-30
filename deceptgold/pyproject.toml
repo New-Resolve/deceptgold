@@ -104,7 +104,7 @@ supported = false
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
 cyclopts = "^4.5.1"
-briefcase = "^0.3.22"
+briefcase = "^0.4.1"
 pyarmor = "^9.1.6"
 opencanary = "^0.9.5"
 ecdsa = "^0.19.1"
